@@ -1,0 +1,215 @@
+@import "tailwindcss";
+
+/* Hover-capable desktop only (services spec §3.4): the reveal interaction
+   never applies to touch devices at any width. */
+@custom-variant hoverable (@media (min-width: 1024px) and (hover: hover) and (pointer: fine));
+
+/*
+  Marino design system — canonical tokens.
+  Names are namespaced so they never collide with Tailwind's built-in
+  spacing / radius / shadow / breakpoint names (design-system enforcement §2).
+*/
+@theme {
+  /* Colours */
+  --color-primary: #82ffcd;
+  --color-secondary: #e2cbff;
+  --color-obsidian: #231f20;
+  --color-fog: #f3f3f3;
+  --color-silver: #c1c1c1;
+
+  /* Font */
+  --font-sans: "Plus Jakarta Sans Variable", "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+
+  /* Radius (namespaced — existing rounded-* utilities untouched) */
+  --radius-media: 20px;
+  --radius-nav: 37px;
+  --radius-panel: 37px; /* large dark/white panels (same value as nav) */
+  --radius-input: 50px; /* reserved */
+  --radius-button: 33px;
+  --radius-pill: 999px;
+  --radius-card: 15px;
+  --radius-card-lg: 30px; /* project cards (latest-work spec §3) */
+  --radius-panel-lg: 50px; /* tablet/desktop dark panels (latest-work spec §3) */
+
+  /* Shadows / glow */
+  --shadow-soft: rgba(172, 171, 171, 0.3) 0px -1px 10px 0px;
+  --shadow-glow-sm: rgba(130, 255, 205, 0.2) 0px 0px 30.0398px 0px;
+  --shadow-glow-md: rgba(130, 255, 205, 0.576) 0px 0px 62.9153px 0px;
+  --shadow-glow-lg: rgba(130, 255, 205, 0.624) 0px 0px 67.0847px 0px;
+  --shadow-float: rgba(0, 0, 0, 0.3) 0px 32px 68px 0px;
+
+  /* Motion */
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  --default-transition-duration: 350ms;
+  --default-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* Keyframe loops: shared decorative float + marquee (remaining-sections §2.1).
+     float-a / float-b are transform-only 2–3px drifts; float-b runs the mirrored
+     path so two pills never move in sync. (The old team-float loop is replaced
+     by float-a — same path, same 6s duration.) */
+  --animate-float-a: float-a 6s ease-in-out infinite;
+  --animate-float-b: float-b 7s ease-in-out infinite;
+  --animate-marquee: marquee var(--marquee-duration, 40s) linear infinite;
+
+  @keyframes float-a {
+    0%,
+    100% {
+      transform: translate3d(0, 0, 0);
+    }
+    20% {
+      transform: translate3d(2px, -3px, 0);
+    }
+    40% {
+      transform: translate3d(3px, 2px, 0);
+    }
+    60% {
+      transform: translate3d(-2px, 3px, 0);
+    }
+    80% {
+      transform: translate3d(-3px, -2px, 0);
+    }
+  }
+
+  @keyframes float-b {
+    0%,
+    100% {
+      transform: translate3d(0, 0, 0);
+    }
+    20% {
+      transform: translate3d(-2px, 3px, 0);
+    }
+    40% {
+      transform: translate3d(-3px, -2px, 0);
+    }
+    60% {
+      transform: translate3d(2px, -3px, 0);
+    }
+    80% {
+      transform: translate3d(3px, 2px, 0);
+    }
+  }
+
+  @keyframes marquee {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+}
+
+/*
+  Desktop unit. Capped at the design size (18.27px ≈ 1827px viewport) so text
+  resolves to exact design-system px at and above the design width (§5).
+  Spacing tokens are NOT registered in @theme (that would override Tailwind's
+  spacing scale) — they are referenced as var(--space-*) instead.
+*/
+:root {
+  --u: min(1vw, 18.27px);
+  --space-25: 25px;
+  --space-40: 40px;
+  --space-50: 50px;
+  --space-80: 80px;
+  --space-100: 100px;
+}
+
+html {
+  scroll-behavior: smooth;
+  background: var(--color-fog);
+  /* `clip` (not `hidden`) so sticky positioning keeps working. */
+  overflow-x: clip;
+}
+
+body {
+  font-family: var(--font-sans);
+  color: var(--color-obsidian);
+  background: var(--color-fog);
+  -webkit-font-smoothing: antialiased;
+  /* `clip` (not `hidden`) so sticky positioning keeps working. */
+  overflow-x: clip;
+  font-optical-sizing: auto;
+  text-rendering: optimizeLegibility;
+}
+
+/*
+  Glass surfaces (§3.2): sticky nav + dropdown, mobile pill/menu, overlays.
+  .glass = light translucent surface; .glass-dark = obsidian translucent.
+*/
+.glass {
+  background: rgb(255 255 255 / 0.6);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
+  backdrop-filter: blur(16px) saturate(160%);
+  border: 1px solid rgb(255 255 255 / 0.6);
+  box-shadow: var(--shadow-soft);
+}
+
+.glass-dark {
+  background: rgb(35 31 32 / 0.6);
+  border: 1px solid rgb(255 255 255 / 0.1);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  backdrop-filter: blur(16px) saturate(140%);
+}
+
+/* Fallback when backdrop-filter is unavailable. */
+@supports not ((-webkit-backdrop-filter: blur(1px)) or (backdrop-filter: blur(1px))) {
+  .glass {
+    background: rgb(255 255 255 / 0.92);
+  }
+  .glass-dark {
+    background: rgb(35 31 32 / 0.95);
+  }
+}
+
+/* Marquee track (Marquee primitive): runs via the --animate-marquee token.
+   `will-change` keeps the translate on its own layer.
+
+   --animate-marquee is declared on :root by @theme, so its
+   `var(--marquee-duration, 40s)` is substituted THERE (unset -> 40s) and the
+   resolved `marquee 40s ...` is what inherits down. A per-element
+   --marquee-duration would therefore never reach the animation. Re-stating
+   just the duration longhand on the track makes the var resolve on the track
+   itself, where the Marquee primitive sets it (speed- or seconds-driven).
+   Longhand only: the shorthand's other longhands stay with .animate-marquee,
+   so group-hover:[animation-play-state:paused] keeps winning, and the
+   reduced-motion `animation: none !important` below still overrides. */
+.marquee-track {
+  will-change: transform;
+  animation-duration: var(--marquee-duration, 40s);
+}
+
+/*
+  Reduced motion: kill the keyframe loops and all transitions. The marquee
+  track becomes a static row; float pills sit still.
+*/
+@media (prefers-reduced-motion: reduce) {
+  .float-pill,
+  .marquee-track {
+    animation: none !important;
+  }
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Responsive clamps from the remaining-sections type scale (§2.3). */
+@utility clamp-h2 {
+  font-size: clamp(33px, 5vw, 53px);
+  line-height: 1.1;
+}
+
+@utility clamp-card-h3 {
+  font-size: clamp(28px, 3vw, 33px);
+  line-height: 1.25;
+}
+
+@utility clamp-quote {
+  font-size: clamp(18px, 2.2vw, 28px);
+}

@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 144" role="img" aria-label="Placeholder: video thumbnail">
+  <!-- TODO(asset): replace with the real showreel/contact video thumbnail from the reference screenshots -->
+  <rect width="256" height="144" fill="#17181b"/>
+  <circle cx="128" cy="72" r="34" fill="#f3f3f3" opacity="0.12"/>
+  <path d="M118 56l26 16-26 16z" fill="#f3f3f3"/>
+  <rect x="16" y="118" width="64" height="6" rx="3" fill="#82ffcd" opacity="0.8"/>
+  <rect x="16" y="20" width="40" height="6" rx="3" fill="#f3f3f3" opacity="0.25"/>
+</svg>

@@ -1,0 +1,260 @@
+/*
+ * RevealRow stylesheet — the hover-reveal row pattern (services spec §6.1).
+ * Base = mobile stack; >=768 = tablet/touch all-visible layout with media;
+ * >=1024 + hover-capable = the desktop reveal layout.
+ */
+
+.svc-row {
+  position: relative;
+  padding-block: 40px;
+  border-bottom: 1px solid var(--color-silver);
+  /* Fluid type (§4.2) */
+  --svc-title: clamp(33px, 19.4px + 2.77vw, 53px);
+  --svc-desc: clamp(28px, 22.8px + 1.06vw, 33px);
+  --svc-keys: clamp(22px, 10.5px + 2.34vw, 33px);
+  --media-w: calc(var(--u) * 12.62);
+  --media-hang: calc(var(--u) * 1.37);
+  --media-gap: calc(var(--u) * 1.64);
+}
+
+.svc-row:last-child {
+  border-bottom: 0;
+}
+
+.svc-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.svc-body {
+  min-width: 0;
+}
+
+.svc-media {
+  display: none;
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-media);
+  align-self: stretch;
+}
+
+.svc-media img {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+.svc-title {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-size: var(--svc-title);
+  font-weight: 700;
+  letter-spacing: -0.019em;
+  line-height: 1.1;
+  color: var(--color-black);
+}
+
+.svc-dot {
+  display: block;
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  border-radius: 999px;
+  background: var(--color-secondary);
+}
+
+@media (min-width: 1024px) {
+  .svc-dot {
+    width: 25px;
+    height: 25px;
+  }
+}
+
+.svc-swap {
+  display: grid;
+  margin-top: 40px;
+}
+
+.svc-desc {
+  margin-bottom: 40px;
+  font-size: var(--svc-desc);
+  line-height: 1.4;
+  color: var(--color-obsidian);
+  /* Mobile acceptance breaks (§4.4); tablet+ reverts to greedy wrap. */
+  text-wrap: balance;
+}
+
+.svc-keys {
+  font-size: var(--svc-keys);
+  line-height: 1.4;
+  color: var(--color-obsidian);
+}
+
+.svc-cta {
+  margin-top: 40px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  color: var(--color-obsidian);
+}
+
+.svc-cta-label {
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.svc-arrow {
+  width: 73px;
+  height: auto;
+  flex-shrink: 0;
+  transition: transform var(--default-transition-duration)
+    var(--default-transition-timing-function);
+}
+
+/* Tablet, and touch devices at any width >= 768: media always visible
+   beside the text; everything stacked in two columns. */
+@media (min-width: 768px) {
+  .svc-grid {
+    grid-template-columns: min(35%, 313px) minmax(0, 1fr);
+    column-gap: 35px;
+  }
+
+  .svc-desc {
+    text-wrap: wrap;
+  }
+
+  .svc-media {
+    display: block;
+    grid-row: 1 / span 2;
+  }
+
+  .svc-cta {
+    grid-column: 2;
+  }
+}
+
+/* Desktop with a fine pointer: the reveal layout (spec §3.4 hoverable). */
+@media (min-width: 1024px) and (hover: hover) and (pointer: fine) {
+  .svc-row {
+    padding-block: 50px;
+  }
+
+  .svc-grid {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    column-gap: 0;
+  }
+
+  .svc-media {
+    grid-row: auto;
+    display: block;
+    width: 0;
+    max-width: none;
+    margin: 0;
+    opacity: 0;
+    transition:
+      width var(--default-transition-duration)
+        var(--default-transition-timing-function),
+      margin var(--default-transition-duration)
+        var(--default-transition-timing-function),
+      opacity var(--default-transition-duration)
+        var(--default-transition-timing-function);
+  }
+
+  /* Image is fixed at the full reveal width so it is wiped in, not squashed. */
+  .svc-media img {
+    inset: 0 auto 0 0;
+    right: auto;
+    width: var(--media-w);
+  }
+
+  .svc-swap > * {
+    grid-area: 1 / 1;
+    margin: 0;
+    transition: opacity var(--default-transition-duration)
+      var(--default-transition-timing-function);
+  }
+
+  .svc-desc {
+    /* Spec §4.4 says 18.5em; in this font render the target line 2
+       ("character, and lasting commercial impact.") measures 658px >
+       18.5em(610px), so the cap is widened to keep the required 2-line
+       wrap (§9.1) with the target breaks. Reported as a deviation. */
+    max-width: 20.5em;
+    margin-bottom: 0;
+    text-wrap: wrap;
+  }
+
+  .svc-keys {
+    max-width: 19.5em;
+    opacity: 0;
+  }
+
+  .svc-cta {
+    grid-column: 3;
+    margin-top: 0;
+    align-self: end;
+    justify-self: end;
+    /* One description line, so the arrow centres on the last line. */
+    height: 1.4em;
+    font-size: var(--svc-desc);
+    gap: 0;
+    position: relative;
+  }
+
+  .svc-cta-label {
+    /* Out of flow: the label never changes the arrow's right edge (§5.3). */
+    position: absolute;
+    right: calc(100% + 24px);
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 15px;
+    opacity: 0;
+    transition: opacity var(--default-transition-duration)
+      var(--default-transition-timing-function);
+  }
+
+  .svc-arrow {
+    width: calc(var(--u) * 6.05);
+  }
+
+  .svc-row:hover .svc-media,
+  .svc-row:focus-within .svc-media {
+    width: var(--media-w);
+    margin-left: calc(var(--media-hang) * -1);
+    margin-right: var(--media-gap);
+    opacity: 1;
+  }
+
+  .svc-row:hover .svc-desc,
+  .svc-row:focus-within .svc-desc {
+    opacity: 0;
+  }
+
+  .svc-row:hover .svc-keys,
+  .svc-row:focus-within .svc-keys {
+    opacity: 1;
+  }
+
+  .svc-row:hover .svc-cta-label,
+  .svc-row:focus-within .svc-cta-label {
+    opacity: 1;
+  }
+
+  .svc-row:hover .svc-arrow,
+  .svc-row:focus-within .svc-arrow {
+    transform: translateX(7px);
+  }
+}
+
+/* States switch instantly under reduced motion (global rule also covers this). */
+@media (prefers-reduced-motion: reduce) {
+  .svc-media,
+  .svc-swap > *,
+  .svc-cta-label,
+  .svc-arrow {
+    transition-duration: 0ms !important;
+  }
+}

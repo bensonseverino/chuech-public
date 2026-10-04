@@ -1,0 +1,179 @@
+/*
+ * "Decades of experience" stage — experience spec §9.1.
+ *
+ * Everything here is scoped below 1024px: the approved desktop layout (the
+ * full-bleed ticker, the stats display and the brief CTA) lives in a
+ * `hidden lg:block` wrapper inside the same section and is never touched.
+ * The stage wrapper itself is `lg:hidden`, so these rules have nothing to
+ * paint on desktop.
+ *
+ * Uses `width < 1024px` (not `max-width: 1023px`) so it is exactly
+ * complementary to Tailwind's `lg:` = `min-width: 1024px`. With the max-width
+ * form there is a sliver — any fractional viewport in (1023, 1024), which is
+ * what a real browser gets under zoom or subpixel scaling — where `lg:` is
+ * false (so the mobile branch renders) and this query is ALSO false (so the
+ * stage renders unstyled). See spec QA 4: 1023 tablet, 1024 desktop.
+ */
+@media (width < 1024px) {
+  .stats-section {
+    padding: 35px 0 62px;
+    overflow-x: clip;
+    color: var(--color-obsidian);
+  }
+
+  .stats-stage {
+    position: relative;
+    height: 270px;
+  }
+
+  .stats-marquee {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 46%;
+    transform: translateY(-50%);
+    z-index: 0;
+  }
+
+  .stats-text {
+    font-size: min(19vw, 240px);
+    font-weight: 600;
+    letter-spacing: -0.05em;
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  /* Solid CSS circle (not `●`: font fallback would change its size). */
+  .stats-dot {
+    display: inline-block;
+    width: 0.45em;
+    height: 0.45em;
+    border-radius: 50%;
+    background: currentColor;
+    vertical-align: 0.225em;
+    margin: 0 0.1em 0 0.22em;
+  }
+
+  .stats-float {
+    position: absolute;
+    z-index: 1;
+  }
+
+  /* --- Mobile anchors (reference 490px; stage 270px tall) --- */
+  .stats-m1 {
+    right: 5.9%;
+    top: 0;
+    width: 123px;
+    height: 69px;
+  }
+
+  .stats-p1 {
+    left: 7.1%;
+    top: 12px;
+  }
+
+  .stats-p2 {
+    right: 6.5%;
+    top: 170px;
+  }
+
+  .stats-m2 {
+    left: 6.7%;
+    top: 201px;
+    width: 123px;
+    height: 69px;
+  }
+
+  .stats-m3 {
+    display: none;
+  }
+
+  .stats-cta {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 18px;
+    margin-top: 40px;
+  }
+
+  /*
+   * Small phones (<=374px): the fixed 123px frames and ~180px pills overlap
+   * once the stage is narrower than ~350px of content — at 320px the 7.1%
+   * Decades pill's right edge runs under the right-anchored frame, and the
+   * Clients pill runs into the bottom-left frame. Both frames stay at their
+   * spec'd anchors (top-right / bottom-left) and the two pills shift instead:
+   * the Decades pill drops below the top frame, the Clients pill lifts clear
+   * of the bottom frame. 375px and up already clears both pairs, so the
+   * reference composition is untouched (experience spec §5.4: no float may
+   * overlap another float).
+   *
+   * Threshold: the Decades pill (180.2px wide at 7.1%) runs under the
+   * right-anchored 123px frame once the stage content is < ~348.5px, and the
+   * Clients pill (173.1px at right 6.5%) runs into the bottom-left frame once
+   * it is < ~341px. Under a classic 17px scrollbar that is innerWidth <= 366,
+   * so anything up to 374 covers both with ~8px of clearance, and also covers
+   * overlay-scrollbar devices (collision stops at 349). Written as a range so
+   * fractional widths land deterministically: 375px — the spec's QA width —
+   * falls outside it and keeps the reference composition (490px) untouched.
+   */
+  @media (width < 375px) {
+    .stats-p1 {
+      top: 80px;
+    }
+
+    .stats-p2 {
+      top: 147px;
+    }
+  }
+
+  @media (min-width: 768px) {
+    /* --- Tablet anchors (reference 957px; stage 336px tall) --- */
+    .stats-section {
+      padding: 45px 0 62px;
+    }
+
+    .stats-stage {
+      height: 336px;
+    }
+
+    .stats-marquee {
+      top: 44.6%;
+    }
+
+    .stats-m1 {
+      left: 3.3%;
+      right: auto;
+      top: 0;
+      width: 134px;
+      height: 76px;
+    }
+
+    .stats-p1 {
+      left: 23.4%;
+      top: 74px;
+    }
+
+    .stats-m2 {
+      left: 58%;
+      right: auto;
+      top: 29px;
+      width: 134px;
+      height: 76px;
+    }
+
+    .stats-p2 {
+      left: 63.7%;
+      right: auto;
+      top: 206px;
+    }
+
+    .stats-m3 {
+      display: block;
+      left: 23.4%;
+      top: 261px;
+      width: 134px;
+      height: 76px;
+    }
+  }
+}
