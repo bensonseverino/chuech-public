@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import chuechLogo from '../assets/marino/chuech-logo2.svg'
 import { MenuIcon, ArrowRightIcon } from './icons'
 import Expandable from './primitives/Expandable'
 import Button from './primitives/Button'
@@ -146,9 +147,13 @@ export default function SiteHeader() {
         <div className="glass-panel rounded-nav mx-auto flex max-w-[1440px] items-center justify-between gap-2 py-1.5 pr-1.5 pl-4 md:grid md:grid-cols-[1fr_auto_1fr] md:gap-0 md:rounded-none md:py-1 md:pr-0 md:pl-0">
           <a
             href="/"
-            className="min-w-0 justify-self-start py-0.5 pl-2 text-[12px] font-medium tracking-[0.18em] whitespace-nowrap text-obsidian md:pl-1 md:text-xl md:tracking-[0.14em]"
+            className="min-w-0 justify-self-start py-0.5 pl-2 md:pl-1"
           >
-            MARINO
+            <img
+              src={chuechLogo}
+              alt="Chuech"
+              className="h-8 w-auto md:h-7"
+            />
           </a>
 
           <nav aria-label="Primary" className="hidden md:block">
@@ -192,12 +197,11 @@ export default function SiteHeader() {
         className="relative mx-auto hidden w-[calc(var(--u)*70.56)] lg:block"
         style={{ height: 'calc(var(--u)*6.33)' }}
       >
-        <a
-          href="/"
-          className="absolute left-0 top-[calc(var(--u)*4.415)] -translate-y-1/2 text-[calc(var(--u)*1.5)] font-medium tracking-[0.2em] whitespace-nowrap text-obsidian"
-        >
-          MARINO
-        </a>
+        <img
+          src={chuechLogo}
+          alt="Chuech"
+          className="absolute left-0 top-[calc(var(--u)*4.415)] -translate-y-1/2"
+        />
         <DesktopNav />
       </div>
     </header>
