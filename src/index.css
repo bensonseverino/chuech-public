@@ -176,13 +176,29 @@ body {
 }
 
 /*
-  Reduced motion: kill the keyframe loops and all transitions. The marquee
-  track becomes a static row; float pills sit still.
+  Reduced motion: kill the keyframe loops and all transitions. A frozen marquee
+  would leave half of the content unreachable, so each marquee falls back to a
+  swipeable row instead: the frame gets `overflow-x: auto` + touch panning,
+  and the track's `w-max` width lets it scroll the full duplicated list. The
+  same treatment applies on the `stats-marquee` stage, whose `overflow: clip`
+  (ExperienceSection.css) is overridden here.
 */
 @media (prefers-reduced-motion: reduce) {
   .float-pill,
   .marquee-track {
     animation: none !important;
+  }
+  .marquee-frame {
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    touch-action: pan-x;
+    scroll-behavior: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  .stats-marquee {
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    touch-action: pan-x;
   }
   *,
   *::before,
