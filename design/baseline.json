@@ -1,5 +1,5 @@
 {
-  "note": "Pre-design-system baseline. Rect = [x, y, width, height] in CSS px at the given viewport width.",
+  "note": "Pre-design-system baseline. Rect = [x, y, width, height] in CSS px at the given viewport width. Desktop row was re-based from 1024px to 1080px (all values scaled by 1080/1024 = 1.0546875; valid because --u = min(1vw, 18.27px) is linear in vw below the 1827px cap). The logo rect records the pre-swap marino wordmark; the chuech-logo2 SVG has a different aspect ratio (~2.15:1 vs ~3.5:1), so its rendered box is expected to differ.",
   "viewports": {
     "375": {
       "header": [0, 0, 358.4, 55.6],
@@ -35,22 +35,22 @@
       "docH": 970,
       "scrollW": 751
     },
-    "1024": {
-      "header": [0, 0, 1024, 64.8],
-      "logo": [150.7, 33.7, 80.7, 23],
-      "nav": [454.5, 25.6, 418.8, 40.8],
-      "navItems": [["Services", 463.1, 31.5, 80.3, 29], ["Work", 543.4, 31.5, 80.3, 29], ["About", 623.7, 31.5, 80.3, 29], ["Blog", 704, 31.5, 80.3, 29], ["Contact", 784.8, 34.2, 79.3, 23.6]],
-      "contactPill": [784.8, 34.2, 79.3, 23.6],
-      "badge": [150.7, 104.6, 221.2, 24],
-      "lines": [[150.7, 146, 722.5, 68.9], [150.7, 214.9, 722.5, 68.9], [150.7, 283.8, 722.5, 139.9]],
-      "media": [[683.2, 151.5, 92.9, 52.2], [187.1, 220.4, 92.9, 52.2], [397, 368.3, 92.9, 52.2]],
-      "pills": [[759.7, 197.1, 126, 33.5], [98.8, 249.2, 104.4, 33.8]],
-      "description": [397, 313.5, 281.6, 35.9],
-      "contactLine": [722.3, 423.7, 151, 13.1],
-      "strip": [0, 462.3, 1024, 106.2],
-      "intro": [0, 568.6, 1024, 230.4],
-      "docH": 800,
-      "scrollW": 1024
+    "1080": {
+      "header": [0, 0, 1080, 68.4],
+      "logo": [158.9, 35.5, 85.1, 24.3],
+      "nav": [479.4, 27.0, 441.7, 43.0],
+      "navItems": [["Services", 488.4, 33.2, 84.7, 30.6], ["Work", 573.1, 33.2, 84.7, 30.6], ["About", 657.8, 33.2, 84.7, 30.6], ["Blog", 742.5, 33.2, 84.7, 30.6], ["Contact", 827.7, 36.1, 83.6, 24.9]],
+      "contactPill": [827.7, 36.1, 83.6, 24.9],
+      "badge": [158.9, 110.3, 233.3, 25.3],
+      "lines": [[158.9, 154.0, 762.0, 72.7], [158.9, 226.7, 762.0, 72.7], [158.9, 299.3, 762.0, 147.6]],
+      "media": [[720.6, 159.8, 98.0, 55.1], [197.3, 232.5, 98.0, 55.1], [418.7, 388.4, 98.0, 55.1]],
+      "pills": [[801.2, 207.9, 132.9, 35.3], [104.2, 262.8, 110.1, 35.6]],
+      "description": [418.7, 330.6, 297.0, 37.9],
+      "contactLine": [761.8, 446.9, 159.3, 13.8],
+      "strip": [0, 487.6, 1080, 112.0],
+      "intro": [0, 599.7, 1080, 243.0],
+      "docH": 844,
+      "scrollW": 1080
     },
     "1440": {
       "header": [0, 0, 1423.2, 91.2],

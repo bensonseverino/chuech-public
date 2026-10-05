@@ -200,7 +200,7 @@ export default function SiteHeader() {
         <img
           src={chuechLogo}
           alt="Chuech"
-          className="absolute left-0 top-[calc(var(--u)*4.415)] -translate-y-1/2"
+          className="absolute left-0 top-[calc(var(--u)*4.415)] h-[calc(var(--u)*2.25)] w-auto -translate-y-1/2"
         />
         <DesktopNav />
       </div>
