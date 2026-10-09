@@ -1,4 +1,3 @@
-import SiteHeader from '../components/SiteHeader'
 import HeroSection from '../components/HeroSection'
 import ClientLogoStrip from '../components/ClientLogoStrip'
 import IntroStatement from '../components/IntroStatement'
@@ -6,28 +5,27 @@ import LatestWork from '../components/sections/LatestWork'
 import ServicesSection from '../components/sections/ServicesSection'
 import ExperienceSection from '../components/sections/ExperienceSection'
 import FaqSection from '../components/sections/FaqSection'
-import SiteFooter from '../components/sections/SiteFooter'
+import { usePageTitle } from '../hooks/usePageTitle'
 
 /**
- * Page assembly in the real live order (remaining-sections spec §4):
+ * Home page assembly in the real live order (remaining-sections spec §4):
  * hero → logo strip → intro → latest work (with its testimonial slider) →
  * services → experience (giant marquee stage + brief CTA) →
- * FAQ → footer.
+ * FAQ. The header/footer and the page wrapper now live in `RootLayout`
+ * (services spec §3.1) so every route shares them.
  */
 export default function Home() {
+  usePageTitle('Marino | Web Design Agency Manchester')
+
   return (
-    <div className="min-h-svh bg-fog font-sans text-obsidian antialiased" style={{ overflowX: 'clip' }}>
-      <SiteHeader />
-      <main>
-        <HeroSection />
-        <ClientLogoStrip />
-        <IntroStatement />
-        <LatestWork />
-        <ServicesSection />
-        <ExperienceSection />
-        <FaqSection />
-      </main>
-      <SiteFooter />
-    </div>
+    <>
+      <HeroSection />
+      <ClientLogoStrip />
+      <IntroStatement />
+      <LatestWork />
+      <ServicesSection />
+      <ExperienceSection />
+      <FaqSection />
+    </>
   )
 }

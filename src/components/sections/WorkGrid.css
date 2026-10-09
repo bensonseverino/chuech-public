@@ -1,0 +1,60 @@
+/*
+ * Work grid (work page spec §5.1). Full-bleed: the wrap carries the side margin
+ * as padding-inline (== the gap), and a container query gives every row a
+ * single-card height so a 2-column card is exactly as tall as the singles.
+ */
+.work-grid-wrap {
+  container-type: inline-size;
+  --g: 25px;
+  --cols: 1;
+  --ar: 1.15;
+  padding-inline: var(--g);
+}
+
+.work-grid {
+  display: grid;
+  gap: var(--g);
+  grid-template-columns: repeat(var(--cols), 1fr);
+  /* Single-card height derived from the container width (no JS). */
+  grid-auto-rows: calc((100cqw - (var(--cols) - 1) * var(--g)) / var(--cols) / var(--ar));
+}
+
+.work-grid > li {
+  min-height: 0;
+}
+
+/* `fill` on ProjectCard drops its own aspect ratio; the row sets the height. */
+.work-grid .work-card {
+  aspect-ratio: auto;
+  height: 100%;
+}
+
+@media (min-width: 768px) {
+  .work-grid-wrap {
+    --cols: 2;
+    --ar: 1.16;
+  }
+
+  /* Wide card at position 5 within each page (tablet). */
+  .work-grid > li:nth-child(13n + 5) {
+    grid-column: span 2;
+  }
+}
+
+@media (min-width: 1024px) {
+  .work-grid-wrap {
+    --cols: 3;
+    --ar: 1.28;
+    --g: 18px;
+  }
+
+  /* Wide cards at positions 4 and 10 within each page (desktop). */
+  .work-grid > li:nth-child(13n + 5) {
+    grid-column: auto;
+  }
+
+  .work-grid > li:nth-child(13n + 4),
+  .work-grid > li:nth-child(13n + 10) {
+    grid-column: span 2;
+  }
+}

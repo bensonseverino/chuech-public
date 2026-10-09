@@ -1,3 +1,4 @@
+import { Link } from 'react-router'
 import LongArrow from './LongArrow'
 import OutlineChip from './OutlineChip'
 import { asset } from '../../content/assets'
@@ -9,6 +10,11 @@ type ProjectCardProps = {
   image: string
   /** object-position for the crop. */
   focus?: string
+  /**
+   * Fill the grid cell (work page §5.1): drop the card's own aspect ratio and
+   * stretch to the row height instead. Default keeps the Home panel's aspect.
+   */
+  fill?: boolean
   className?: string
 }
 
@@ -25,11 +31,15 @@ export default function ProjectCard({
   tags,
   image,
   focus = 'center',
+  fill = false,
   className = '',
 }: ProjectCardProps) {
+  // `fill` replaces the card's own aspect ratio with the grid row height.
+  const shape = fill ? 'h-full' : 'aspect-[1.15] md:aspect-[1.16] lg:aspect-[1.3]'
+
   return (
     <article
-      className={`group relative isolate flex aspect-[1.15] flex-col justify-end overflow-hidden rounded-[30px] md:aspect-[1.16] lg:aspect-[1.3] has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-primary ${className}`}
+      className={`group relative isolate flex ${shape} flex-col justify-end overflow-hidden rounded-[30px] has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-primary ${className}`}
     >
       <img
         src={asset(image)}
@@ -51,12 +61,12 @@ export default function ProjectCard({
 
       <div className="p-[25px] md:p-[30px] lg:p-[40px]">
         <h3 className="text-[clamp(21px,15.3px+1.53vw,33px)] leading-[1.1] font-medium text-white">
-          <a
-            href={`/work/${slug}/`}
+          <Link
+            to={`/work/${slug}/`}
             className="after:absolute after:inset-0 focus-visible:outline-none"
           >
             {title}
-          </a>
+          </Link>
         </h3>
         <span
           aria-hidden="true"

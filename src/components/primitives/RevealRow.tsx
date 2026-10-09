@@ -1,11 +1,15 @@
+import { Fragment } from 'react'
+import { Link } from 'react-router'
 import LongArrow from './LongArrow'
+import type { Keyword } from '../../content/home'
 import './RevealRow.css'
 
 type RevealRowProps = {
   href: string
   title: string
-  description: string  /** Joined at render with bullet + non-breaking space so wrapped lines start with a bullet (§4.4). */
-  keywords: string[]
+  description: string
+  /** Joined at render with a bullet + non-breaking space so wrapped lines start with a bullet (§4.4). */
+  keywords: Keyword[]
   /** Resolved local image URL. */
   image: string
   /** object-position for the crop (faces in frame). */
@@ -19,6 +23,10 @@ type RevealRowProps = {
  * 0.35s easing, only where the `hoverable` media condition holds. Touch and
  * smaller widths get the all-visible stacked layout. One link per row: the
  * title, stretched over the whole row.
+ *
+ * A keyword may be an object with an `href`: it renders as a real inline
+ * `<Link>` sitting above the row link (`relative z-[1]`) so it stays clickable
+ * and is underlined (services spec §5.1).
  */
 export default function RevealRow({
   href,
@@ -37,17 +45,34 @@ export default function RevealRow({
 
         <div className="svc-body">
           <h3 className="svc-title">
-            <a
-              href={href}
+            <Link
+              to={href}
               className="rounded-button after:absolute after:inset-0 focus-visible:outline-2 focus-visible:outline-offset-8 focus-visible:outline-obsidian"
             >
               {title}
-            </a>
+            </Link>
             <span aria-hidden="true" className="svc-dot" />
           </h3>
 
           <div className="svc-swap">
-            <p className="svc-desc">{description}</p>            <p className="svc-keys">{keywords.join(' •\u00A0')}</p>
+            <p className="svc-desc">{description}</p>
+            <p className="svc-keys">
+              {keywords.map((keyword, index) => (
+                <Fragment key={index}>
+                  {index > 0 && ' •\u00A0'}
+                  {typeof keyword === 'string' ? (
+                    keyword
+                  ) : (
+                    <Link
+                      to={keyword.href}
+                      className="relative z-[1] underline decoration-1 underline-offset-4 transition-[text-decoration-thickness] hover:decoration-2 focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-obsidian"
+                    >
+                      {keyword.label}
+                    </Link>
+                  )}
+                </Fragment>
+              ))}
+            </p>
           </div>
         </div>
 

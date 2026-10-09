@@ -5,15 +5,19 @@ import LongArrowLink from '../primitives/LongArrowLink'
 import ProjectCard from '../primitives/ProjectCard'
 import CrossfadeStack from '../primitives/CrossfadeStack'
 import CarouselControls from '../primitives/CarouselControls'
-import { LATEST_WORK, TESTIMONIALS, WORK_PROJECTS } from '../../content/home'
+import { LATEST_WORK, TESTIMONIALS } from '../../content/home'
+import { PROJECTS } from '../../content/projects'
 
 /**
  * "Our latest work" (latest-work spec): one pure-black panel holding two
  * staggered columns. The right column is the header + two cards, the left
  * column is two cards + the testimonial slider, so the testimonial lives
  * inside the panel rather than in its own section.
+ *
+ * `intro` overrides the intro paragraph (services page uses different copy);
+ * the default keeps the Home text.
  */
-export default function LatestWork() {
+export default function LatestWork({ intro = LATEST_WORK.intro }: { intro?: string }) {
   const [index, setIndex] = useState(0)
   const total = TESTIMONIALS.length
   const prev = () => setIndex((i) => (i + total - 1) % total)
@@ -24,8 +28,8 @@ export default function LatestWork() {
     else if (event.key === 'ArrowRight') next()
   }
 
-  const rightProjects = WORK_PROJECTS.filter((project) => project.column === 'right')
-  const leftProjects = WORK_PROJECTS.filter((project) => project.column === 'left')
+  const rightProjects = PROJECTS.filter((project) => project.column === 'right')
+  const leftProjects = PROJECTS.filter((project) => project.column === 'left')
 
   return (
     <section
@@ -43,7 +47,7 @@ export default function LatestWork() {
               </SectionHeading>
               <div className="ml-[26px] md:ml-[36px] lg:ml-0">
                 <p className="mt-[25px] text-[14px] leading-[1.5] text-white md:text-[20px] lg:text-[16px]">
-                  {LATEST_WORK.intro}
+                  {intro}
                 </p>
                 <div className="mt-[25px] md:mt-[30px]">
                   <LongArrowLink

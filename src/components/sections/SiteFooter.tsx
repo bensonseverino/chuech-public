@@ -1,3 +1,4 @@
+import { Link } from 'react-router'
 import Container from '../primitives/Container'
 import Button from '../primitives/Button'
 import RichText from '../primitives/RichText'
@@ -42,23 +43,23 @@ export default function SiteFooter() {
             </ul>
           </div>
           <div className="flex items-start md:justify-end">
-            <Button variant="mint" href={FOOTER.contact.href}>
+            <Button variant="mint" to={FOOTER.contact.href}>
               {FOOTER.contact.label}
             </Button>
           </div>
         </div>
 
-        {/* Link list */}
+        {/* Link list — column-first: mobile 2×4, tablet 3×(3,3,2), desktop 4×2 (§9). */}
         <nav aria-label="Footer" className="mt-[var(--space-40)]">
-          <ul className="grid grid-cols-2 gap-x-6 gap-y-3 md:grid-cols-4 lg:flex lg:flex-row lg:flex-wrap lg:gap-x-10">
+          <ul className="grid grid-flow-col grid-cols-2 grid-rows-4 gap-x-6 gap-y-3 md:grid-cols-3 md:grid-rows-3 lg:grid-cols-4 lg:grid-rows-2">
             {FOOTER.links.map((link) => (
               <li key={link.label}>
-                <a
-                  href={link.href}
+                <Link
+                  to={link.href}
                   className="text-[14px] font-medium text-white/70 transition-colors hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
                 >
                   {link.label}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>

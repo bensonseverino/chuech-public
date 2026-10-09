@@ -1,4 +1,5 @@
 import type { CSSProperties, ReactNode } from 'react'
+import { Link } from 'react-router'
 import LongArrow from './LongArrow'
 
 type Tone = 'light' | 'dark' | 'mint'
@@ -62,6 +63,16 @@ export default function LongArrowLink({
         {children}
         {arrow}
       </span>
+    )
+  }
+
+  // Internal paths become router links; external/mailto stay anchors (§3.2).
+  if (href?.startsWith('/')) {
+    return (
+      <Link to={href} aria-label={ariaLabel} className={linkClass} style={style}>
+        {children}
+        {arrow}
+      </Link>
     )
   }
 

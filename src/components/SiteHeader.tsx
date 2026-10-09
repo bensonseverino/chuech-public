@@ -1,8 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
+import { Link, useLocation } from 'react-router'
 import chuechLogo from '../assets/marino/chuech-logo2.svg'
 import { MenuIcon, CloseIcon, ArrowRightIcon } from './icons'
 import Expandable from './primitives/Expandable'
 import Button from './primitives/Button'
+import { ROUTES } from '../routes'
 
 /* ------------------------------------------------------------------ */
 /* Nav menu — one glass container holding the nav items, the mint      */
@@ -14,17 +16,58 @@ import Button from './primitives/Button'
 
 type MenuKey = 'Services' | 'About'
 
-const SUB_LINKS: Record<MenuKey, string[]> = {
-  Services: ['Branding', 'Web Design', 'SEO', 'PPC', 'Video'],
-  About: ['About Us', 'Culture', 'Testimonials'],
+const SUB_LINKS: Record<MenuKey, { label: string; to: string }[]> = {
+  Services: [
+    { label: 'Branding', to: ROUTES.branding },
+    { label: 'Web Design', to: ROUTES.webDesign },
+    { label: 'SEO', to: ROUTES.seo },
+    { label: 'PPC', to: ROUTES.ppc },
+    { label: 'Video', to: ROUTES.video },
+  ],
+  About: [
+    { label: 'About Us', to: ROUTES.aboutUs },
+    { label: 'Culture', to: ROUTES.culture },
+    { label: 'Testimonials', to: ROUTES.testimonials },
+  ],
 }
 
-const NAV_ITEMS: { label: string; menu?: MenuKey }[] = [
-  { label: 'Services', menu: 'Services' },
-  { label: 'Work' },
-  { label: 'About', menu: 'About' },
-  { label: 'Blog' },
+type NavItem = {
+  label: string
+  to: string
+  menu?: MenuKey
+  /** Paths (or path prefixes) that light this item's active state. */
+  activePaths: string[]
+}
+
+const NAV_ITEMS: NavItem[] = [
+  {
+    label: 'Services',
+    to: ROUTES.services,
+    menu: 'Services',
+    /* Active on the services page and its child service pages (§3.2 [verify]). */
+    activePaths: [
+      ROUTES.services,
+      ROUTES.branding,
+      ROUTES.webDesign,
+      ROUTES.seo,
+      ROUTES.ppc,
+      ROUTES.video,
+      ROUTES.aiSeo,
+    ],
+  },
+  { label: 'Work', to: ROUTES.work, activePaths: [ROUTES.work] },
+  {
+    label: 'About',
+    to: ROUTES.aboutUs,
+    menu: 'About',
+    activePaths: [ROUTES.aboutUs, ROUTES.culture, ROUTES.testimonials],
+  },
+  { label: 'Blog', to: ROUTES.blog, activePaths: [ROUTES.blog] },
 ]
+
+function isItemActive(pathname: string, item: NavItem) {
+  return item.activePaths.some((path) => pathname === path || pathname.startsWith(`${path}/`))
+}
 
 /** Tablet sizing first, scaled to the frozen unit geometry at lg+. */
 const CELL =
@@ -36,6 +79,7 @@ const CELL =
  * the container itself stays pinned while the logo scrolls away.
  */
 function NavMenu() {
+  const { pathname } = useLocation()
   const [openMenu, setOpenMenu] = useState<MenuKey | null>(null)
   // Keeps the last opened panel mounted so the collapse animates smoothly.
   const [renderedMenu, setRenderedMenu] = useState<MenuKey>('Services')
@@ -76,52 +120,36 @@ function NavMenu() {
       className="glass rounded-nav absolute top-[calc(var(--u)*2.5)] right-8 w-[calc(var(--u)*56)] max-w-full overflow-hidden lg:right-0 lg:w-[calc(var(--u)*40.9)]"
     >
       <ul className="flex items-center justify-between gap-1 px-2 py-1.5 lg:gap-0 lg:px-[calc(var(--u)*0.77)] lg:py-[calc(var(--u)*0.5)]">
-        {NAV_ITEMS.map((item) => (
-          <li key={item.label} className="lg:flex-1">
-            {item.menu ? (
-              <a
-                href="#"
-                aria-haspopup="true"
-                aria-expanded={openMenu === item.menu}
-                onMouseEnter={() => showMenu(item.menu!)}
-                onFocus={() => showMenu(item.menu!)}
-                // Touch tablets have no hover, so a tap toggles. Mouse clicks only
-                // suppress the `#` jump — hover already opened the panel.
-                onPointerDown={(event) => {
-                  if (event.pointerType !== 'touch') return
-                  event.preventDefault()
-                  if (openMenu === item.menu) setOpenMenu(null)
-                  else showMenu(item.menu!)
-                }}
-                onClick={(event) => event.preventDefault()}
-                className={`${CELL} group relative ${openMenu === item.menu ? 'bg-silver/35' : ''}`}
+        {NAV_ITEMS.map((item) => {
+          const active = isItemActive(pathname, item)
+          const highlighted = active || (item.menu ? openMenu === item.menu : false)
+
+          return (
+            <li key={item.label} className="lg:flex-1">
+              <Link
+                to={item.to}
+                aria-haspopup={item.menu ? true : undefined}
+                aria-expanded={item.menu ? openMenu === item.menu : undefined}
+                aria-current={active ? 'page' : undefined}
+                onMouseEnter={() => (item.menu ? showMenu(item.menu) : setOpenMenu(null))}
+                onFocus={() => (item.menu ? showMenu(item.menu) : setOpenMenu(null))}
+                className={`${CELL} group relative ${highlighted ? 'bg-silver/35' : ''}`}
               >
                 <span>{item.label}</span>
-                <span
-                  aria-hidden="true"
-                  className={`absolute right-[calc(var(--u)*0.52)] hidden h-[calc(var(--u)*0.9)] w-[calc(var(--u)*0.9)] place-items-center rounded-full bg-primary transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100 lg:grid ${
-                    openMenu === item.menu ? 'opacity-100' : 'opacity-0'
-                  }`}
-                >
-                  <ArrowRightIcon className="h-[calc(var(--u)*0.42)] w-[calc(var(--u)*0.42)] text-obsidian" />
-                </span>
-              </a>
-            ) : (
-              <a
-                href="#"
-                onMouseEnter={() => setOpenMenu(null)}
-                onFocus={() => setOpenMenu(null)}
-                onClick={(event) => {
-                  event.preventDefault()
-                  setOpenMenu(null)
-                }}
-                className={`${CELL} hover:bg-silver/35`}
-              >
-                {item.label}
-              </a>
-            )}
-          </li>
-        ))}
+                {item.menu ? (
+                  <span
+                    aria-hidden="true"
+                    className={`absolute right-[calc(var(--u)*0.52)] hidden h-[calc(var(--u)*0.9)] w-[calc(var(--u)*0.9)] place-items-center rounded-full bg-primary transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100 lg:grid ${
+                      highlighted ? 'opacity-100' : 'opacity-0'
+                    }`}
+                  >
+                    <ArrowRightIcon className="h-[calc(var(--u)*0.42)] w-[calc(var(--u)*0.42)] text-obsidian" />
+                  </span>
+                ) : null}
+              </Link>
+            </li>
+          )
+        })}
         <li className="lg:flex-1">
           {/* Shared Button (mint); unit geometry preserved via lg overrides. */}
           <Button
@@ -141,15 +169,15 @@ function NavMenu() {
             open ? 'opacity-100' : 'opacity-0'
           }`}
         >
-          {SUB_LINKS[renderedMenu].map((label) => (
-            <li key={label}>
-              <a
-                href="#"
+          {SUB_LINKS[renderedMenu].map((sub) => (
+            <li key={sub.label}>
+              <Link
+                to={sub.to}
                 className="inline-flex items-center gap-1.5 whitespace-nowrap text-obsidian transition-opacity hover:opacity-60 focus-visible:opacity-60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-obsidian lg:gap-[calc(var(--u)*0.34)]"
               >
                 <ArrowRightIcon className="h-3.5 w-3.5 shrink-0 lg:h-[calc(var(--u)*0.5)] lg:w-[calc(var(--u)*0.5)]" />
-                {label}
-              </a>
+                {sub.label}
+              </Link>
             </li>
           ))}
         </ul>
@@ -184,6 +212,8 @@ function MobileMenu({
   onToggle: (menu: MenuKey) => void
   onClose: () => void
 }) {
+  const { pathname } = useLocation()
+
   return (
     <>
       {/* Dims the page behind the panel; tapping it also dismisses the menu. */}
@@ -206,20 +236,20 @@ function MobileMenu({
           >
             <ul className="flex flex-col gap-0.5">
               {NAV_ITEMS.map((item) => {
+                const active = isItemActive(pathname, item)
+
                 if (!item.menu) {
                   return (
                     <li key={item.label}>
-                      <a
-                        href="#"
-                        onClick={(event) => {
-                          event.preventDefault()
-                          onClose()
-                        }}
-                        className={MOBILE_ROW}
+                      <Link
+                        to={item.to}
+                        aria-current={active ? 'page' : undefined}
+                        onClick={onClose}
+                        className={`${MOBILE_ROW} ${active ? 'bg-silver/35' : ''}`}
                       >
                         {item.label}
                         <ArrowRightIcon className="h-4 w-4 shrink-0 text-obsidian/35" />
-                      </a>
+                      </Link>
                     </li>
                   )
                 }
@@ -233,7 +263,7 @@ function MobileMenu({
                       type="button"
                       aria-expanded={isOpen}
                       onClick={() => onToggle(menu)}
-                      className={`${MOBILE_ROW} cursor-pointer`}
+                      className={`${MOBILE_ROW} cursor-pointer ${active ? 'bg-silver/35' : ''}`}
                     >
                       {item.label}
                       <span
@@ -248,19 +278,16 @@ function MobileMenu({
 
                     <Expandable open={isOpen}>
                       <ul className="flex flex-col pb-1">
-                        {SUB_LINKS[menu].map((label) => (
-                          <li key={label}>
-                            <a
-                              href="#"
-                              onClick={(event) => {
-                                event.preventDefault()
-                                onClose()
-                              }}
+                        {SUB_LINKS[menu].map((sub) => (
+                          <li key={sub.label}>
+                            <Link
+                              to={sub.to}
+                              onClick={onClose}
                               className="flex min-h-[40px] items-center gap-2 rounded-button py-0.5 pr-3 pl-6 text-[14px] text-obsidian/80 transition-colors hover:bg-silver/35 hover:text-obsidian focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-obsidian"
                             >
                               <ArrowRightIcon className="h-3.5 w-3.5 shrink-0 text-obsidian/45" />
-                              {label}
-                            </a>
+                              {sub.label}
+                            </Link>
                           </li>
                         ))}
                       </ul>
@@ -301,12 +328,13 @@ export default function SiteHeader() {
   const [expanded, setExpanded] = useState<MenuKey | null>(null)
   const mobileRef = useRef<HTMLElement>(null)
 
+  function closeMenu() {
+    setMenuOpen(false)
+    setExpanded(null)
+  }
+
   useEffect(() => {
     // Dismissing the menu also collapses whatever sub-row was open.
-    function closeMenu() {
-      setMenuOpen(false)
-      setExpanded(null)
-    }
     function onKey(event: KeyboardEvent) {
       if (event.key === 'Escape') closeMenu()
     }
@@ -329,11 +357,6 @@ export default function SiteHeader() {
     }
   }, [])
 
-  function closeMenu() {
-    setMenuOpen(false)
-    setExpanded(null)
-  }
-
   return (
     <>
       {/* --- below md: floating glass pill + slide-out panel --- */}
@@ -347,9 +370,9 @@ export default function SiteHeader() {
 
         <div className="px-2.5 pt-2.5 sm:px-3">
           <div className="glass rounded-nav mx-auto flex max-w-[1440px] items-center justify-between gap-2 py-1.5 pr-1.5 pl-4">
-            <a href="/" className="min-w-0 py-0.5 pl-2">
+            <Link to={ROUTES.home} className="min-w-0 py-0.5 pl-2">
               <img src={chuechLogo} alt="Chuech" className="h-8 w-auto" />
-            </a>
+            </Link>
 
             <div className="flex items-center gap-1.5">
               {/* Shared Button (mint); important overrides preserve the frozen
@@ -390,11 +413,16 @@ export default function SiteHeader() {
       {/* --- md+: the Chuech logo, deliberately NOT sticky --- */}
       <header className="relative z-40 hidden h-[calc(var(--u)*2.5_+_58px)] md:block lg:h-[calc(var(--u)*6.33)]">
         <div className="relative mx-auto w-full max-w-[1440px] px-8 lg:w-[calc(var(--u)*70.56)] lg:max-w-none lg:px-0">
-          <img
-            src={chuechLogo}
-            alt="Chuech"
-            className="absolute top-[calc(var(--u)*2.5_+_29px)] left-8 h-7 w-auto -translate-y-1/2 lg:top-[calc(var(--u)*4.415)] lg:left-0 lg:h-[calc(var(--u)*2.25)]"
-          />
+          <Link
+            to={ROUTES.home}
+            className="absolute top-[calc(var(--u)*2.5_+_29px)] left-8 block -translate-y-1/2 lg:top-[calc(var(--u)*4.415)] lg:left-0"
+          >
+            <img
+              src={chuechLogo}
+              alt="Chuech"
+              className="block h-7 w-auto lg:h-[calc(var(--u)*2.25)]"
+            />
+          </Link>
         </div>
       </header>
     </>

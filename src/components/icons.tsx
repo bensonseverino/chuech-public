@@ -63,6 +63,24 @@ export function ArrowRightIcon({ className = '' }: { className?: string }) {
   )
 }
 
+/** Thin (1.5px) chevron for the pager controls (work page spec §5.2). */
+export function ChevronIcon({ className = '' }: { className?: string }) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth={1.5}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className={className}
+      aria-hidden="true"
+    >
+      <path d="M9 5l7 7-7 7" />
+    </svg>
+  )
+}
+
 export function PlayIcon({ className = '' }: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">

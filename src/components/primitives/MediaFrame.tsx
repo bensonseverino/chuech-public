@@ -18,6 +18,8 @@ type MediaFrameProps = {
    * When set, the caller's className/style size the wrapper and the frame fills it.
    */
   halo?: boolean
+  /** Above-the-fold media: eager load + high fetch priority (services spec §7). */
+  priority?: boolean
   className?: string
   style?: CSSProperties
 }
@@ -56,6 +58,7 @@ export default function MediaFrame({
   glow = 'md',
   radius = 'media',
   halo = false,
+  priority = false,
   className = '',
   style,
 }: MediaFrameProps) {
@@ -115,8 +118,9 @@ export default function MediaFrame({
           src={src}
           alt={alt}
           draggable={false}
-          loading="lazy"
-          decoding="async"
+          loading={priority ? 'eager' : 'lazy'}
+          decoding={priority ? 'sync' : 'async'}
+          fetchPriority={priority ? 'high' : 'auto'}
           className="absolute inset-0 h-full w-full object-cover"
         />
       )}

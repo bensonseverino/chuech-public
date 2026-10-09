@@ -1,0 +1,58 @@
+/*
+ * PageHero (services spec §4.3; work page §4).
+ *
+ * Bottom spacing is set per breakpoint through CSS variables so a caller can
+ * pass `spacingBottom` without emitting arbitrary Tailwind classes; the
+ * fallbacks keep the Services 40px when no value is supplied.
+ */
+.page-hero {
+  padding-bottom: var(--hero-pb-mobile, 40px);
+}
+
+@media (min-width: 768px) {
+  .page-hero {
+    padding-bottom: var(--hero-pb-tablet, 40px);
+  }
+}
+
+@media (min-width: 1024px) {
+  .page-hero {
+    padding-bottom: var(--hero-pb-desktop, 40px);
+  }
+}
+
+/*
+ * PageHero grid. The area layout only exists at md+ —
+ * below md the hero is a single DOM-ordered column (badge, title, row, media,
+ * contact), so the areas and placements are scoped to the media query. Applying
+ * them on mobile would create a second, implicit column and collapse the image.
+ */
+@media (min-width: 768px) {
+  .page-hero-grid {
+    grid-template-areas:
+      "badge badge"
+      "title media"
+      "row media"
+      "contact contact";
+  }
+
+  .page-hero-badge {
+    grid-area: badge;
+  }
+
+  .page-hero-title {
+    grid-area: title;
+  }
+
+  .page-hero-row {
+    grid-area: row;
+  }
+
+  .page-hero-media {
+    grid-area: media;
+  }
+
+  .page-hero-contact {
+    grid-area: contact;
+  }
+}

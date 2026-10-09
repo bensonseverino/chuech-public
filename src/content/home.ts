@@ -3,32 +3,16 @@
  * All COPY below was transcribed from the live page (marino.co.uk).
  * Assets referenced here are labelled local placeholders: TODO(asset).
  */
+import { ROUTES } from '../routes'
 
 export type RichSegment = string | { label: string; href: string }
 
 /* ------------------------------------------------------------------ */
 /* Routes                                                              */
 /* ------------------------------------------------------------------ */
-
-export const ROUTES = {
-  home: '/',
-  branding: '/branding/',
-  webDesign: '/web-design/',
-  seo: '/seo-manchester/',
-  aiSeo: '/ai-seo/',
-  ppc: '/ppc-manchester/',
-  video: '/video-production/',
-  services: '/services/',
-  work: '/work/',
-  aboutUs: '/about-us/',
-  culture: '/culture/',
-  blog: '/blog/',
-  testimonials: '/testimonials/',
-  contact: '/contact/',
-  seoConsultant: '/seo-consultant/',
-  privacyPolicy: '/privacy-policy/',
-  termsConditions: '/terms-conditions/',
-} as const
+/* The canonical table lives in `src/routes.ts`; re-exported here so the
+   existing `ROUTES` imports across the components keep working. */
+export { ROUTES }
 
 /* ------------------------------------------------------------------ */
 /* 5.1 Intro statement                                                 */
@@ -43,62 +27,14 @@ export const INTRO = {
 /* 5.2 Latest work                                                     */
 /* ------------------------------------------------------------------ */
 
+/* The project cards themselves now live in `content/projects.ts` so the Home
+   panel and the `/work` grid share one source (work page spec §6). */
 export const LATEST_WORK = {
   heading: 'Our latest work',
   intro:
     'Marino is a Manchester based digital marketing agency built for brands that want serious growth.',
   viewAll: { label: 'View all work', href: ROUTES.work },
 } as const
-
-/** Which column a card sits in at md+ (DOM order is right column first). */
-export type WorkColumn = 'left' | 'right'
-
-export type WorkProject = {
-  /** Route segment: `/work/${slug}/` matches the live route. */
-  slug: string
-  title: string
-  column: WorkColumn
-  tags: string[]
-  image: string
-  /** object-position for the crop. */
-  focus?: string
-}
-
-/* TODO(asset): work card photos — replace each slot with the real image. */
-export const WORK_PROJECTS: WorkProject[] = [
-  {
-    slug: 'latakoo',
-    title: 'Latakoo',
-    column: 'left',
-    tags: ['Branding', 'Web Design', 'SEO', 'PPC'],
-    image: 'work-latakoo',
-    focus: '60% 40%',
-  },
-  {
-    slug: 'vislink',
-    title: 'Vislink',
-    column: 'left',
-    tags: ['Branding', 'Web Design', 'SEO', 'PPC', 'Video'],
-    image: 'work-vislink',
-    focus: '55% 45%',
-  },
-  {
-    slug: 'wr-partners',
-    title: 'WR Partners',
-    column: 'right',
-    tags: ['Branding', 'Web Design', 'SEO', 'PPC', 'Video'],
-    image: 'work-wr-partners',
-    focus: 'center 35%',
-  },
-  {
-    slug: 'office-insight',
-    title: 'Office Insight',
-    column: 'right',
-    tags: ['Web Design', 'SEO', 'PPC'],
-    image: 'work-office-insight',
-    focus: 'center',
-  },
-]
 
 /* ------------------------------------------------------------------ */
 /* 5.3 Testimonials (quote slider inside the latest-work panel)        */
@@ -149,12 +85,15 @@ export const TESTIMONIALS: Testimonial[] = [
 
 export const SERVICES_HEADING = 'Our Services'
 
+/** A keyword chip; the object form renders as an inline link (services spec §5.1). */
+export type Keyword = string | { label: string; href: string }
+
 export type Service = {
   /** Route segment: `/${slug}/` matches the live route. */
   slug: string
   title: string
   description: string
-  keywords: string[]
+  keywords: Keyword[]
   image: string
   /** object-position for the crop (faces in frame). */
   focus?: string
