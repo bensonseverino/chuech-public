@@ -1,0 +1,100 @@
+/*
+ * Project carousel (web-design spec §5.3).
+ *
+ * The scroller starts at the container's left edge and bleeds past the right
+ * edge of the viewport, so the third card is deliberately cut off. Display of
+ * the controls is set here (not with Tailwind display utilities) so the
+ * pointer-only media query can never be beaten by a base utility.
+ */
+.pc-stage {
+  position: relative;
+}
+
+.pc-scroll {
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  /* Start the row at the content gutter the panels use. */
+  padding-inline-start: var(--container-left);
+  scroll-padding-inline-start: var(--container-left);
+  overscroll-behavior-x: contain;
+}
+
+.pc-track {
+  display: flex;
+  width: max-content;
+  gap: 10px;
+  /* Lets the final card be scrolled clear of the right edge. */
+  padding-inline-end: var(--container-left);
+}
+
+.pc-track > li {
+  flex: 0 0 auto;
+  scroll-snap-align: start;
+  width: calc(100vw - 50px);
+}
+
+@media (min-width: 768px) {
+  .pc-track > li {
+    width: 47vw;
+  }
+}
+
+@media (min-width: 1024px) {
+  .pc-track {
+    gap: 25px;
+  }
+
+  .pc-track > li {
+    width: calc(var(--u) * 34.3);
+  }
+}
+
+/* Controls are for pointer devices at 768px and up; touch devices swipe. */
+.pc-controls {
+  display: none;
+}
+
+@media (min-width: 768px) and (hover: hover) and (pointer: fine) {
+  .pc-controls {
+    display: block;
+  }
+}
+
+.pc-btn {
+  position: absolute;
+  top: 50%;
+  display: grid;
+  place-items: center;
+  height: 32px;
+  width: 32px;
+  transform: translateY(-50%);
+  border-radius: var(--radius-pill);
+  background: var(--color-primary);
+  color: var(--color-obsidian);
+  transition:
+    box-shadow var(--default-transition-duration) var(--ease-standard),
+    visibility var(--default-transition-duration) var(--ease-standard);
+}
+
+/* Hidden until there is somewhere to go in that direction. */
+.pc-btn:disabled {
+  visibility: hidden;
+}
+
+.pc-btn:hover {
+  box-shadow: var(--shadow-glow-md);
+}
+
+.pc-btn-next {
+  right: var(--container-left);
+}
+
+.pc-btn-prev {
+  left: var(--container-left);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pc-scroll {
+    scroll-snap-type: none;
+  }
+}

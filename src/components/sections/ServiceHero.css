@@ -1,0 +1,22 @@
+/*
+ * Hero title cap (web-design spec §5.1).
+ *
+ * The web-design title is capped at 8.2em from 768px up, which is what forces
+ * its four-line break; every other service title wraps naturally against the
+ * hero column (the live SEO page has no cap at all). The cap is opt-in per
+ * service through the content object: the em value arrives as
+ * `--hero-title-max` and the 47px is the dot plus its gap, so the cap lands on
+ * the text rather than the dot.
+ *
+ * The custom property cannot be turned into a Tailwind arbitrary class, so the
+ * two longhands live here instead.
+ */
+.service-hero-title {
+  max-width: none;
+}
+
+@media (min-width: 768px) {
+  .service-hero-title--capped {
+    max-width: calc(var(--hero-title-max, 8.2em) + 47px);
+  }
+}

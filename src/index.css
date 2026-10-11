@@ -109,6 +109,25 @@
   --space-50: 50px;
   --space-80: 80px;
   --space-100: 100px;
+  /*
+    Left inset of the `Container` content column (primitives/Container.tsx),
+    exposed so full-bleed rows can start on the same edge (the web-design
+    project carousel). A percentage here resolves against the element that
+    uses the variable, which is what keeps it in step with the container.
+  */
+  --container-left: 16px;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --container-left: 32px;
+  }
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --container-left: max(0px, calc((100% - var(--u) * 70.56) / 2));
+  }
 }
 
 html {

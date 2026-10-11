@@ -1,11 +1,9 @@
-import { useState, type KeyboardEvent } from 'react'
 import DarkPanel from '../primitives/DarkPanel'
 import SectionHeading from '../primitives/SectionHeading'
 import LongArrowLink from '../primitives/LongArrowLink'
 import ProjectCard from '../primitives/ProjectCard'
-import CrossfadeStack from '../primitives/CrossfadeStack'
-import CarouselControls from '../primitives/CarouselControls'
-import { LATEST_WORK, TESTIMONIALS } from '../../content/home'
+import TestimonialSlider from '../primitives/TestimonialSlider'
+import { LATEST_WORK } from '../../content/home'
 import { PROJECTS } from '../../content/projects'
 
 /**
@@ -18,16 +16,6 @@ import { PROJECTS } from '../../content/projects'
  * the default keeps the Home text.
  */
 export default function LatestWork({ intro = LATEST_WORK.intro }: { intro?: string }) {
-  const [index, setIndex] = useState(0)
-  const total = TESTIMONIALS.length
-  const prev = () => setIndex((i) => (i + total - 1) % total)
-  const next = () => setIndex((i) => (i + 1) % total)
-
-  function onKeyDown(event: KeyboardEvent<HTMLElement>) {
-    if (event.key === 'ArrowLeft') prev()
-    else if (event.key === 'ArrowRight') next()
-  }
-
   const rightProjects = PROJECTS.filter((project) => project.column === 'right')
   const leftProjects = PROJECTS.filter((project) => project.column === 'left')
 
@@ -78,38 +66,7 @@ export default function LatestWork({ intro = LATEST_WORK.intro }: { intro?: stri
               ))}
             </div>
 
-            <section
-              aria-roledescription="carousel"
-              aria-label="Client testimonials"
-              tabIndex={0}
-              onKeyDown={onKeyDown}
-              className="focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary"
-            >
-              <CrossfadeStack activeIndex={index}>
-                {TESTIMONIALS.map((testimonial) => (
-                  <figure
-                    key={testimonial.name}
-                    className="border-l-[6px] border-primary pl-[18px] md:pl-[25px] lg:-ml-[calc(var(--u)*3.4)] lg:pl-[calc(var(--u)*3.4-6px)]"
-                  >
-                    <blockquote className="text-[clamp(19px,15.2px+1.02vw,28px)] leading-[1.3] text-white">
-                      {testimonial.quote}
-                    </blockquote>
-                    <figcaption className="mt-[20px] text-[clamp(14px,12.1px+.51vw,17px)] leading-[1.3] text-primary md:mt-[30px] lg:mt-[25px] lg:text-[16px]">
-                      {testimonial.name}: <strong className="font-bold">{testimonial.company}</strong>
-                    </figcaption>
-                  </figure>
-                ))}
-              </CrossfadeStack>
-
-              <CarouselControls
-                index={index}
-                total={total}
-                onPrev={prev}
-                onNext={next}
-                prevTone="secondary-on-mobile"
-                className="mt-[22px] md:mt-[62px]"
-              />
-            </section>
+            <TestimonialSlider tone="dark" />
           </div>
         </div>
       </DarkPanel>

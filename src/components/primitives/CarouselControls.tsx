@@ -26,6 +26,12 @@ export type CarouselControlsProps = {
    * above (latest-work spec §5.6); `primary` is mint at every width.
    */
   prevTone?: 'primary' | 'secondary-on-mobile'
+  /**
+   * Counter colour: `dark` (default) is the white counter on the dark panel;
+   * `light` is the obsidian counter for the light callback panel (web-design
+   * spec §5.5).
+   */
+  tone?: 'dark' | 'light'
   /** Label announced to screen readers when the slide changes. */
   label?: string
   className?: string
@@ -45,6 +51,7 @@ export default function CarouselControls({
   onPrev,
   onNext,
   prevTone = 'primary',
+  tone = 'dark',
   label = 'Testimonial',
   className = '',
 }: CarouselControlsProps) {
@@ -58,7 +65,9 @@ export default function CarouselControls({
       </button>
       <span
         aria-hidden="true"
-        className="text-[18px] leading-none text-white md:text-[22px] lg:text-[17px]"
+        className={`text-[18px] leading-none md:text-[22px] lg:text-[17px] ${
+          tone === 'light' ? 'text-obsidian' : 'text-white'
+        }`}
       >
         {index + 1} / {total}
       </span>

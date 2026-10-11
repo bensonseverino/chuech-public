@@ -4,6 +4,8 @@ import { LongArrowIcon } from '../icons'
 type SectionBadgeProps = {
   /** Element to render — the services section uses `as="h2"`. */
   as?: 'div' | 'p' | 'h2'
+  /** For `aria-labelledby` on the panel the badge titles. */
+  id?: string
   children: ReactNode
   /** Classes for the arrow-line icon (hero callers pass their frozen sizes). */
   iconClassName?: string
@@ -19,6 +21,7 @@ type SectionBadgeProps = {
  */
 export default function SectionBadge({
   as: Tag = 'div',
+  id,
   children,
   iconClassName = 'h-3.5 w-[37px] md:w-[54px]',
   className = '',
@@ -26,6 +29,7 @@ export default function SectionBadge({
 }: SectionBadgeProps) {
   return (
     <Tag
+      id={id}
       className={`shadow-soft inline-flex max-w-full items-center rounded-pill bg-white ${className}`}
       style={style}
     >

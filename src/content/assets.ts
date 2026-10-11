@@ -36,6 +36,25 @@ const SLOTS: Record<string, string> = {
   /* TODO(asset): work page hero photo — 16:9 shot of the team at a table.
      Reuses the hero-team placeholder until the real work-hero.jpg lands. */
   'work-hero': heroTeam,
+  /* TODO(asset): web-design page photos — `web-design-feature.jpg` (two men on
+     an orange sofa) and `web-design-why.jpg` (the team around a table with
+     plants). Both reuse the hero-team placeholder until the real files land;
+     swap the file, not the slot. */
+  'web-design-feature': heroTeam,
+  'web-design-why': heroTeam,
+  /* TODO(asset): seo page photos — `seo-middle-1200x990.jpg` (6:5, feature
+     panel) and `about-us-top-right-1200x675.jpg` (16:9, campaign panel) on the
+     live page. Both are decorative there, so they reuse the hero-team
+     placeholder until the real files land. */
+  'seo-feature': heroTeam,
+  'seo-why': heroTeam,
+  /* TODO(asset): branding page photos — `branding-feature.jpg` (a smiling man
+     with arms crossed in a black t-shirt, portrait crop) and
+     `branding-why.jpg` (people around a table in front of a wall with a bee
+     logo, 16:9). Both reuse the hero-team placeholder until the real files
+     land; swap the file, not the slot. */
+  'branding-feature': heroTeam,
+  'branding-why': heroTeam,
   'article-ph': articlePh,
   /* TODO(asset): services page hero photo — 16:9 team shot (4 people at a
      table with plants). Reuses the hero-team placeholder until the real

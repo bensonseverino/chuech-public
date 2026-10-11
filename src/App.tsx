@@ -3,12 +3,17 @@ import RootLayout from './components/RootLayout'
 import Home from './pages/Home'
 import ServicesPage from './pages/ServicesPage'
 import WorkPage from './pages/WorkPage'
+import ServicePage from './pages/ServicePage'
 import NotFoundPage from './pages/NotFoundPage'
+import { WEB_DESIGN } from './content/services/web-design'
+import { SEO } from './content/services/seo'
+import { BRANDING } from './content/services/branding'
 
 /**
- * App router (services spec §3; work page §3). `/`, `/services` and `/work`
- * exist for now; every other path falls through to `NotFoundPage` (no
- * placeholder pages, so `/work/<slug>` and the service links do too).
+ * App router (services spec §3; work page §3; web-design spec §3). `/`,
+ * `/services`, `/work`, `/web-design`, `/seo-manchester` and `/branding` exist
+ * for now; every other path — including the services that have no page yet —
+ * falls through to `NotFoundPage` (no placeholder pages).
  */
 const router = createBrowserRouter([
   {
@@ -17,6 +22,9 @@ const router = createBrowserRouter([
       { index: true, element: <Home /> },
       { path: 'services', element: <ServicesPage /> },
       { path: 'work', element: <WorkPage /> },
+      { path: 'web-design', element: <ServicePage content={WEB_DESIGN} /> },
+      { path: 'seo-manchester', element: <ServicePage content={SEO} /> },
+      { path: 'branding', element: <ServicePage content={BRANDING} /> },
       { path: '*', element: <NotFoundPage /> },
     ],
   },
