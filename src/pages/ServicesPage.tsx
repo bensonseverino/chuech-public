@@ -5,7 +5,7 @@ import IntroStatement from '../components/IntroStatement'
 import LatestWork from '../components/sections/LatestWork'
 import ExperienceSection from '../components/sections/ExperienceSection'
 import { asset } from '../content/assets'
-import { usePageTitle } from '../hooks/usePageTitle'
+import { useMetaDescription, usePageTitle } from '../hooks/usePageTitle'
 import {
   SERVICES_HERO,
   SERVICES_HERO_CONTACT,
@@ -18,11 +18,14 @@ import {
 function HeroDescription() {
   return (
     <>
-      <strong className="font-semibold text-obsidian">Manchester-born, globally trusted</strong>{' '}
-      &ndash; we&rsquo;ve generated{' '}
-      <strong className="font-semibold text-obsidian">£100M+ in client revenue</strong> and
-      manage £250K in monthly ad spend, backed by a world-class team built to improve the
-      bottom line.
+      <strong className="font-semibold text-obsidian">
+        We design and build purposeful websites
+      </strong>{' '}
+      that make brands{' '}
+      <strong className="font-semibold text-obsidian">
+        clearer, stronger, and easier to choose
+      </strong>
+      , backed by a team that cares about the details.
     </>
   )
 }
@@ -34,7 +37,10 @@ function HeroDescription() {
  * from `RootLayout`.
  */
 export default function ServicesPage() {
-  usePageTitle('Services | Marino')
+  usePageTitle('Services | Chuech Studio')
+  useMetaDescription(
+    'Explore branding, web design, SEO, PPC, and video services from Chuech Studio, a Nairobi-based digital partner.',
+  )
 
   return (
     <>

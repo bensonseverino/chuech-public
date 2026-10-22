@@ -2,9 +2,9 @@
  * `/seo-manchester` content (same shape as `web-design.ts`, so the generic
  * `ServicePage` template renders it unchanged).
  *
- * Every string was transcribed from the live page
- * https://marino.co.uk/seo-manchester/ (read 2026-10-11), including the curly
- * apostrophes and the live `<title>` / meta description.
+ * The structure and service copy were adapted for Chuech Studio from the
+ * original reference page https://marino.co.uk/seo-manchester/, keeping the
+ * curly apostrophes.
  *
  * TODO(asset): the two photos are labelled local placeholders — the live page
  * uses `seo-middle-1200x990.jpg` (6:5, feature panel) and
@@ -47,7 +47,7 @@ const PILLARS = [
   },
   {
     title: 'Content Marketing',
-    body: 'An SEO campaign is nothing without words. And at Marino, we take your website\u2019s words seriously. The compelling content we create, as well as attracting traffic from relevant audiences, encourages them to take action, be that inquiring or buying. Whatever content we create for you will fill your site with the persuasive buying signals needed in a busy market.',
+    body: 'An SEO campaign is nothing without words. And at Chuech Studio, we take your website\u2019s words seriously. The compelling content we create, as well as attracting traffic from relevant audiences, encourages them to take action, be that inquiring or buying. Whatever content we create for you will fill your site with the persuasive buying signals needed in a busy market.',
   },
   {
     title: 'Authority Building',
@@ -55,7 +55,7 @@ const PILLARS = [
   },
   {
     title: 'Local SEO',
-    body: 'For many businesses, a lot of their audience will be on their doorstep, and local SEO campaigns for Manchester businesses can help people get to know your organisation, whether they live in Bolton, Trafford, or Sale. Whether it\u2019s through dedicated location pages or optimising Google Business Profiles, Marino\u2019s local SEO campaigns are always tied back to commercial outcomes.',
+    body: 'For many businesses, a lot of their audience will be on their doorstep, and local SEO campaigns for Nairobi businesses can help people get to know your organisation, whether they live in Westlands, Kilimani, or Karen. Whether it\u2019s through dedicated location pages or optimising Google Business Profiles, Chuech Studio\u2019s local SEO campaigns are always tied back to commercial outcomes.',
   },
   {
     title: 'Keyword Research',
@@ -79,9 +79,9 @@ const FAQ_ITEMS: ServiceFaqItem[] = [
     ],
   },
   {
-    question: 'What\u2019s included in your SEO services in Manchester?',
+    question: 'What\u2019s included in your SEO services in Nairobi?',
     answer: [
-      'Our Manchester SEO services are the full package and include everything from initial audit to copywriting and monthly reporting. At Marino, we can take care of your entire organic performance campaign.',
+      'Our Nairobi SEO services are the full package and include everything from initial audit to copywriting and monthly reporting. At Chuech Studio, we can take care of your entire organic performance campaign.',
     ],
   },
   {
@@ -97,9 +97,9 @@ const FAQ_ITEMS: ServiceFaqItem[] = [
     ],
   },
   {
-    question: 'What makes your SEO approach different from other Manchester agencies?',
+    question: 'What makes your SEO approach different from other Nairobi agencies?',
     answer: [
-      'With Marino, you\u2019ll always have complete visibility about what\u2019s being done, why it matters, and how it\u2019s going to contribute to your results. We focus on clarity and accountability from day one. We\u2019ll define and agree on a clear strategy based on your industry and competitors that is always tied back to commercial goals.',
+      'With Chuech Studio, you\u2019ll always have complete visibility about what\u2019s being done, why it matters, and how it\u2019s going to contribute to your results. We focus on clarity and accountability from day one. We\u2019ll define and agree on a clear strategy based on your industry and competitors that is always tied back to commercial goals.',
     ],
   },
   {
@@ -111,7 +111,7 @@ const FAQ_ITEMS: ServiceFaqItem[] = [
   {
     question: 'How do you choose which keywords to target?',
     answer: [
-      'When picking keywords, we prioritise intent over search volume alone. For instance, someone searching for \u201cSEO Agency Manchester\u201d is likely looking to hire, whereas \u201cTechnical SEO Audit\u201d suggests a more informed user with a specific need. We build strategies that target terms across the funnel to capture users at different stages of their journey.',
+      'When picking keywords, we prioritise intent over search volume alone. For instance, someone searching for \u201cSEO Agency Nairobi\u201d is likely looking to hire, whereas \u201cTechnical SEO Audit\u201d suggests a more informed user with a specific need. We build strategies that target terms across the funnel to capture users at different stages of their journey.',
     ],
   },
   {
@@ -131,9 +131,9 @@ const FAQ_ITEMS: ServiceFaqItem[] = [
     answer: ['Absolutely, all our SEO experts are used to working with in-house or fragmented teams.'],
   },
   {
-    question: 'Do you provide local SEO for Greater Manchester?',
+    question: 'Do you provide local SEO for Nairobi?',
     answer: [
-      'We are rooted in Manchester and love helping our fellow local businesses succeed online.',
+      'We are rooted in Nairobi and love helping our fellow local businesses succeed online.',
     ],
   },
   {
@@ -149,7 +149,7 @@ const FAQ_ITEMS: ServiceFaqItem[] = [
   {
     question: 'Is link building still important for SEO?',
     answer: [
-      'It does, but today, the quality of links matters far more than quantity. A small number of high-quality, relevant links from authoritative sites have far greater impact than hundreds of low-quality ones. At Marino, we focus on earning credible endorsements rather than using outdated, risky tactics.',
+      'It does, but today, the quality of links matters far more than quantity. A small number of high-quality, relevant links from authoritative sites have far greater impact than hundreds of low-quality ones. At Chuech Studio, we focus on earning credible endorsements rather than using outdated, risky tactics.',
     ],
   },
   {
@@ -172,22 +172,22 @@ const FAQ_ITEMS: ServiceFaqItem[] = [
 
 export const SEO: ServicePageContent = {
   seo: {
-    /* Taken from the live <title> and meta description. */
-    title: 'SEO Manchester | SEO Agency Manchester | Marino',
+    /* Chuech Studio page metadata. */
+    title: 'SEO Nairobi | SEO Agency Nairobi | Chuech Studio',
     description:
-      'Marino is a Manchester SEO agency helping brands grow visibility across Google, AI answers, and search.',
+      'Chuech Studio is a Nairobi SEO agency helping brands grow visibility across Google, AI answers, and search.',
   },
   hero: {
-    label: 'SEO Manchester',
-    title: 'An SEO Manchester agency with impact',
+    label: 'SEO Nairobi',
+    title: 'An SEO agency in Nairobi with impact',
     tags: ['Audits', 'Content', 'Technical', 'Link Building', 'AI', 'Digital PR'],
     intro:
-      'The SEO services offered here at Marino are ideal for businesses looking for sustainable growth, not short-lived spikes. Through our tried and true strategies, which are created by some of the region\u2019s best SEO specialists, we help you generate qualified demand that brings in sustained online revenue.',
+      'The SEO services offered here at Chuech Studio are ideal for businesses looking for sustainable growth, not short-lived spikes. Through our tried and true strategies, which are created by some of the region\u2019s best SEO specialists, we help you generate qualified demand that brings in sustained online revenue.',
     form: HERO_FORM,
   },
   feature: {
-    heading: 'SEO for Manchester brands that move the commercial needle',
-    lead: 'The search landscape across Manchester is competitive, no matter what you\u2019re selling, which makes it all the more important that any brand looking to make an impact in their sector opts for a strategic approach that encompasses all facets of organic search.',
+    heading: 'SEO for Nairobi brands that move the commercial needle',
+    lead: 'The search landscape across Nairobi is competitive, no matter what you\u2019re selling, which makes it all the more important that any brand looking to make an impact in their sector opts for a strategic approach that encompasses all facets of organic search.',
     checklist: [
       'Technical SEO',
       'Content Marketing',
@@ -196,7 +196,7 @@ export const SEO: ServicePageContent = {
       'Core Web Vitals',
       'AI SEO',
     ],
-    body: 'Our SEO services for Manchester businesses encompass everything listed and come with well-defined expectations. And while you shouldn\u2019t expect organic search campaigns to transform your business overnight, you can expect them to be a predictable generator of leads when it\u2019s aligned with your website\u2019s conversion journey and other insights, which is exactly what our team does.',
+    body: 'Our SEO services for Nairobi businesses encompass everything listed and come with well-defined expectations. And while you shouldn\u2019t expect organic search campaigns to transform your business overnight, you can expect them to be a predictable generator of leads when it\u2019s aligned with your website\u2019s conversion journey and other insights, which is exactly what our team does.',
     cta: { label: 'Contact', href: ROUTES.contact },
     image: 'seo-feature',
     imageAlt: '',
@@ -214,11 +214,11 @@ export const SEO: ServicePageContent = {
   pillars: {
     label: 'SEO services',
     items: PILLARS,
-    cta: { label: 'Contact Marino', href: ROUTES.contact },
+    cta: { label: 'Contact Chuech Studio', href: ROUTES.contact },
   },
   why: {
     heading: 'How we run your SEO campaigns',
-    body: 'All the SEO work we do for your business is centred on your goals and priorities. We start by looking at your current digital presence and creating a prioritisation plan based on the data. We\u2019ll then address the immediate issues before putting in the foundations for long-term success, which will be different for every business. We don\u2019t stick to a rigid 5-step process like most agencies. Instead, our team prefers to operate against a rolling roadmap that can be adjusted should your business priorities change. We can also work alongside in-house teams if that\u2019s the sort of support your Manchester business needs.',
+    body: 'All the SEO work we do for your business is centred on your goals and priorities. We start by looking at your current digital presence and creating a prioritisation plan based on the data. We\u2019ll then address the immediate issues before putting in the foundations for long-term success, which will be different for every business. We don\u2019t stick to a rigid 5-step process like most agencies. Instead, our team prefers to operate against a rolling roadmap that can be adjusted should your business priorities change. We can also work alongside in-house teams if that\u2019s the sort of support your Nairobi business needs.',
     cta: { label: 'Contact', href: ROUTES.contact },
     image: 'seo-why',
     imageAlt: '',

@@ -1,14 +1,17 @@
 import Container from '../components/primitives/Container'
 import Button from '../components/primitives/Button'
 import { ROUTES } from '../routes'
-import { usePageTitle } from '../hooks/usePageTitle'
+import { useMetaDescription, usePageTitle } from '../hooks/usePageTitle'
 
 /**
  * Catch-all page (services spec §3): header + footer come from `RootLayout`;
  * this is a short message and a link home.
  */
 export default function NotFoundPage() {
-  usePageTitle('Page not found | Marino')
+  usePageTitle('Page not found | Chuech Studio')
+  useMetaDescription(
+    'The page you were looking for could not be found. Return to the Chuech Studio homepage to keep exploring.',
+  )
 
   return (
     <section className="flex min-h-[60vh] items-center py-[var(--space-80)]">

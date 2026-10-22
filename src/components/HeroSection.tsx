@@ -21,9 +21,9 @@ function DesktopBadge() {
         fontSize: 'max(11px, calc(var(--u)*0.711))',
       }}
     >
-      <span className="whitespace-nowrap">Marino Web Design Agency</span>
+      <span className="whitespace-nowrap">Chuech Studio</span>
       <span aria-hidden="true" className="h-[calc(var(--u)*0.9)] w-px shrink-0 bg-silver" />
-      <span className="shrink-0 font-semibold whitespace-nowrap">Google&nbsp;Partner</span>
+      <span className="shrink-0 font-semibold whitespace-nowrap">Nairobi,&nbsp;Kenya</span>
     </SectionBadge>
   )
 }
@@ -45,12 +45,13 @@ export default function HeroSection() {
           <div className="mt-5 grid items-start gap-5 pb-10 md:mt-8 md:grid-cols-2 md:items-end md:gap-10 md:pb-14">
             <p className="max-w-[88%] text-[13px] leading-relaxed text-obsidian sm:text-sm md:max-w-md md:text-[15px]">
               <strong className="font-semibold text-obsidian">
-                Manchester-born, globally trusted
+                We design and build purposeful websites
               </strong>{' '}
-              &ndash; we&rsquo;ve generated{' '}
-              <strong className="font-semibold text-obsidian">£100M+ in client revenue</strong>{' '}
-              and manage £250K in monthly ad spend, backed by a world-class team built
-              to improve the bottom line.
+              that make brands{' '}
+              <strong className="font-semibold text-obsidian">
+                clearer, stronger, and easier to choose
+              </strong>
+              , backed by a team that cares about the details.
             </p>
             <ContactRow />
           </div>

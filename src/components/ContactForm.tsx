@@ -204,7 +204,7 @@ export default function ContactForm({
 
         {status === 'error' ? (
           <p role="alert" className="mt-[10px] text-[13px] leading-[18px] text-obsidian">
-            Sorry, something went wrong. Please try again, or email hello@marino.co.uk.
+            Sorry, something went wrong. Please try again, or email hello@chuechstudio.co.ke.
           </p>
         ) : null}
       </div>

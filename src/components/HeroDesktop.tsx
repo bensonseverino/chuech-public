@@ -47,7 +47,7 @@ export default function HeroDesktop() {
                 justifyContent: 'center',
               }}
             >
-              £100m+ client revenue
+              Digital experiences
             </FloatingPill>
           </span>
         </span>
@@ -69,7 +69,7 @@ export default function HeroDesktop() {
                 justifyContent: 'center',
               }}
             >
-              World class team
+              Thoughtfully made
             </FloatingPill>
           </span>
           <span className="shrink-0 whitespace-nowrap" style={LINE}>
@@ -90,12 +90,14 @@ export default function HeroDesktop() {
             style={{ maxWidth: 'calc(var(--u)*27.5)' }}
           >
             <span className="block text-[calc(var(--u)*0.9)] leading-[1.3] text-obsidian">
-              <strong className="font-semibold text-obsidian">Manchester-born, globally trusted</strong>{' '}
-              &ndash; we&rsquo;ve generated{' '}
-              <strong className="font-semibold text-obsidian">£100M+ in client revenue</strong> and
-              manage £250K in monthly ad spend, backed by a{' '}
-              <strong className="font-semibold text-obsidian">world-class</strong> team built to
-              improve the bottom line.
+              <strong className="font-semibold text-obsidian">
+                We design and build purposeful websites
+              </strong>{' '}
+              that make brands{' '}
+              <strong className="font-semibold text-obsidian">
+                clearer, stronger, and easier to choose
+              </strong>
+              , backed by a team that cares about the details.
             </span>
             <span
               aria-hidden="true"
@@ -122,16 +124,16 @@ export default function HeroDesktop() {
       <div className="flex justify-end">
         <p className="flex items-baseline gap-[calc(var(--u)*0.65)] text-[calc(var(--u)*0.85)]">
           <a
-            href="mailto:hello@marino.co.uk"
+            href="mailto:hello@chuechstudio.co.ke"
             className="font-semibold text-obsidian hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-obsidian"
           >
-            hello@marino.co.uk
+            hello@chuechstudio.co.ke
           </a>
           <a
-            href="tel:01616606263"
+            href="tel:+254117954929"
             className="text-obsidian hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-obsidian"
           >
-            0161 660 6263
+            +254 117 954 929
           </a>
         </p>
       </div>

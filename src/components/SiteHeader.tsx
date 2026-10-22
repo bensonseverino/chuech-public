@@ -154,7 +154,7 @@ function NavMenu() {
           {/* Shared Button (mint); unit geometry preserved via lg overrides. */}
           <Button
             variant="mint"
-            href="mailto:hello@marino.co.uk"
+            href="mailto:hello@chuechstudio.co.ke"
             className="mx-auto flex min-h-0! h-11 text-[14px]! lg:h-[calc(var(--u)*2.3)] lg:w-[calc(var(--u)*7.74)] lg:px-0! lg:text-[max(11px,calc(var(--u)*0.766))]!"
           >
             Contact
@@ -299,7 +299,7 @@ function MobileMenu({
 
             <div className="px-0.5 pt-1.5 pb-0.5">
               {/* Shared Button (mint), full width on touch. */}
-              <Button variant="mint" href="mailto:hello@marino.co.uk" className="w-full">
+              <Button variant="mint" href="mailto:hello@chuechstudio.co.ke" className="w-full">
                 Contact
               </Button>
             </div>
@@ -371,7 +371,7 @@ export default function SiteHeader() {
         <div className="px-2.5 pt-2.5 sm:px-3">
           <div className="glass rounded-nav mx-auto flex max-w-[1440px] items-center justify-between gap-2 py-1.5 pr-1.5 pl-4">
             <Link to={ROUTES.home} className="min-w-0 py-0.5 pl-2">
-              <img src={chuechLogo} alt="Chuech" className="h-8 w-auto" />
+              <img src={chuechLogo} alt="Chuech Studio" className="h-8 w-auto" />
             </Link>
 
             <div className="flex items-center gap-1.5">
@@ -379,7 +379,7 @@ export default function SiteHeader() {
                   mobile geometry (§1 placement spec). */}
               <Button
                 variant="mint"
-                href="mailto:hello@marino.co.uk"
+                href="mailto:hello@chuechstudio.co.ke"
                 className="min-h-0! px-4! py-1.5! text-[11px]! whitespace-nowrap"
               >
                 Contact
@@ -419,7 +419,7 @@ export default function SiteHeader() {
           >
             <img
               src={chuechLogo}
-              alt="Chuech"
+              alt="Chuech Studio"
               className="block h-7 w-auto lg:h-[calc(var(--u)*2.25)]"
             />
           </Link>

@@ -1,6 +1,6 @@
 /*
  * Home page content, typed (remaining-sections spec §8 step 4).
- * All COPY below was transcribed from the live page (marino.co.uk).
+ * Copy adapted for Chuech Studio from the original reference site (marino.co.uk).
  * Assets referenced here are labelled local placeholders: TODO(asset).
  */
 import { ROUTES } from '../routes'
@@ -32,7 +32,7 @@ export const INTRO = {
 export const LATEST_WORK = {
   heading: 'Our latest work',
   intro:
-    'Marino is a Manchester based digital marketing agency built for brands that want serious growth.',
+    'Chuech Studio is a Nairobi based web design agency creating purposeful websites for brands that want to stand out and grow.',
   viewAll: { label: 'View all work', href: ROUTES.work },
 } as const
 
@@ -58,17 +58,17 @@ export const TESTIMONIALS: Testimonial[] = [
     company: 'Hitachi',
   },
   {
-    quote: '“The quality was excellent, and communication throughout was clear and professional. I highly recommend Marino.”',
+    quote: '“The quality was excellent, and communication throughout was clear and professional. I highly recommend Chuech Studio.”',
     name: 'Abbie Booth',
     company: 'Istobal',
   },
   {
-    quote: '“Marino helped us achieve the top position for ‘garden rooms’. I’m more than happy to recommend them and can provide a reference.”',
+    quote: '“Chuech Studio helped us achieve the top position for ‘garden rooms’. I’m more than happy to recommend them and can provide a reference.”',
     name: 'Mike Jackson',
     company: 'Modern Garden Rooms',
   },
   {
-    quote: '“We’ve worked with Marino for 5 years. Their digital marketing expertise has consistently driven awareness, interest, and leads.”',
+    quote: '“We’ve worked with Chuech Studio for 5 years. Their digital marketing expertise has consistently driven awareness, interest, and leads.”',
     name: 'Adrian Lambert',
     company: 'Blackbird',
   },
@@ -150,24 +150,25 @@ export const SERVICES: Service[] = [
 /* ------------------------------------------------------------------ */
 
 export const TICKER_ITEMS = [
-  '100 verified 5 star reviews',
-  'Clients in 30 countries',
-  'Decade of experience',
-  'Generated £100 million in revenue',
+  'Digital experiences, thoughtfully made',
+  'Purposeful websites, built to perform',
+  'Brands made clearer and stronger',
+  'Design with care, built for growth',
 ] as const
 
 /** Screen-reader sentence for the ticker (duplicates are aria-hidden). */
-export const TICKER_SR = '100 verified 5 star reviews. Clients in 30 countries. A decade of experience. £100 million in revenue generated.'
+export const TICKER_SR =
+  'Digital experiences, thoughtfully made. Purposeful websites, built to perform. Brands made clearer and stronger. Design with care, built for growth.'
 
-export const STATS_LINES = ['Decades of experience', 'Clients in 30 countries'] as const
+export const STATS_LINES = ['Thoughtful by design', 'Built for growth'] as const
 
 /* ------------------------------------------------------------------ */
 /* 5.6 Brief CTA                                                       */
 /* ------------------------------------------------------------------ */
 
 export const BRIEF_CTA = {
-  text: 'Send us a brief and we\u2019ll talk',
-  button: { label: 'Contact Us', href: ROUTES.contact },
+  text: 'Tell us what you\u2019re building',
+  button: { label: 'Start a project', href: ROUTES.contact },
 } as const
 
 /* ------------------------------------------------------------------ */
@@ -176,16 +177,16 @@ export const BRIEF_CTA = {
 
 /** Giant marquee phrases, in order (experience spec §10). */
 export const EXPERIENCE_MARQUEE = [
-  '100 verified 5 star reviews',
-  'Generated £100 million in revenue',
+  'Digital experiences, thoughtfully made',
+  'Purposeful websites, built to perform',
 ] as const
 
 /** Floating pill labels; also the two legacy desktop display lines. */
-export const EXPERIENCE_PILLS = ['Decades of experience', 'Clients in 30 countries'] as const
+export const EXPERIENCE_PILLS = ['Thoughtful by design', 'Built for growth'] as const
 
 /** Screen-reader sentence: the stage itself is aria-hidden (experience spec §11). */
 export const EXPERIENCE_SR =
-  '100 verified 5 star reviews. Generated £100 million in revenue. Decades of experience. Clients in 30 countries.'
+  'Digital experiences, thoughtfully made. Purposeful websites, built to perform. Thoughtful by design. Built for growth.'
 
 /* ------------------------------------------------------------------ */
 /* 5.7 Insights                                                        */
@@ -209,38 +210,39 @@ export type InsightArticle = {
 /* TODO(asset): article thumbnails — replace with the real card images. */
 export const ARTICLES: InsightArticle[] = [
   {
-    title: 'Marino appointed as SEO agency for MUSE',
+    title: 'How thoughtful design makes brands easier to choose',
     dateLabel: 'July . 2026',
-    href: '/seo/marino-appointed-as-seo-agency-for-muse/',
+    href: '/blog/thoughtful-design-makes-brands-easier-to-choose/',
     excerpt:
-      'We\u2019re excited to announce that Marino has been appointed as the SEO agency for MUSE, the global talent and creative agency.',
-    categories: ['SEO'],
+      'Good design does more than look polished. It clarifies who you are, what you offer, and why people should choose you.',
+    categories: ['Branding'],
     image: 'article-ph',
   },
   {
-    title: 'What Vislink\u2019s progress says about getting the foundations right',
+    title: 'Getting the foundations right before you grow',
     dateLabel: 'July . 2026',
-    href: '/branding/what-vislinks-progress-says-about-getting-the-foundations-right/',
+    href: '/blog/getting-the-foundations-right/',
     excerpt:
-      'Seeing Mickey share Vislink\u2019s latest numbers is a great moment and they are the kind of numbers worth paying attention to.',
-    categories: ['Branding', 'Web Design', 'SEO', 'PPC', 'Video'],
+      'A strong website starts with structure, clarity, and a plan for how every page supports the business.',
+    categories: ['Web Design', 'SEO'],
     image: 'article-ph',
   },
   {
-    title: 'From £3m to £17m: the digital side of BBS Law\u2019s growth',
+    title: 'Designing for growth, not just launch day',
     dateLabel: 'June . 2026',
-    href: '/seo/from-3m-to-17m-the-digital-side-of-bbs-laws-growth/',
-    excerpt: 'Seeing BBS Law\u2019s growth story picked up by Legal Futures is great to see.',
+    href: '/blog/designing-for-growth/',
+    excerpt:
+      'The best websites are built to evolve with your business, not just to look good on launch day.',
     categories: ['Web Design', 'SEO', 'PPC'],
     image: 'article-ph',
   },
   {
-    title: 'What A1S proves about long-term SEO',
+    title: 'Why long-term thinking matters in search',
     dateLabel: 'May . 2026',
-    href: '/seo/what-a1s-proves-about-long-term-seo/',
+    href: '/blog/long-term-thinking-in-search/',
     excerpt:
-      'Big congratulations to the A1S team on the acquisition by Bergman & Beving. It is a brilliant result, and a well-earned one.',
-    categories: ['Web Design', 'SEO', 'PPC'],
+      'Search visibility is built steadily through useful content, solid technical foundations, and patience.',
+    categories: ['SEO'],
     image: 'article-ph',
   },
 ]
@@ -250,7 +252,7 @@ export const ARTICLES: InsightArticle[] = [
 /* ------------------------------------------------------------------ */
 
 export const CASE_STUDY = {
-  heading: 'Marino: The results driven agency',
+  heading: 'Design that drives results',
   stat: '400%',
   statLabel: 'Revenue growth',
   blurb:
@@ -258,7 +260,7 @@ export const CASE_STUDY = {
   cta: { label: 'View Work', href: ROUTES.work },
   testimonial: {
     quote:
-      '“We\u2019ve worked with Marino for 5 years. Their digital marketing expertise has consistently driven awareness, interest, and leads.”',
+      '“We\u2019ve worked with the team for 5 years. Their digital marketing expertise has consistently driven awareness, interest, and leads.”',
     name: 'Adrian Lambert',
     company: 'Blackbird',
   },
@@ -271,7 +273,7 @@ export const CASE_STUDY = {
 export const FAQ = {
   heading: 'Frequently asked questions',
   intro:
-    'An independent agency in Manchester, founded in 2015, building brands, websites, and marketing that improve the bottom line.',
+    'An independent web design studio in Nairobi, Kenya, building brands, websites, and marketing that improve the bottom line.',
 } as const
 
 export type FaqItem = {
@@ -281,9 +283,9 @@ export type FaqItem = {
 
 export const FAQ_ITEMS: FaqItem[] = [
   {
-    question: 'What digital marketing services does Marino offer?',
+    question: 'What services does Chuech Studio offer?',
     answer: [
-      'Marino offers all manner of digital marketing services that, when integrated, help to sustainably grow a business\u2019s online presence. Our core services include paid and organic channels such as ',
+      'Chuech Studio offers all manner of digital marketing services that, when integrated, help to sustainably grow a business\u2019s online presence. Our core services include paid and organic channels such as ',
       { label: 'PPC', href: ROUTES.ppc },
       ' and ',
       { label: 'SEO', href: ROUTES.seo },
@@ -295,21 +297,21 @@ export const FAQ_ITEMS: FaqItem[] = [
     ],
   },
   {
-    question: 'How does Marino build marketing strategies?',
+    question: 'How does Chuech Studio build marketing strategies?',
     answer: [
       'Every strategy starts by understanding your business, its goals, challenges, and how audiences in your industry behave online. We examine how your customers interact online before identifying which channels are most likely to influence their decisions. Once that\u2019s decided, we build campaigns around measurable commercial objectives and then refine them as more performance data becomes available.',
     ],
   },
   {
-    question: 'What makes Marino different from other agencies?',
+    question: 'What makes Chuech Studio different from other agencies?',
     answer: [
-      'At Marino, we aren\u2019t interested in vanity metrics that make a lot of noise but don\u2019t increase your business revenue. Instead, we focus on commercially grounded marketing strategies that are built around outcomes which matter to your business. As well as that, you can expect transparent communication and collaboration from experts in all digital marketing channels. Clients working with Marino benefit from working with experienced marketers who understand how the core marketing channels \u2013 SEO, PPC, content, and web design \u2013 all influence each other.',
+      'At Chuech Studio, we aren\u2019t interested in vanity metrics that make a lot of noise but don\u2019t increase your business revenue. Instead, we focus on commercially grounded marketing strategies that are built around outcomes which matter to your business. As well as that, you can expect transparent communication and collaboration from experts in all digital marketing channels. Clients working with Chuech Studio benefit from working with experienced marketers who understand how the core marketing channels \u2013 SEO, PPC, content, and web design \u2013 all influence each other.',
     ],
   },
   {
     question: 'Do you offer both SEO and PPC services?',
     answer: [
-      'Yes. Marino offers comprehensive ',
+      'Yes. Chuech Studio offers comprehensive ',
       { label: 'SEO', href: ROUTES.seo },
       ' and ',
       { label: 'PPC', href: ROUTES.ppc },
@@ -317,13 +319,13 @@ export const FAQ_ITEMS: FaqItem[] = [
     ],
   },
   {
-    question: 'Can Marino help improve lead generation?',
+    question: 'Can Chuech Studio help improve lead generation?',
     answer: [
       'Absolutely. Our marketing strategies are all built around improving visibility among relevant audiences while encouraging users to take meaningful action, such as filling out an enquiry form or purchasing a product. We help businesses create more opportunities for enquiries, sales, and long-term growth by combining targeted traffic generation with messaging that convinces audiences to convert.',
     ],
   },
   {
-    question: 'Can Marino support long-term business growth?',
+    question: 'Can Chuech Studio support long-term business growth?',
     answer: [
       'Yes, our focus is on building sustainable marketing ecosystems that generate visibility that turns into leads and revenue over time. Rather than relying entirely on short-term tactics, our strategies evolve alongside your business and support long-term commercial objectives.',
     ],
@@ -331,21 +333,19 @@ export const FAQ_ITEMS: FaqItem[] = [
 ]
 
 export const FOUNDER_BLOCK = {
-  heading: 'Work directly with Marino founder Toni Marino',
+  heading: 'Work directly with the Chuech Studio team',
   paragraphs: [
     [
-      'Marino was founded by Toni Marino, an ',
-      { label: 'SEO consultant', href: ROUTES.seoConsultant },
-      ' with over 15 years of experience helping businesses improve their online visibility. His commercially focused approach continues to shape how he and the wider agency works today.',
+      'Chuech Studio is an independent web design studio based in Nairobi, Kenya, with a focus on purposeful design and thoughtful digital experiences.',
     ],
     [
       'In essence, marketing activity should always support the business outcomes that create significant transformation rather than generate impressive-looking numbers on a dashboard.',
     ],
     [
-      'Toni works directly with businesses who need senior SEO guidance. This could include diagnosing a ranking decline, reviewing an existing strategy, or helping an internal team simply decide what to prioritise next. Clients work with Toni on the diagnosis and the strategy but should ongoing implementation be required, the wider Marino team of specialists can be brought onboard.',
+      'We work directly with businesses that need a clear, considered digital presence. This could include a new website, a brand refresh, or guidance on how to prioritise what comes next. Clients work with our team on the strategy and design, and we bring in specialists where a project needs them.',
     ],
   ] as RichSegment[][],
-  cta: { label: 'Work directly with Toni', href: ROUTES.seoConsultant },
+  cta: { label: 'Start a conversation', href: ROUTES.contact },
 } as const
 
 /* ------------------------------------------------------------------ */
@@ -354,7 +354,7 @@ export const FOUNDER_BLOCK = {
 
 export const FOOTER = {
   statement: [
-    'Marino is a Manchester based digital marketing agency helping brands grow with smart, results-focused ',
+    'Chuech Studio is a Nairobi based web design agency helping brands grow with thoughtful, purposeful ',
     { label: 'Branding', href: ROUTES.branding },
     ', ',
     { label: 'Web Design', href: ROUTES.webDesign },
@@ -367,9 +367,9 @@ export const FOOTER = {
     '.',
   ] as RichSegment[],
   getInTouch: 'Get in Touch',
-  email: { label: 'hello@marino.co.uk', href: 'mailto:hello@marino.co.uk' },
-  phone: { label: '0161 660 6263', href: 'tel:01616606263' },
-  address: '1 St Peter\u2019s Sq, Manchester, M2 3DE',
+  email: { label: 'hello@chuechstudio.co.ke', href: 'mailto:hello@chuechstudio.co.ke' },
+  phone: { label: '+254 117 954 929', href: 'tel:+254117954929' },
+  address: 'Nairobi, Kenya',
   contact: { label: 'Contact', href: ROUTES.contact },
   links: [
     { label: 'Services', href: ROUTES.services },
@@ -381,5 +381,5 @@ export const FOOTER = {
     { label: 'Privacy Policy', href: ROUTES.privacyPolicy },
     { label: 'Terms & Conditions', href: ROUTES.termsConditions },
   ],
-  legal: 'Reg No. 11701108. Vat No. 371580590.',
+  legal: '\u00a9 2026 Chuech Studio. All rights reserved.',
 } as const

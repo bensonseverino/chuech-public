@@ -6,17 +6,20 @@ import Pagination from '../components/Pagination'
 import ServiceLinks from '../components/sections/ServiceLinks'
 import { asset } from '../content/assets'
 import { PROJECTS, WORK_PAGE_SIZE } from '../content/projects'
-import { usePageTitle } from '../hooks/usePageTitle'
+import { useMetaDescription, usePageTitle } from '../hooks/usePageTitle'
 
 /** Same copy and bold phrases as the Home hero description (spec §4 / §6). */
 function HeroDescription() {
   return (
     <>
-      <strong className="font-semibold text-obsidian">Manchester-born, globally trusted</strong>{' '}
-      &ndash; we&rsquo;ve generated{' '}
-      <strong className="font-semibold text-obsidian">£100M+ in client revenue</strong> and
-      manage £250K in monthly ad spend, backed by a world-class team built to improve the
-      bottom line.
+      <strong className="font-semibold text-obsidian">
+        We design and build purposeful websites
+      </strong>{' '}
+      that make brands{' '}
+      <strong className="font-semibold text-obsidian">
+        clearer, stronger, and easier to choose
+      </strong>
+      , backed by a team that cares about the details.
     </>
   )
 }
@@ -30,7 +33,10 @@ function HeroDescription() {
  * value clamps to the nearest valid page (spec §3).
  */
 export default function WorkPage() {
-  usePageTitle('Work | Marino')
+  usePageTitle('Work | Chuech Studio')
+  useMetaDescription(
+    'Selected branding, web design, SEO, PPC, and video projects from Chuech Studio in Nairobi, Kenya.',
+  )
 
   const [params] = useSearchParams()
   const totalPages = Math.max(1, Math.ceil(PROJECTS.length / WORK_PAGE_SIZE))
@@ -66,7 +72,7 @@ export default function WorkPage() {
       <PageHero
         label="Work"
         title="Latest Work"
-        pills={['Full-service agency', 'Trusted by UK brands']}
+        pills={['Full-service agency', 'Trusted by ambitious brands']}
         image={{ src: asset('work-hero') }}
         description={<HeroDescription />}
         showImageOnMobile={false}

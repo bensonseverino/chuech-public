@@ -6,14 +6,14 @@ import { PlayIcon } from './icons'
 
 /**
  * Small rounded video thumbnail + email/phone stack (spec §9).
- * Email is mailto:, phone is tel:01616606263.
+ * Email is mailto:, phone is tel:+254117954929.
  */
 export default function ContactRow() {
   return (
     <div className="flex min-w-0 items-center gap-3 md:justify-self-end">
       <a
-        href="mailto:hello@marino.co.uk"
-        aria-label="Play the Marino showreel"
+        href="mailto:hello@chuechstudio.co.ke"
+        aria-label="Play the Chuech Studio showreel"
         className="rounded-media shadow-glow-md relative block h-12 w-20 shrink-0 overflow-hidden sm:h-14 sm:w-24 md:h-16 md:w-28"
       >
         <img
@@ -27,16 +27,16 @@ export default function ContactRow() {
       </a>
       <p className="flex min-w-0 flex-col text-[13px] leading-snug sm:text-sm">
         <a
-          href="mailto:hello@marino.co.uk"
+          href="mailto:hello@chuechstudio.co.ke"
           className="font-semibold text-obsidian hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-obsidian"
         >
-          hello@marino.co.uk
+          hello@chuechstudio.co.ke
         </a>
         <a
-          href="tel:01616606263"
+          href="tel:+254117954929"
           className="text-obsidian hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-obsidian"
         >
-          0161 660 6263
+          +254 117 954 929
         </a>
       </p>
     </div>

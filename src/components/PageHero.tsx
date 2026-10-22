@@ -18,7 +18,7 @@ export type PageHeroProps = {
   image: { src: string; alt?: string }
   /** Same copy/bold phrases as the Home hero description. */
   description: ReactNode
-  /** Contact line (email + phone); defaults to the Marino details. */
+  /** Contact line (email + phone); defaults to the Chuech Studio details. */
   contact?: { email: ContactLink; phone: ContactLink }
   /** Show the hero photo on mobile (work page hides it — spec §4). */
   showImageOnMobile?: boolean
@@ -35,8 +35,8 @@ export type PageHeroProps = {
 }
 
 const DEFAULT_CONTACT: { email: ContactLink; phone: ContactLink } = {
-  email: { label: 'hello@marino.co.uk', href: 'mailto:hello@marino.co.uk' },
-  phone: { label: '0161 660 6263', href: 'tel:01616606263' },
+  email: { label: 'hello@chuechstudio.co.ke', href: 'mailto:hello@chuechstudio.co.ke' },
+  phone: { label: '+254 117 954 929', href: 'tel:+254117954929' },
 }
 
 const DEFAULT_SPACING = { mobile: '40px', tablet: '40px', desktop: '40px' }

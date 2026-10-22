@@ -3,10 +3,10 @@
  * generic `ServicePage` template renders, so Branding / SEO / PPC / Video can
  * reuse it later with their own object of the same shape.
  *
- * Every string marked COPY in the spec was transcribed from the live page
- * https://marino.co.uk/web-design/ (read 2026-10-10), including the curly
- * apostrophes. Titles, chips, field labels, questions and button labels come
- * from the spec and are final.
+ * The structure and service copy were adapted for Chuech Studio from the
+ * original reference page https://marino.co.uk/web-design/, keeping the curly
+ * apostrophes. Titles, chips, field labels, questions and button labels follow
+ * the original spec.
  */
 import { ROUTES } from '../../routes'
 import type { RichSegment } from '../home'
@@ -125,7 +125,7 @@ const CHECKLIST = [
 const PILLARS = [
   {
     title: 'Site architecture',
-    body: 'To be successful, a website needs a solid foundation, and our team at Marino ensures this by creating logical site structures from day one. No matter how broad your product or service range is, we\u2019ll have the necessary URL structures and sitemap in place that search engines reward with page one rankings.',
+    body: 'To be successful, a website needs a solid foundation, and our team at Chuech Studio ensures this by creating logical site structures from day one. No matter how broad your product or service range is, we\u2019ll have the necessary URL structures and sitemap in place that search engines reward with page one rankings.',
   },
   {
     title: 'Optimised for search',
@@ -141,7 +141,7 @@ const PILLARS = [
   },
   {
     title: 'Scalable sites',
-    body: 'Growing businesses rarely stand still, and their website should never hold them back from offering more products or services. We believe that a well-built site should anticipate and be ready for future growth. The team at Marino use a scalable CMS when building your site, so products can be added or new blogs and landing pages can be built and set live in minutes.',
+    body: 'Growing businesses rarely stand still, and their website should never hold them back from offering more products or services. We believe that a well-built site should anticipate and be ready for future growth. The team at Chuech Studio use a scalable CMS when building your site, so products can be added or new blogs and landing pages can be built and set live in minutes.',
   },
   {
     title: 'Conversion-focused layouts',
@@ -157,7 +157,7 @@ const FAQ_ITEMS: ServiceFaqItem[] = [
   {
     question: 'How long does a web design project take?',
     answer: [
-      'The timeline for a web design project depends on factors such as scope and content requirements. Most Manchester web design projects take between 8 and 12 weeks, but larger builds may take longer. We\u2019ll ensure clear planning is laid out from the onset so that timelines remain realistic.',
+      'The timeline for a web design project depends on factors such as scope and content requirements. Most Nairobi web design projects take between 8 and 12 weeks, but larger builds may take longer. We\u2019ll ensure clear planning is laid out from the onset so that timelines remain realistic.',
     ],
   },
   {
@@ -197,9 +197,9 @@ const FAQ_ITEMS: ServiceFaqItem[] = [
     ],
   },
   {
-    question: 'Do you provide web design services outside Manchester?',
+    question: 'Do you provide web design services outside Nairobi?',
     answer: [
-      'Our remote-first model allows us to work efficiently with clients across the UK. So, despite Manchester being our home, anyone can benefit from a Marino website.',
+      'Our remote-first model allows us to work efficiently with clients across Kenya and beyond. So, despite Nairobi being our home, anyone can benefit from a Chuech Studio website.',
     ],
   },
 ]
@@ -210,13 +210,13 @@ const FAQ_ITEMS: ServiceFaqItem[] = [
 
 export const WEB_DESIGN: ServicePageContent = {
   seo: {
-    /* Verified against the live <title> (spec §3 [verify]). */
-    title: 'Web Design Manchester | Website Design Agency | Marino',
+    /* Chuech Studio page metadata. */
+    title: 'Web Design Nairobi | Website Design Agency | Chuech Studio',
     description:
-      'Marino is a Manchester web design agency creating bespoke websites built to look sharp, convert better, and support business growth.',
+      'Chuech Studio is a Nairobi web design agency creating bespoke websites built to look sharp, convert better, and support business growth.',
   },
   hero: {
-    label: 'Web Design Manchester',
+    label: 'Web Design Nairobi',
     /* 8.2em is what forces the four-line break at 768 and up (spec §5.1). */
     titleMaxWidth: '8.2',
     title: 'Web Design services that turn heads and grow revenue',
@@ -235,12 +235,12 @@ export const WEB_DESIGN: ServicePageContent = {
     headingMaxWidth: '10.8',
     lead: 'Your website is the point at which all your marketing efforts converge, with people visiting it from various places, be it a social media ad, via a search engine, or an article. It, therefore, needs to be built in such a way that it turns visitors into customers and traffic into revenue.',
     checklist: [...CHECKLIST],
-    body: 'The experts we have at Marino handle every aspect of your web design and development. From the initial consultation, we\u2019ll map out a scalable, technically sound online home that accurately reflects your business\u2019s story and what it sells. Over time, it\u2019ll become one of your key revenue-generating assets that proves its value in the months and years to come.',
+    body: 'The experts we have at Chuech Studio handle every aspect of your web design and development. From the initial consultation, we\u2019ll map out a scalable, technically sound online home that accurately reflects your business\u2019s story and what it sells. Over time, it\u2019ll become one of your key revenue-generating assets that proves its value in the months and years to come.',
     cta: { label: 'Contact', href: ROUTES.contact },
     image: 'web-design-feature',
     /* TODO(asset): two of the team on an orange sofa (16:9 on mobile, ~6:5 at
        md+). The slot currently resolves to the shared hero-team placeholder. */
-    imageAlt: 'Two members of the Marino team working together on an orange sofa',
+    imageAlt: 'Two members of the Chuech Studio team working together on an orange sofa',
   },
   projects: {
     heading: 'Some of our favourite web design projects',
@@ -252,19 +252,19 @@ export const WEB_DESIGN: ServicePageContent = {
   },
   pillars: {
     items: PILLARS,
-    cta: { label: 'Contact Marino', href: ROUTES.contact },
+    cta: { label: 'Contact Chuech Studio', href: ROUTES.contact },
   },
   why: {
     heading: 'Why your business needs more than a website that looks nice',
     /* Same reasoning: the documented break needs 14.12em for line one and
        13.39em for line two, so the spec's 13.5em wraps to three lines. */
     headingMaxWidth: '14.3',
-    body: 'Today\u2019s websites aren\u2019t just static brochures that simply exist online. Customers expect intuitive experiences where they can take action in just a few clicks without even thinking about it. A visually impressive website won\u2019t achieve the necessary commercial goals if it lacks structure or isn\u2019t set up to perform well on all devices. Marino\u2019s web design services balance aesthetics with commercial performance so that every build reflects your brand visually but also ensures your site functions as a long-term business asset.',
+    body: 'Today\u2019s websites aren\u2019t just static brochures that simply exist online. Customers expect intuitive experiences where they can take action in just a few clicks without even thinking about it. A visually impressive website won\u2019t achieve the necessary commercial goals if it lacks structure or isn\u2019t set up to perform well on all devices. Chuech Studio\u2019s web design services balance aesthetics with commercial performance so that every build reflects your brand visually but also ensures your site functions as a long-term business asset.',
     cta: { label: 'Contact', href: ROUTES.contact },
     image: 'web-design-why',
     /* TODO(asset): the team around a table with plants. Reuses the shared
        hero-team placeholder until the real web-design-why.jpg lands. */
-    imageAlt: 'The Marino team gathered around a table with plants',
+    imageAlt: 'The Chuech Studio team gathered around a table with plants',
     form: {
       /* The live callback form has no visible heading. */
       fields: [

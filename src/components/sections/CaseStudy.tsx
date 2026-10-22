@@ -54,7 +54,7 @@ export default function CaseStudy() {
           <span className="relative block overflow-hidden rounded-media">
             <img
               src={asset('blackbird')}
-              alt="Blackbird brand and website work by Marino"
+              alt="Blackbird brand and website work"
               width={1600}
               height={1000}
               loading="lazy"

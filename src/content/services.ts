@@ -25,8 +25,8 @@ export const SERVICES_HERO: {
 }
 
 export const SERVICES_HERO_CONTACT = {
-  email: { label: 'hello@marino.co.uk', href: 'mailto:hello@marino.co.uk' },
-  phone: { label: '0161 660 6263', href: 'tel:01616606263' },
+  email: { label: 'hello@chuechstudio.co.ke', href: 'mailto:hello@chuechstudio.co.ke' },
+  phone: { label: '+254 117 954 929', href: 'tel:+254117954929' },
 } as const
 
 /* ------------------------------------------------------------------ */

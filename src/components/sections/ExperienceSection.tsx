@@ -31,7 +31,7 @@ const EXPERIENCE_MEDIA = ['stats-1', 'stats-2', 'stats-3']
  */
 export default function ExperienceSection() {
   return (
-    <section aria-label="Marino in numbers" className="stats-section scroll-mt-24">
+    <section aria-label="Chuech Studio in focus" className="stats-section scroll-mt-24">
       {/* ---------- < 1024px: floating stage + CTA row ---------- */}
       <div className="lg:hidden">
         <p className="sr-only">{EXPERIENCE_SR}</p>

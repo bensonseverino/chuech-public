@@ -5,7 +5,7 @@
 @custom-variant hoverable (@media (min-width: 1024px) and (hover: hover) and (pointer: fine));
 
 /*
-  Marino design system — canonical tokens.
+  Chuech Studio design system — canonical tokens.
   Names are namespaced so they never collide with Tailwind's built-in
   spacing / radius / shadow / breakpoint names (design-system enforcement §2).
 */

@@ -5,7 +5,7 @@ import LatestWork from '../components/sections/LatestWork'
 import ServicesSection from '../components/sections/ServicesSection'
 import ExperienceSection from '../components/sections/ExperienceSection'
 import FaqSection from '../components/sections/FaqSection'
-import { usePageTitle } from '../hooks/usePageTitle'
+import { useMetaDescription, usePageTitle } from '../hooks/usePageTitle'
 
 /**
  * Home page assembly in the real live order (remaining-sections spec §4):
@@ -15,7 +15,10 @@ import { usePageTitle } from '../hooks/usePageTitle'
  * (services spec §3.1) so every route shares them.
  */
 export default function Home() {
-  usePageTitle('Marino | Web Design Agency Manchester')
+  usePageTitle('Chuech Studio | Web Design Agency Nairobi')
+  useMetaDescription(
+    'Chuech Studio is a Nairobi web design agency creating purposeful websites that make brands clearer, stronger, and easier to choose.',
+  )
 
   return (
     <>

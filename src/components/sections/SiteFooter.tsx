@@ -71,7 +71,7 @@ export default function SiteFooter() {
             aria-hidden="true"
             className="text-[18px] font-medium tracking-[0.2em] whitespace-nowrap text-white"
           >
-            MARINO
+            CHUECH STUDIO
           </p>
           <p className="mt-3 text-[13px] leading-[1.2] font-medium text-white/70">{FOOTER.legal}</p>
         </div>

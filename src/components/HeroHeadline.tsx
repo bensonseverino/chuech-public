@@ -22,7 +22,7 @@ export default function HeroHeadline() {
       <span className="relative block">
         <span className="block shrink-0 whitespace-nowrap">Building</span>
         <FloatingPill className="absolute top-0 right-0 inline-flex -translate-y-[68%]">
-          £100m+ client revenue
+          Digital experiences
         </FloatingPill>
       </span>
 
@@ -49,9 +49,13 @@ export default function HeroHeadline() {
 
       {/* Mobile line 5 / desktop line 4 — "& Lead" + team pill (left on md+) */}
       <span className="flex items-center gap-[0.16em] md:gap-[0.18em]">
-        <FloatingPill className="hidden md:inline-flex">World class team</FloatingPill>
+        <span className="hidden md:inline-flex">
+          <FloatingPill>Thoughtfully made</FloatingPill>
+        </span>
         <span className="shrink-0 whitespace-nowrap">&amp; Lead</span>
-        <FloatingPill className="inline-flex md:hidden">World class team</FloatingPill>
+        <span className="inline-flex md:hidden">
+          <FloatingPill>Thoughtfully made</FloatingPill>
+        </span>
       </span>
     </h1>
   )
