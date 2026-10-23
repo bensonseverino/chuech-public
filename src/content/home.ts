@@ -23,6 +23,30 @@ export const INTRO = {
   cta: { label: 'About Us', href: ROUTES.aboutUs },
 } as const
 
+/** Hero description, in the CMS inline grammar (bold runs). */
+export const HERO_DESCRIPTION =
+  'We design and build **purposeful websites** that make brands **clearer, stronger, and easier to choose**, backed by a team that cares about the details.'
+
+/**
+ * The Home intro statement. The highlights are applied to `text` when the CMS
+ * API cannot be reached, so the local fallback renders exactly like the live
+ * (CMS) version.
+ */
+export const INTRO_STATEMENT = {
+  text:
+    'Our team is made up of bold creatives, sharp strategists, and technical pros who care deeply about what they do. No egos, no fluff \u2013 just hard work, smart thinking, and a genuine commitment to our clients\u2019 success. We treat every brand and budget like it\u2019s our own, always deliver on promises, and never lock clients into contracts.',
+  highlights: [
+    'bold',
+    'creatives,',
+    'sharp strategists,',
+    'technical pros',
+    'genuine commitment',
+    'clients\u2019 success.',
+    'always deliver on promises,',
+  ],
+  cta: INTRO.cta,
+} as const
+
 /* ------------------------------------------------------------------ */
 /* 5.2 Latest work                                                     */
 /* ------------------------------------------------------------------ */
@@ -347,6 +371,23 @@ export const FOUNDER_BLOCK = {
   ] as RichSegment[][],
   cta: { label: 'Start a conversation', href: ROUTES.contact },
 } as const
+
+/* ------------------------------------------------------------------ */
+/* Client logo strip                                                   */
+/* ------------------------------------------------------------------ */
+
+/** Marquee order as seen in the reference (change spec §4). */
+export const CLIENTS = [
+  'emap',
+  'WR Partners',
+  'Hard Rock Cafe',
+  'ISTOBAL',
+  'LEONARDO Hotels',
+  'HITACHI',
+  'Haines Watts',
+  'VISLINK',
+  'AP NUT',
+] as const
 
 /* ------------------------------------------------------------------ */
 /* 5.10 Footer                                                         */

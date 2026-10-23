@@ -4,6 +4,8 @@
  */
 import workPh from '../assets/marino/work-ph.svg'
 import heroTeam from '../assets/marino/hero-team.svg'
+import heroTerminal from '../assets/marino/hero-terminal.svg'
+import contactThumb from '../assets/marino/contact-thumb.svg'
 import articlePh from '../assets/marino/article-ph.svg'
 import serviceBranding from '../assets/marino/service-branding.svg'
 import serviceWebDesign from '../assets/marino/service-web-design.svg'
@@ -36,6 +38,11 @@ const SLOTS: Record<string, string> = {
   /* TODO(asset): work page hero photo — 16:9 shot of the team at a table.
      Reuses the hero-team placeholder until the real work-hero.jpg lands. */
   'work-hero': heroTeam,
+  /* Home hero frames (the CMS resolves these from the media library once the
+     payload lands; these are the first-paint fallbacks). */
+  'hero-team': heroTeam,
+  'hero-terminal': heroTerminal,
+  'contact-thumb': contactThumb,
   /* TODO(asset): web-design page photos — `web-design-feature.jpg` (two men on
      an orange sofa) and `web-design-why.jpg` (the team around a table with
      plants). Both reuse the hero-team placeholder until the real files land;
@@ -77,4 +84,16 @@ export function asset(slot: string): string {
   const url = SLOTS[slot]
   if (!url) throw new Error(`Unknown asset slot: ${slot}`)
   return url
+}
+
+/**
+ * A CMS media URL or a local asset slot. The CMS resolves media to absolute
+ * URLs (or `/media/...` when served same-origin); fallback content passes slot
+ * names. Keeping both behind one helper means a component never has to know
+ * where its image came from.
+ */
+export function imageSrc(value: string): string {
+  return value.startsWith('/') || value.startsWith('http') || value.startsWith('data:')
+    ? value
+    : asset(value)
 }
