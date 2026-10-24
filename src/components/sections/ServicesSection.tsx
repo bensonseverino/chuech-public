@@ -1,12 +1,14 @@
 import Container from '../primitives/Container'
 import SectionHeading from '../primitives/SectionHeading'
 import RevealRow from '../primitives/RevealRow'
-import { SERVICES, SERVICES_HEADING, type Service } from '../../content/home'
-import { asset } from '../../content/assets'
+import { imageSrc } from '../../content/assets'
+import type { ServiceView } from '../../content/live/types'
 
 type ServicesSectionProps = {
-  /** Rows to render; defaults to the Home list. */
-  services?: Service[]
+  /** Visible heading (the Home badge copy). */
+  heading: string
+  /** Rows to render, in CMS order. */
+  services: ServiceView[]
   /** Home renders the "Our Services" badge; the page variant keeps an sr-only h2. */
   showBadge?: boolean
   /**
@@ -26,7 +28,8 @@ type ServicesSectionProps = {
  * top padding 0, bottom 35px at md+, 20px on mobile.
  */
 export default function ServicesSection({
-  services = SERVICES,
+  heading,
+  services,
   showBadge = true,
   variant = 'home',
 }: ServicesSectionProps) {
@@ -35,7 +38,7 @@ export default function ServicesSection({
   return (
     <section
       id="services"
-      aria-label={SERVICES_HEADING}
+      aria-label={heading}
       className={
         isPage
           ? 'scroll-mt-24 pb-5 text-obsidian md:pb-[35px]'
@@ -49,7 +52,7 @@ export default function ServicesSection({
             iconClassName="h-3.5 w-[37px] md:w-[54px]"
             className="gap-2 px-5 py-3 text-[13px] leading-[1.5] font-medium text-obsidian"
           >
-            {SERVICES_HEADING}
+            {heading}
           </SectionHeading>
         ) : (
           <h2 className="sr-only">Our services</h2>
@@ -59,11 +62,11 @@ export default function ServicesSection({
           {services.map((service) => (
             <RevealRow
               key={service.slug}
-              href={`/${service.slug}/`}
+              href={`/${service.pageSlug ?? service.slug}/`}
               title={service.title}
               description={service.description}
               keywords={service.keywords}
-              image={asset(service.image)}
+              image={imageSrc(service.image)}
               focus={service.focus}
             />
           ))}

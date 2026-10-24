@@ -1,7 +1,7 @@
 import { useState, type KeyboardEvent } from 'react'
 import CrossfadeStack from './CrossfadeStack'
 import CarouselControls from './CarouselControls'
-import { TESTIMONIALS } from '../../content/home'
+import type { TestimonialView } from '../../content/live/types'
 
 type Tone = 'dark' | 'light'
 
@@ -17,12 +17,14 @@ type Tone = 'dark' | 'light'
 export default function TestimonialSlider({
   tone = 'dark',
   className = '',
+  testimonials,
 }: {
   tone?: Tone
   className?: string
+  testimonials: TestimonialView[]
 }) {
   const [index, setIndex] = useState(0)
-  const total = TESTIMONIALS.length
+  const total = testimonials.length
   const prev = () => setIndex((i) => (i + total - 1) % total)
   const next = () => setIndex((i) => (i + 1) % total)
 
@@ -30,6 +32,8 @@ export default function TestimonialSlider({
     if (event.key === 'ArrowLeft') prev()
     else if (event.key === 'ArrowRight') next()
   }
+
+  if (total === 0) return null
 
   // The dark tone hangs its bar into the black panel's padding (3.4u); the
   // light tone hangs it into the white panel's 70px desktop padding (§4.4).
@@ -47,7 +51,7 @@ export default function TestimonialSlider({
       className={`focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-primary ${className}`}
     >
       <CrossfadeStack activeIndex={index}>
-        {TESTIMONIALS.map((testimonial) => (
+        {testimonials.map((testimonial) => (
           <figure
             key={testimonial.name}
             className={`border-l-[6px] border-primary pl-[18px] md:pl-[25px] ${figureInset}`}

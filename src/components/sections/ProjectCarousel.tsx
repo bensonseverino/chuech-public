@@ -4,8 +4,7 @@ import SectionHeading, { TITLE_ROLE } from '../primitives/SectionHeading'
 import LongArrowLink from '../primitives/LongArrowLink'
 import ProjectCard from '../primitives/ProjectCard'
 import { ChevronIcon } from '../icons'
-import type { Project } from '../../content/projects'
-import type { ServicePageContent } from '../../content/services/web-design'
+import type { ProjectView, ServicePageView } from '../../content/live/types'
 import './ProjectCarousel.css'
 
 /**
@@ -22,8 +21,8 @@ export default function ProjectCarousel({
   regionLabel,
 }: {
   heading: string
-  viewAll: ServicePageContent['projects']['viewAll']
-  projects: Project[]
+  viewAll: ServicePageView['projects']['viewAll']
+  projects: ProjectView[]
   regionLabel: string
 }) {
   const headingId = useId()
@@ -76,7 +75,7 @@ export default function ProjectCarousel({
           {heading}
         </SectionHeading>
         <div className="mt-[10px]">
-          <LongArrowLink href={viewAll.href} tone="light" thin>
+          <LongArrowLink href={viewAll.to} tone="light" thin>
             {viewAll.label}
           </LongArrowLink>
         </div>

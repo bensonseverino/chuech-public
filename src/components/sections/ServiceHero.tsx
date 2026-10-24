@@ -4,10 +4,18 @@ import SectionBadge from '../primitives/SectionBadge'
 import SectionHeading, { TITLE_ROLE } from '../primitives/SectionHeading'
 import OutlineChip from '../primitives/OutlineChip'
 import ContactForm from '../ContactForm'
-import type { ServicePageContent } from '../../content/services/web-design'
+import Inline from '../../content/live/inline'
+import HighlightReveal from '../ui/HighlightReveal'
+import type { ServicePageView } from '../../content/live/types'
 import './ServiceHero.css'
 
-/** Heading with the lavender pill hugging its highlighted phrase (spec §5.1). */
+/**
+ * Heading with the lavender pill hugging its highlighted phrase (spec §5.1).
+ *
+ * The phrase sits in the hero card, so it is visible at scroll position 0 on
+ * desktop/tablet — it reveals on load (highlight-scroll-reveal spec §3.6)
+ * rather than waiting for a scroll that never happens.
+ */
 function FormHeading({ heading, highlight }: { heading: string; highlight?: string }) {
   if (!highlight || !heading.includes(highlight)) return <>{heading}</>
 
@@ -17,9 +25,12 @@ function FormHeading({ heading, highlight }: { heading: string; highlight?: stri
       {before}
       {/* `clone` keeps a pill on each line if the phrase ever has to wrap on a
           very narrow card; it never breaks at the reference widths. */}
-      <span className="rounded-pill bg-secondary px-[0.4em] py-[0.08em] [box-decoration-break:clone]">
+      <HighlightReveal
+        mode="load"
+        className="rounded-pill bg-secondary px-[0.4em] py-[0.08em] [box-decoration-break:clone]"
+      >
         {highlight}
-      </span>
+      </HighlightReveal>
       {after}
     </>
   )
@@ -33,7 +44,7 @@ function FormHeading({ heading, highlight }: { heading: string; highlight?: stri
  * `hero.titleMaxWidth` opts into the capped title break (web-design uses
  * 8.2em); without it the title wraps naturally against the column.
  */
-export default function ServiceHero({ hero }: { hero: ServicePageContent['hero'] }) {
+export default function ServiceHero({ hero }: { hero: ServicePageView['hero'] }) {
   const capped = hero.titleMaxWidth !== undefined
 
   return (
@@ -83,7 +94,10 @@ export default function ServiceHero({ hero }: { hero: ServicePageContent['hero']
               ))}
             </ul>
 
-            <p className="mt-[25px] text-[16px] leading-[24px] text-obsidian">{hero.intro}</p>
+            <p className="mt-[25px] text-[16px] leading-[24px] text-obsidian">
+              {/* Visible at scroll 0 in the hero → highlights reveal on load (§3.6). */}
+              <Inline text={hero.intro} reveal="load" />
+            </p>
           </div>
 
           {/* --- Form card --- */}

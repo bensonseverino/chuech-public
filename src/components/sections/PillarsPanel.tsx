@@ -1,7 +1,8 @@
 import Container from '../primitives/Container'
 import SectionHeading, { TITLE_ROLE } from '../primitives/SectionHeading'
 import Button from '../primitives/Button'
-import type { ServicePageContent } from '../../content/services/web-design'
+import Inline from '../../content/live/inline'
+import type { ServicePageView } from '../../content/live/types'
 
 /**
  * Dark pillars panel (web-design spec §5.4): six titled paragraphs with
@@ -11,7 +12,7 @@ import type { ServicePageContent } from '../../content/services/web-design'
  * The section has no visible heading, so it carries `pillars.label` as its
  * accessible name (defaulting to web-design's).
  */
-export default function PillarsPanel({ pillars }: { pillars: ServicePageContent['pillars'] }) {
+export default function PillarsPanel({ pillars }: { pillars: ServicePageView['pillars'] }) {
   return (
     <section aria-label={pillars.label ?? 'Web design services'} className="mt-[50px] lg:mt-[62px]">
       <Container>
@@ -27,13 +28,15 @@ export default function PillarsPanel({ pillars }: { pillars: ServicePageContent[
                 >
                   {item.title}
                 </SectionHeading>
-                <p className="mt-[25px] text-[16px] leading-[24px] text-white/80">{item.body}</p>
+                <p className="mt-[25px] text-[16px] leading-[24px] text-white/80">
+                  <Inline text={item.body} tone="dark" />
+                </p>
               </li>
             ))}
           </ul>
 
           <div className="mt-[50px]">
-            <Button variant="ghost-dark" to={pillars.cta.href}>
+            <Button variant="ghost-dark" to={pillars.cta.to}>
               {pillars.cta.label}
             </Button>
           </div>

@@ -4,8 +4,9 @@ import SectionHeading, { TITLE_ROLE } from '../primitives/SectionHeading'
 import Button from '../primitives/Button'
 import TestimonialSlider from '../primitives/TestimonialSlider'
 import ContactForm from '../ContactForm'
-import { asset } from '../../content/assets'
-import type { ServicePageContent } from '../../content/services/web-design'
+import { imageSrc } from '../../content/assets'
+import Inline from '../../content/live/inline'
+import type { ServicePageView, TestimonialView } from '../../content/live/types'
 
 /**
  * "Why your business needs more than a website that looks nice" (web-design
@@ -16,7 +17,13 @@ import type { ServicePageContent } from '../../content/services/web-design'
  * Mobile is one column in DOM order (content, photo, form); at md+ the two
  * columns sit side by side with their tops aligned.
  */
-export default function CallbackPanel({ why }: { why: ServicePageContent['why'] }) {
+export default function CallbackPanel({
+  why,
+  testimonials,
+}: {
+  why: ServicePageView['why']
+  testimonials: TestimonialView[]
+}) {
   const headingId = useId()
 
   return (
@@ -35,22 +42,28 @@ export default function CallbackPanel({ why }: { why: ServicePageContent['why'] 
                 {why.heading}
               </SectionHeading>
 
-              <p className="mt-[25px] text-[16px] leading-[24px] text-obsidian">{why.body}</p>
+              <p className="mt-[25px] text-[16px] leading-[24px] text-obsidian">
+                <Inline text={why.body} />
+              </p>
 
               <div className="mt-[25px]">
-                <Button variant="dark" to={why.cta.href}>
+                <Button variant="dark" to={why.cta.to}>
                   {why.cta.label}
                 </Button>
               </div>
 
-              <TestimonialSlider tone="light" className="mt-[40px]" />
+              <TestimonialSlider
+                tone="light"
+                className="mt-[40px]"
+                testimonials={testimonials}
+              />
             </div>
 
             {/* --- Right column: photo, then the callback form --- */}
             <div className="min-w-0 md:col-start-2 md:row-start-1">
               <img
-                src={asset(why.image)}
-                alt={why.imageAlt}
+                src={imageSrc(why.image.src)}
+                alt={why.image.alt}
                 loading="lazy"
                 decoding="async"
                 className="aspect-[16/9] w-full rounded-card-lg object-cover"

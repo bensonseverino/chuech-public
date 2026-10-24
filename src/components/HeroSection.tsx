@@ -4,10 +4,12 @@ import HeroDesktop from './HeroDesktop'
 import ContactRow from './ContactRow'
 import Container from './primitives/Container'
 import SectionBadge from './primitives/SectionBadge'
+import Inline from '../content/live/inline'
+import type { HomeView, SiteView } from '../content/live/types'
 
 /** Unit-based partner badge for the desktop hero (change spec §2a: 21.6 x 2.34).
     Rendered via the shared SectionBadge primitive (services spec §3.1). */
-function DesktopBadge() {
+function DesktopBadge({ site }: { site: SiteView }) {
   return (
     <SectionBadge
       as="p"
@@ -21,9 +23,9 @@ function DesktopBadge() {
         fontSize: 'max(11px, calc(var(--u)*0.711))',
       }}
     >
-      <span className="whitespace-nowrap">Chuech Studio</span>
+      <span className="whitespace-nowrap">{site.companyName}</span>
       <span aria-hidden="true" className="h-[calc(var(--u)*0.9)] w-px shrink-0 bg-silver" />
-      <span className="shrink-0 font-semibold whitespace-nowrap">Nairobi,&nbsp;Kenya</span>
+      <span className="shrink-0 font-semibold whitespace-nowrap">{site.address}</span>
     </SectionBadge>
   )
 }
@@ -33,27 +35,22 @@ function DesktopBadge() {
  *  - below lg: unchanged responsive layout (spec §9)
  *  - lg+: 3-line desktop layout per change spec §2
  */
-export default function HeroSection() {
+export default function HeroSection({ hero, site }: { hero: HomeView['hero']; site: SiteView }) {
   return (
     <>
       {/* --- below lg: unchanged --- */}
       <section className="px-4 pt-5 md:px-8 md:pt-10 lg:hidden">
         <div className="mx-auto max-w-[1440px]">
-          <PartnerBadge />
-          <HeroHeadline />
+          <PartnerBadge companyName={site.companyName} location={site.address} />
+          <HeroHeadline pills={hero.pills} media={hero.media} />
 
           <div className="mt-5 grid items-start gap-5 pb-10 md:mt-8 md:grid-cols-2 md:items-end md:gap-10 md:pb-14">
             <p className="max-w-[88%] text-[13px] leading-relaxed text-obsidian sm:text-sm md:max-w-md md:text-[15px]">
-              <strong className="font-semibold text-obsidian">
-                We design and build purposeful websites
-              </strong>{' '}
-              that make brands{' '}
-              <strong className="font-semibold text-obsidian">
-                clearer, stronger, and easier to choose
-              </strong>
-              , backed by a team that cares about the details.
+              {/* Above the fold at scroll 0 on mobile/tablet, so any highlight
+                  in it reveals on load instead of sitting dim (§3.6). */}
+              <Inline text={hero.description} reveal="load" />
             </p>
-            <ContactRow />
+            <ContactRow site={site} thumb={hero.media[2].src} />
           </div>
         </div>
       </section>
@@ -61,8 +58,8 @@ export default function HeroSection() {
       {/* --- lg+: desktop 3-line hero (change spec §2) on the shared column --- */}
       <section className="hidden lg:block">
         <Container className="pt-[calc(var(--u)*3.51)] pb-[calc(var(--u)*2.5)]">
-          <DesktopBadge />
-          <HeroDesktop />
+          <DesktopBadge site={site} />
+          <HeroDesktop pills={hero.pills} media={hero.media} site={site} />
         </Container>
       </section>
     </>

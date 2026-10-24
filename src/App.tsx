@@ -5,9 +5,6 @@ import ServicesPage from './pages/ServicesPage'
 import WorkPage from './pages/WorkPage'
 import ServicePage from './pages/ServicePage'
 import NotFoundPage from './pages/NotFoundPage'
-import { WEB_DESIGN } from './content/services/web-design'
-import { SEO } from './content/services/seo'
-import { BRANDING } from './content/services/branding'
 
 /**
  * App router (services spec §3; work page §3; web-design spec §3). `/`,
@@ -22,9 +19,9 @@ const router = createBrowserRouter([
       { index: true, element: <Home /> },
       { path: 'services', element: <ServicesPage /> },
       { path: 'work', element: <WorkPage /> },
-      { path: 'web-design', element: <ServicePage content={WEB_DESIGN} /> },
-      { path: 'seo-manchester', element: <ServicePage content={SEO} /> },
-      { path: 'branding', element: <ServicePage content={BRANDING} /> },
+      { path: 'web-design', element: <ServicePage slug="web-design" /> },
+      { path: 'seo-manchester', element: <ServicePage slug="seo-manchester" /> },
+      { path: 'branding', element: <ServicePage slug="branding" /> },
       { path: '*', element: <NotFoundPage /> },
     ],
   },

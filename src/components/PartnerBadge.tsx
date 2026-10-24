@@ -5,7 +5,13 @@ import SectionBadge from './primitives/SectionBadge'
  * Refactored onto the shared SectionBadge primitive (services spec §3.1) with
  * the frozen sizing classes passed through — the look and position are unchanged.
  */
-export default function PartnerBadge() {
+export default function PartnerBadge({
+  companyName,
+  location,
+}: {
+  companyName: string
+  location: string
+}) {
   return (
     <div className="flex justify-center md:justify-start">
       <SectionBadge
@@ -14,12 +20,10 @@ export default function PartnerBadge() {
         className="gap-2 py-2 pr-3.5 pl-3 text-[10px] leading-[1.3] font-medium text-obsidian sm:text-[11px] md:gap-3.5 md:py-2.5 md:pr-6 md:pl-5 md:text-[13px]"
       >
         <span className="max-w-[6.75rem] text-center md:max-w-none md:text-left">
-          Chuech Studio
+          {companyName}
         </span>
         <span aria-hidden="true" className="h-4 w-px shrink-0 bg-silver md:h-5" />
-        <span className="shrink-0 font-semibold whitespace-nowrap">
-          Nairobi,&nbsp;Kenya
-        </span>
+        <span className="shrink-0 font-semibold whitespace-nowrap">{location}</span>
       </SectionBadge>
     </div>
   )

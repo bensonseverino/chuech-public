@@ -1,5 +1,5 @@
 import ProjectCard from '../primitives/ProjectCard'
-import type { Project } from '../../content/projects'
+import type { ProjectView } from '../../content/live/types'
 import './WorkGrid.css'
 
 /**
@@ -11,7 +11,7 @@ import './WorkGrid.css'
  * The grid is intentionally outside the hero's narrow `Container` — its side
  * margin equals its gap (18px desktop, 25px below).
  */
-export default function WorkGrid({ projects }: { projects: Project[] }) {
+export default function WorkGrid({ projects }: { projects: ProjectView[] }) {
   return (
     <section id="work-grid" aria-label="Projects" className="work-grid-wrap">
       <h2 className="sr-only">Projects</h2>

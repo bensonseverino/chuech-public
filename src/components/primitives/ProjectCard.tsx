@@ -1,7 +1,7 @@
 import { Link } from 'react-router'
 import LongArrow from './LongArrow'
 import OutlineChip from './OutlineChip'
-import { asset } from '../../content/assets'
+import { imageSrc } from '../../content/assets'
 
 type ProjectCardProps = {
   slug: string
@@ -42,7 +42,7 @@ export default function ProjectCard({
       className={`group relative isolate flex ${shape} flex-col justify-end overflow-hidden rounded-[30px] has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-primary ${className}`}
     >
       <img
-        src={asset(image)}
+        src={imageSrc(image)}
         alt=""
         loading="lazy"
         decoding="async"

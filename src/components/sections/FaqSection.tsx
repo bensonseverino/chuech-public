@@ -2,26 +2,24 @@ import { useState } from 'react'
 import Container from '../primitives/Container'
 import Expandable from '../primitives/Expandable'
 import LongArrowLink from '../primitives/LongArrowLink'
-import RichText from '../primitives/RichText'
 import SectionHeading, { TITLE_ROLE } from '../primitives/SectionHeading'
 import { ChevronIcon } from '../icons'
-import { FAQ, FAQ_ITEMS, FOUNDER_BLOCK, type FaqItem } from '../../content/home'
+import Inline from '../../content/live/inline'
+import type { HomeView } from '../../content/live/types'
 
 type FaqSectionProps = {
-  /** Defaults to Home's heading. */
-  heading?: string
+  /** `_home.faq` (or the service page's own FAQ). */
+  faq: { heading: string; intro?: string; items: HomeView['faq']['items'] }
+  /** Home's founder block; omitted on service pages. */
+  founder?: HomeView['founder'] | null
   /** `start` = Home's left-aligned title; `end` = right-aligned, dot trailing. */
   align?: 'start' | 'end'
-  /** Defaults to Home's six questions. */
-  items?: FaqItem[]
   /**
    * `plus` = Home's fading plus chip with compact rows; `arrow` = the service
    * page's mint down-arrow chip (22px, 25px at lg) with the roomier 25/30/35px
    * row padding.
    */
   icon?: 'plus' | 'arrow'
-  /** Pass `null` to drop the intro paragraph. Defaults to Home's. */
-  intro?: string | null
   /** `false` drops the founder block (service pages show the FAQ alone). */
   showFounder?: boolean
   /** Overrides the section's bottom padding (service pages use 80px). */
@@ -35,14 +33,16 @@ type FaqSectionProps = {
  * so the page-level props are the only difference on service pages.
  */
 export default function FaqSection({
-  heading = FAQ.heading,
+  faq,
+  founder = null,
   align = 'start',
-  items = FAQ_ITEMS,
   icon = 'plus',
-  intro = FAQ.intro,
   showFounder = true,
   bottomSpace,
 }: FaqSectionProps) {
+  const heading = faq.heading
+  const items = faq.items
+  const intro = faq.intro ?? null
   // 0 = all closed (default); otherwise the 1-based index of the open item.
   const [openIndex, setOpenIndex] = useState(0)
   const roomy = icon === 'arrow'
@@ -128,7 +128,7 @@ export default function FaqSection({
                   </h3>
                   <Expandable open={open} id={panelId}>
                     <div className="pb-6 pr-14 text-[16px] leading-[24px] text-obsidian">
-                      <RichText segments={item.answer} />
+                      <Inline text={item.answer} />
                     </div>
                   </Expandable>
                 </li>
@@ -137,20 +137,20 @@ export default function FaqSection({
           </ul>
 
           {/* Founder block */}
-          {showFounder ? (
+          {showFounder && founder ? (
             <div className="mt-[var(--space-40)] border-t border-silver pt-[var(--space-40)]">
               <h3 className="text-[clamp(24px,2.6vw,33px)] leading-[1.25] font-medium tracking-[-0.03em] text-obsidian">
-                {FOUNDER_BLOCK.heading}
+                {founder.heading}
               </h3>
               <div className="mt-4 flex max-w-[70ch] flex-col gap-4 text-[16px] leading-[24px] text-obsidian">
-                {FOUNDER_BLOCK.paragraphs.map((paragraph, index) => (
+                {founder.paragraphs.map((paragraph, index) => (
                   <p key={index}>
-                    <RichText segments={paragraph} />
+                    <Inline text={paragraph} />
                   </p>
                 ))}
               </div>
               <div className="mt-6">
-                <LongArrowLink href={FOUNDER_BLOCK.cta.href}>{FOUNDER_BLOCK.cta.label}</LongArrowLink>
+                <LongArrowLink href={founder.cta.to}>{founder.cta.label}</LongArrowLink>
               </div>
             </div>
           ) : null}

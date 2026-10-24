@@ -1,23 +1,22 @@
-import contactThumb from '../assets/marino/contact-thumb.svg'
 import { PlayIcon } from './icons'
-
-/* TODO(asset): contact-thumb.svg is a temporary local placeholder —
-   replace with the real showreel thumbnail (or a <video poster>) from the screenshots. */
+import { imageSrc } from '../content/assets'
+import type { SiteView } from '../content/live/types'
 
 /**
  * Small rounded video thumbnail + email/phone stack (spec §9).
- * Email is mailto:, phone is tel:+254117954929.
+ * The showreel thumb is the third Home hero frame; the contact details come
+ * from the site settings document.
  */
-export default function ContactRow() {
+export default function ContactRow({ site, thumb }: { site: SiteView; thumb: string }) {
   return (
     <div className="flex min-w-0 items-center gap-3 md:justify-self-end">
       <a
-        href="mailto:hello@chuechstudio.co.ke"
-        aria-label="Play the Chuech Studio showreel"
+        href={site.email.href}
+        aria-label={`Play the ${site.companyName} showreel`}
         className="rounded-media shadow-glow-md relative block h-12 w-20 shrink-0 overflow-hidden sm:h-14 sm:w-24 md:h-16 md:w-28"
       >
         <img
-          src={contactThumb}
+          src={imageSrc(thumb)}
           alt=""
           draggable={false}
           className="absolute inset-0 h-full w-full object-cover"
@@ -27,16 +26,16 @@ export default function ContactRow() {
       </a>
       <p className="flex min-w-0 flex-col text-[13px] leading-snug sm:text-sm">
         <a
-          href="mailto:hello@chuechstudio.co.ke"
+          href={site.email.href}
           className="font-semibold text-obsidian hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-obsidian"
         >
-          hello@chuechstudio.co.ke
+          {site.email.label}
         </a>
         <a
-          href="tel:+254117954929"
+          href={site.phone.href}
           className="text-obsidian hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-obsidian"
         >
-          +254 117 954 929
+          {site.phone.label}
         </a>
       </p>
     </div>

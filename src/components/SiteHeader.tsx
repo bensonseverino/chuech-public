@@ -5,6 +5,7 @@ import { MenuIcon, CloseIcon, ArrowRightIcon } from './icons'
 import Expandable from './primitives/Expandable'
 import Button from './primitives/Button'
 import { ROUTES } from '../routes'
+import type { LinkView, NavigationView, SiteView } from '../content/live/types'
 
 /* ------------------------------------------------------------------ */
 /* Nav menu — one glass container holding the nav items, the mint      */
@@ -12,60 +13,31 @@ import { ROUTES } from '../routes'
 /*   md (768–1023): tablet row — 44px cells, right-aligned inside the  */
 /*                  same content gutter the hero uses (px-8).          */
 /*   lg (1024+):    the unit-based design column (all sizes via --u).  */
+/*                                                                     */
+/* The menu structure comes from `_navigation`; a row with `children`   */
+/* renders the expanding sub-link row.                                 */
 /* ------------------------------------------------------------------ */
 
-type MenuKey = 'Services' | 'About'
-
-const SUB_LINKS: Record<MenuKey, { label: string; to: string }[]> = {
-  Services: [
-    { label: 'Branding', to: ROUTES.branding },
-    { label: 'Web Design', to: ROUTES.webDesign },
-    { label: 'SEO', to: ROUTES.seo },
-    { label: 'PPC', to: ROUTES.ppc },
-    { label: 'Video', to: ROUTES.video },
-  ],
-  About: [
-    { label: 'About Us', to: ROUTES.aboutUs },
-    { label: 'Culture', to: ROUTES.culture },
-    { label: 'Testimonials', to: ROUTES.testimonials },
-  ],
-}
-
-type NavItem = {
+type NavRow = {
   label: string
   to: string
-  menu?: MenuKey
+  children?: LinkView[]
   /** Paths (or path prefixes) that light this item's active state. */
   activePaths: string[]
 }
 
-const NAV_ITEMS: NavItem[] = [
-  {
-    label: 'Services',
-    to: ROUTES.services,
-    menu: 'Services',
-    /* Active on the services page and its child service pages (§3.2 [verify]). */
-    activePaths: [
-      ROUTES.services,
-      ROUTES.branding,
-      ROUTES.webDesign,
-      ROUTES.seo,
-      ROUTES.ppc,
-      ROUTES.video,
-      ROUTES.aiSeo,
-    ],
-  },
-  { label: 'Work', to: ROUTES.work, activePaths: [ROUTES.work] },
-  {
-    label: 'About',
-    to: ROUTES.aboutUs,
-    menu: 'About',
-    activePaths: [ROUTES.aboutUs, ROUTES.culture, ROUTES.testimonials],
-  },
-  { label: 'Blog', to: ROUTES.blog, activePaths: [ROUTES.blog] },
-]
+function navRows(navigation: NavigationView): NavRow[] {
+  return navigation.items.map((item) => ({
+    ...item,
+    activePaths: [item.to, ...(item.children?.map((child) => child.to) ?? [])],
+  }))
+}
 
-function isItemActive(pathname: string, item: NavItem) {
+function menuItems(rows: NavRow[], label: string | null): LinkView[] {
+  return rows.find((row) => row.label === label)?.children ?? []
+}
+
+function isItemActive(pathname: string, item: NavRow) {
   return item.activePaths.some((path) => pathname === path || pathname.startsWith(`${path}/`))
 }
 
@@ -78,15 +50,16 @@ const CELL =
  * so its sub-link row expands over the page instead of pushing it down, and
  * the container itself stays pinned while the logo scrolls away.
  */
-function NavMenu() {
+function NavMenu({ navigation }: { navigation: NavigationView }) {
   const { pathname } = useLocation()
-  const [openMenu, setOpenMenu] = useState<MenuKey | null>(null)
+  const rows = navRows(navigation)
+  const [openMenu, setOpenMenu] = useState<string | null>(null)
   // Keeps the last opened panel mounted so the collapse animates smoothly.
-  const [renderedMenu, setRenderedMenu] = useState<MenuKey>('Services')
+  const [renderedMenu, setRenderedMenu] = useState<string | null>(null)
   const navRef = useRef<HTMLElement>(null)
 
   // Keep the panel content in sync with the opened menu without an effect.
-  function showMenu(menu: MenuKey) {
+  function showMenu(menu: string) {
     setRenderedMenu(menu)
     setOpenMenu(menu)
   }
@@ -120,23 +93,24 @@ function NavMenu() {
       className="glass rounded-nav absolute top-[calc(var(--u)*2.5)] right-8 w-[calc(var(--u)*56)] max-w-full overflow-hidden lg:right-0 lg:w-[calc(var(--u)*40.9)]"
     >
       <ul className="flex items-center justify-between gap-1 px-2 py-1.5 lg:gap-0 lg:px-[calc(var(--u)*0.77)] lg:py-[calc(var(--u)*0.5)]">
-        {NAV_ITEMS.map((item) => {
+        {rows.map((item) => {
           const active = isItemActive(pathname, item)
-          const highlighted = active || (item.menu ? openMenu === item.menu : false)
+          const menu = item.children?.length ? item.label : undefined
+          const highlighted = active || (menu ? openMenu === menu : false)
 
           return (
             <li key={item.label} className="lg:flex-1">
               <Link
                 to={item.to}
-                aria-haspopup={item.menu ? true : undefined}
-                aria-expanded={item.menu ? openMenu === item.menu : undefined}
+                aria-haspopup={menu ? true : undefined}
+                aria-expanded={menu ? openMenu === menu : undefined}
                 aria-current={active ? 'page' : undefined}
-                onMouseEnter={() => (item.menu ? showMenu(item.menu) : setOpenMenu(null))}
-                onFocus={() => (item.menu ? showMenu(item.menu) : setOpenMenu(null))}
+                onMouseEnter={() => (menu ? showMenu(menu) : setOpenMenu(null))}
+                onFocus={() => (menu ? showMenu(menu) : setOpenMenu(null))}
                 className={`${CELL} group relative ${highlighted ? 'bg-silver/35' : ''}`}
               >
                 <span>{item.label}</span>
-                {item.menu ? (
+                {menu ? (
                   <span
                     aria-hidden="true"
                     className={`absolute right-[calc(var(--u)*0.52)] hidden h-[calc(var(--u)*0.9)] w-[calc(var(--u)*0.9)] place-items-center rounded-full bg-primary transition-opacity group-hover:opacity-100 group-focus-visible:opacity-100 lg:grid ${
@@ -154,10 +128,10 @@ function NavMenu() {
           {/* Shared Button (mint); unit geometry preserved via lg overrides. */}
           <Button
             variant="mint"
-            href="mailto:hello@chuechstudio.co.ke"
+            to={navigation.cta.to}
             className="mx-auto flex min-h-0! h-11 text-[14px]! lg:h-[calc(var(--u)*2.3)] lg:w-[calc(var(--u)*7.74)] lg:px-0! lg:text-[max(11px,calc(var(--u)*0.766))]!"
           >
-            Contact
+            {navigation.cta.label}
           </Button>
         </li>
       </ul>
@@ -169,7 +143,7 @@ function NavMenu() {
             open ? 'opacity-100' : 'opacity-0'
           }`}
         >
-          {SUB_LINKS[renderedMenu].map((sub) => (
+          {menuItems(rows, renderedMenu).map((sub) => (
             <li key={sub.label}>
               <Link
                 to={sub.to}
@@ -206,13 +180,16 @@ function MobileMenu({
   expanded,
   onToggle,
   onClose,
+  navigation,
 }: {
   open: boolean
-  expanded: MenuKey | null
-  onToggle: (menu: MenuKey) => void
+  expanded: string | null
+  onToggle: (menu: string) => void
   onClose: () => void
+  navigation: NavigationView
 }) {
   const { pathname } = useLocation()
+  const rows = navRows(navigation)
 
   return (
     <>
@@ -235,10 +212,11 @@ function MobileMenu({
             className="glass pointer-events-auto rounded-nav mx-auto max-w-[1440px] p-2"
           >
             <ul className="flex flex-col gap-0.5">
-              {NAV_ITEMS.map((item) => {
+              {rows.map((item) => {
                 const active = isItemActive(pathname, item)
+                const menu = item.children?.length ? item.label : undefined
 
-                if (!item.menu) {
+                if (!menu) {
                   return (
                     <li key={item.label}>
                       <Link
@@ -254,7 +232,6 @@ function MobileMenu({
                   )
                 }
 
-                const menu: MenuKey = item.menu
                 const isOpen = expanded === menu
 
                 return (
@@ -278,7 +255,7 @@ function MobileMenu({
 
                     <Expandable open={isOpen}>
                       <ul className="flex flex-col pb-1">
-                        {SUB_LINKS[menu].map((sub) => (
+                        {menuItems(rows, menu).map((sub) => (
                           <li key={sub.label}>
                             <Link
                               to={sub.to}
@@ -299,8 +276,8 @@ function MobileMenu({
 
             <div className="px-0.5 pt-1.5 pb-0.5">
               {/* Shared Button (mint), full width on touch. */}
-              <Button variant="mint" href="mailto:hello@chuechstudio.co.ke" className="w-full">
-                Contact
+              <Button variant="mint" to={navigation.cta.to} className="w-full">
+                {navigation.cta.label}
               </Button>
             </div>
           </nav>
@@ -322,10 +299,16 @@ function MobileMenu({
  * Below md the original floating pill (now glass) keeps its geometry and gains
  * the slide-out panel behind the hamburger.
  */
-export default function SiteHeader() {
+export default function SiteHeader({
+  site,
+  navigation,
+}: {
+  site: SiteView
+  navigation: NavigationView
+}) {
   const [menuOpen, setMenuOpen] = useState(false)
   // Only one sub-row is expanded at a time, matching the desktop container.
-  const [expanded, setExpanded] = useState<MenuKey | null>(null)
+  const [expanded, setExpanded] = useState<string | null>(null)
   const mobileRef = useRef<HTMLElement>(null)
 
   function closeMenu() {
@@ -366,12 +349,13 @@ export default function SiteHeader() {
           expanded={expanded}
           onToggle={(menu) => setExpanded((current) => (current === menu ? null : menu))}
           onClose={closeMenu}
+          navigation={navigation}
         />
 
         <div className="px-2.5 pt-2.5 sm:px-3">
           <div className="glass rounded-nav mx-auto flex max-w-[1440px] items-center justify-between gap-2 py-1.5 pr-1.5 pl-4">
             <Link to={ROUTES.home} className="min-w-0 py-0.5 pl-2">
-              <img src={chuechLogo} alt="Chuech Studio" className="h-8 w-auto" />
+              <img src={chuechLogo} alt={site.companyName} className="h-8 w-auto" />
             </Link>
 
             <div className="flex items-center gap-1.5">
@@ -379,10 +363,10 @@ export default function SiteHeader() {
                   mobile geometry (§1 placement spec). */}
               <Button
                 variant="mint"
-                href="mailto:hello@chuechstudio.co.ke"
+                to={navigation.cta.to}
                 className="min-h-0! px-4! py-1.5! text-[11px]! whitespace-nowrap"
               >
-                Contact
+                {navigation.cta.label}
               </Button>
               <button
                 type="button"
@@ -406,7 +390,7 @@ export default function SiteHeader() {
       {/* --- md+: sticky nav layer (zero height, so it adds no flow height) --- */}
       <div className="sticky top-0 z-50 hidden h-0 md:block">
         <div className="relative mx-auto w-full max-w-[1440px] px-8 lg:w-[calc(var(--u)*70.56)] lg:max-w-none lg:px-0">
-          <NavMenu />
+          <NavMenu navigation={navigation} />
         </div>
       </div>
 
@@ -419,7 +403,7 @@ export default function SiteHeader() {
           >
             <img
               src={chuechLogo}
-              alt="Chuech Studio"
+              alt={site.companyName}
               className="block h-7 w-auto lg:h-[calc(var(--u)*2.25)]"
             />
           </Link>

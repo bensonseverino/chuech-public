@@ -1,11 +1,6 @@
 import MediaPill from './MediaPill'
 import FloatingPill from './FloatingPill'
-import heroTeam from '../assets/marino/hero-team.svg'
-import heroTerminal from '../assets/marino/hero-terminal.svg'
-import contactThumb from '../assets/marino/contact-thumb.svg'
-
-/* TODO(asset): the three media frames use the temporary local placeholders
-   (hero-team / hero-terminal / contact-thumb). Swap in the real reference media. */
+import type { MediaView, SiteView } from '../content/live/types'
 
 // Headline line metrics (change spec §2b): 6.73 units, pitch ≈ 1.0em.
 const LINE = { fontSize: 'calc(var(--u)*6.732)', lineHeight: '1.0' } as const
@@ -19,7 +14,15 @@ const FRAME = { width: 'calc(var(--u)*9.07)' } as const
  *  3. & Lead  <description beside> / <Media C under the description>
  * Contact details are a single right-aligned line at the bottom right.
  */
-export default function HeroDesktop() {
+export default function HeroDesktop({
+  pills,
+  media,
+  site,
+}: {
+  pills: [string, string]
+  media: [MediaView, MediaView, MediaView]
+  site: SiteView
+}) {
   return (
     <div>
       <h1
@@ -32,7 +35,7 @@ export default function HeroDesktop() {
             Building Brands
           </span>
           <span className="relative inline-block shrink-0" style={{ width: 'calc(var(--u)*9.07)', zIndex: 10 }}>
-            <MediaPill className="shadow-glow-md" src={heroTeam} style={FRAME} />
+            <MediaPill className="shadow-glow-md" src={media[0].src} alt={media[0].alt} style={FRAME} />
             <FloatingPill
               variant="b"
               className="absolute z-20 inline-flex"
@@ -47,7 +50,7 @@ export default function HeroDesktop() {
                 justifyContent: 'center',
               }}
             >
-              Digital experiences
+              {pills[0]}
             </FloatingPill>
           </span>
         </span>
@@ -55,7 +58,7 @@ export default function HeroDesktop() {
         {/* Line 2 — Media B (indented) + That Grow, Scale, (team pill on B) */}
         <span className="flex items-center gap-[calc(var(--u)*1.77)] pl-[calc(var(--u)*3.55)]">
           <span className="relative inline-block shrink-0" style={{ width: 'calc(var(--u)*9.07)', zIndex: 10 }}>
-            <MediaPill className="shadow-glow-md" src={heroTerminal} style={FRAME} />
+            <MediaPill className="shadow-glow-md" src={media[1].src} alt={media[1].alt} style={FRAME} />
             <FloatingPill
               className="absolute z-20 inline-flex"
               style={{
@@ -69,7 +72,7 @@ export default function HeroDesktop() {
                 justifyContent: 'center',
               }}
             >
-              Thoughtfully made
+              {pills[1]}
             </FloatingPill>
           </span>
           <span className="shrink-0 whitespace-nowrap" style={LINE}>
@@ -114,7 +117,12 @@ export default function HeroDesktop() {
                     'radial-gradient(circle, color-mix(in srgb, var(--color-primary) 22%, transparent) 0%, color-mix(in srgb, var(--color-primary) 0%, transparent) 70%)',
                 }}
               />
-              <MediaPill className="shadow-glow-lg relative z-10" src={contactThumb} style={FRAME} />
+              <MediaPill
+                className="shadow-glow-lg relative z-10"
+                src={media[2].src}
+                alt={media[2].alt}
+                style={FRAME}
+              />
             </span>
           </span>
         </span>
@@ -124,16 +132,16 @@ export default function HeroDesktop() {
       <div className="flex justify-end">
         <p className="flex items-baseline gap-[calc(var(--u)*0.65)] text-[calc(var(--u)*0.85)]">
           <a
-            href="mailto:hello@chuechstudio.co.ke"
+            href={site.email.href}
             className="font-semibold text-obsidian hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-obsidian"
           >
-            hello@chuechstudio.co.ke
+            {site.email.label}
           </a>
           <a
-            href="tel:+254117954929"
+            href={site.phone.href}
             className="text-obsidian hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-obsidian"
           >
-            +254 117 954 929
+            {site.phone.label}
           </a>
         </p>
       </div>

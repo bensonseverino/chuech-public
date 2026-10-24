@@ -5,30 +5,42 @@ import LatestWork from '../components/sections/LatestWork'
 import ServicesSection from '../components/sections/ServicesSection'
 import ExperienceSection from '../components/sections/ExperienceSection'
 import FaqSection from '../components/sections/FaqSection'
+import { useSiteChrome, useHomeContent } from '../content/live/hooks'
 import { useMetaDescription, usePageTitle } from '../hooks/usePageTitle'
 
 /**
  * Home page assembly in the real live order (remaining-sections spec §4):
  * hero → logo strip → intro → latest work (with its testimonial slider) →
  * services → experience (giant marquee stage + brief CTA) →
- * FAQ. The header/footer and the page wrapper now live in `RootLayout`
- * (services spec §3.1) so every route shares them.
+ * FAQ (+ the founder block). The header/footer come from `RootLayout`.
+ *
+ * All copy, images and links come from `_home` and its collections; the
+ * hard-coded modules render until the CMS request lands.
  */
 export default function Home() {
-  usePageTitle('Chuech Studio | Web Design Agency Nairobi')
-  useMetaDescription(
-    'Chuech Studio is a Nairobi web design agency creating purposeful websites that make brands clearer, stronger, and easier to choose.',
-  )
+  const view = useHomeContent()
+  const { site } = useSiteChrome()
+
+  usePageTitle(view.seo.title)
+  useMetaDescription(view.seo.description)
 
   return (
     <>
-      <HeroSection />
-      <ClientLogoStrip />
-      <IntroStatement />
-      <LatestWork />
-      <ServicesSection />
-      <ExperienceSection />
-      <FaqSection />
+      <HeroSection hero={view.hero} site={site} />
+      <ClientLogoStrip clients={view.clients} />
+      <IntroStatement
+        text={view.introStatement.text}
+        cta={view.introStatement.cta}
+        dotAfterFirstMark
+      />
+      <LatestWork
+        view={view.latestWork}
+        projects={view.projects}
+        testimonials={view.testimonials}
+      />
+      <ServicesSection heading={view.services.heading} services={view.servicesList} />
+      <ExperienceSection stats={view.stats} />
+      <FaqSection faq={view.faq} founder={view.founder} />
     </>
   )
 }

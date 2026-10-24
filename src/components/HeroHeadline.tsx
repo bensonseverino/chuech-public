@@ -1,10 +1,6 @@
 import MediaPill from './MediaPill'
 import FloatingPill from './FloatingPill'
-import heroTeam from '../assets/marino/hero-team.svg'
-import heroTerminal from '../assets/marino/hero-terminal.svg'
-
-/* TODO(asset): hero-team.svg & hero-terminal.svg are temporary local placeholders —
-   replace with the real photos/videos from the reference screenshots. */
+import type { MediaView } from '../content/live/types'
 
 /**
  * "Building Brands That Grow, Scale, & Lead" as controlled line rows (spec §8):
@@ -12,7 +8,13 @@ import heroTerminal from '../assets/marino/hero-terminal.svg'
  *  - media pills inline in the flow, mint pills absolutely positioned / duplicated
  *  - h1 carries an aria-label so the heading reads cleanly for assistive tech
  */
-export default function HeroHeadline() {
+export default function HeroHeadline({
+  pills,
+  media,
+}: {
+  pills: [string, string]
+  media: [MediaView, MediaView, MediaView]
+}) {
   return (
     <h1
       aria-label="Building Brands That Grow, Scale, & Lead"
@@ -22,14 +24,15 @@ export default function HeroHeadline() {
       <span className="relative block">
         <span className="block shrink-0 whitespace-nowrap">Building</span>
         <FloatingPill className="absolute top-0 right-0 inline-flex -translate-y-[68%]">
-          Digital experiences
+          {pills[0]}
         </FloatingPill>
       </span>
 
       {/* Line 2 — media 1 + "Brands" */}
       <span className="flex items-center gap-[0.16em]">
         <MediaPill
-          src={heroTeam}
+          src={media[0].src}
+          alt={media[0].alt}
           className="shadow-glow-md w-[25vw] max-w-[180px] md:w-28 md:max-w-none md:aspect-[2/1] lg:w-32"
         />
         <span className="shrink-0 whitespace-nowrap">Brands</span>
@@ -41,7 +44,8 @@ export default function HeroHeadline() {
         <span className="flex items-center gap-[0.16em]">
           <span className="shrink-0 whitespace-nowrap">Scale,</span>
           <MediaPill
-            src={heroTerminal}
+            src={media[1].src}
+            alt={media[1].alt}
             className="shadow-glow-md w-[32vw] max-w-24 md:max-w-none md:w-36 md:aspect-[9/4]"
           />
         </span>
@@ -50,11 +54,11 @@ export default function HeroHeadline() {
       {/* Mobile line 5 / desktop line 4 — "& Lead" + team pill (left on md+) */}
       <span className="flex items-center gap-[0.16em] md:gap-[0.18em]">
         <span className="hidden md:inline-flex">
-          <FloatingPill>Thoughtfully made</FloatingPill>
+          <FloatingPill>{pills[1]}</FloatingPill>
         </span>
         <span className="shrink-0 whitespace-nowrap">&amp; Lead</span>
         <span className="inline-flex md:hidden">
-          <FloatingPill>Thoughtfully made</FloatingPill>
+          <FloatingPill>{pills[1]}</FloatingPill>
         </span>
       </span>
     </h1>

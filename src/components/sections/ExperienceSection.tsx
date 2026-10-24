@@ -3,22 +3,9 @@ import MediaFrame from '../primitives/MediaFrame'
 import FloatPill from '../primitives/FloatPill'
 import Button from '../primitives/Button'
 import Container from '../primitives/Container'
-import {
-  TICKER_ITEMS,
-  TICKER_SR,
-  STATS_LINES,
-  BRIEF_CTA,
-  EXPERIENCE_MARQUEE,
-  EXPERIENCE_PILLS,
-  EXPERIENCE_SR,
-} from '../../content/home'
-import { asset } from '../../content/assets'
+import { imageSrc } from '../../content/assets'
+import type { HomeView } from '../../content/live/types'
 import './ExperienceSection.css'
-
-/* TODO(asset): the three frames use video-4/5/6.mp4 (with matching posters)
-   from the live site — the local stats-*.svg placeholders stand in until the
-   real files are added. Mobile shows only the first two. */
-const EXPERIENCE_MEDIA = ['stats-1', 'stats-2', 'stats-3']
 
 /**
  * "Decades of experience" section (experience spec, replaces §5.5 StatsBand
@@ -29,22 +16,26 @@ const EXPERIENCE_MEDIA = ['stats-1', 'stats-2', 'stats-3']
  * - **>= 1024px:** the approved layout, verbatim: the full-bleed ticker, the
  *   stats display with inline media frames, and the brief CTA. Nothing moves.
  */
-export default function ExperienceSection() {
+export default function ExperienceSection({ stats }: { stats: HomeView['stats'] }) {
+  const [pillOne, pillTwo] = stats.pills
+  const mobileSr = `${stats.marquee[0] ?? ''}. ${stats.marquee[1] ?? ''}. ${pillOne}. ${pillTwo}.`
+  const desktopSr = stats.marquee.map((item) => `${item}.`).join(' ')
+
   return (
     <section aria-label="Chuech Studio in focus" className="stats-section scroll-mt-24">
       {/* ---------- < 1024px: floating stage + CTA row ---------- */}
       <div className="lg:hidden">
-        <p className="sr-only">{EXPERIENCE_SR}</p>
+        <p className="sr-only">{mobileSr}</p>
 
         <div className="stats-stage" aria-hidden="true">
           <div className="stats-marquee">
             <Marquee speed={100} bleed>
               <span className="stats-text">
-                {EXPERIENCE_MARQUEE[0]}
+                {stats.marquee[0]}
                 <i className="stats-dot" />
               </span>
               <span className="stats-text">
-                {EXPERIENCE_MARQUEE[1]}
+                {stats.marquee[1]}
                 <i className="stats-dot" />
               </span>
             </Marquee>
@@ -53,31 +44,33 @@ export default function ExperienceSection() {
           <MediaFrame
             className="stats-float stats-m1"
             radius="card md:media"
-            src={asset(EXPERIENCE_MEDIA[0])}
+            src={imageSrc(stats.frames[0].src)}
           />
           <FloatPill className="stats-float stats-p1" size="sm" variant="a">
-            {EXPERIENCE_PILLS[0]}
+            {pillOne}
           </FloatPill>
           <MediaFrame
             className="stats-float stats-m2"
             radius="card md:media"
-            src={asset(EXPERIENCE_MEDIA[1])}
+            src={imageSrc(stats.frames[1].src)}
           />
           <FloatPill className="stats-float stats-p2" size="sm" variant="b">
-            {EXPERIENCE_PILLS[1]}
+            {pillTwo}
           </FloatPill>
           <MediaFrame
             className="stats-float stats-m3"
             radius="media"
             halo
-            src={asset(EXPERIENCE_MEDIA[2])}
+            src={imageSrc(stats.frames[2].src)}
           />
         </div>
 
         <div className="stats-cta px-4">
-          <p className="font-semibold text-obsidian text-[16px] md:text-[17px]">{BRIEF_CTA.text}</p>
-          <Button variant="mint" href={BRIEF_CTA.button.href}>
-            {BRIEF_CTA.button.label}
+          <p className="font-semibold text-obsidian text-[16px] md:text-[17px]">
+            {stats.cta.text}
+          </p>
+          <Button variant="mint" href={stats.cta.to}>
+            {stats.cta.label}
           </Button>
         </div>
       </div>
@@ -86,10 +79,10 @@ export default function ExperienceSection() {
       <div className="hidden lg:block">
         {/* --- Ticker: full bleed, hairline top and bottom --- */}
         <div className="border-y border-silver py-[var(--space-25)]">
-          <p className="sr-only">{TICKER_SR}</p>
+          <p className="sr-only">{desktopSr}</p>
           <Marquee seconds={45}>
             <ul className="flex items-center" style={{ gap: '40px' }}>
-              {TICKER_ITEMS.map((item) => (
+              {stats.marquee.map((item) => (
                 <li
                   key={item}
                   className="flex items-center whitespace-nowrap text-[28px] leading-[1.2] font-medium text-obsidian"
@@ -114,22 +107,22 @@ export default function ExperienceSection() {
               style={{ fontSize: 'clamp(53px, 8vw, 82.5px)', lineHeight: 1.1 }}
             >
               <span className="flex flex-wrap items-center gap-x-[0.3em] gap-y-2">
-                {STATS_LINES[0]}
+                {pillOne}
                 <MediaFrame
-                  src={asset(EXPERIENCE_MEDIA[0])}
+                  src={imageSrc(stats.frames[0].src)}
                   className="align-middle"
                   style={{ width: 'calc(var(--u)*9.07)' }}
                 />
               </span>
               <span className="mt-2 flex flex-wrap items-center gap-x-[0.3em] gap-y-2 lg:mt-0">
                 <MediaFrame
-                  src={asset(EXPERIENCE_MEDIA[1])}
+                  src={imageSrc(stats.frames[1].src)}
                   className="align-middle"
                   style={{ width: 'calc(var(--u)*9.07)' }}
                 />
-                {STATS_LINES[1]}
+                {pillTwo}
                 <MediaFrame
-                  src={asset(EXPERIENCE_MEDIA[2])}
+                  src={imageSrc(stats.frames[2].src)}
                   className="hidden lg:inline-block"
                   style={{ width: 'calc(var(--u)*9.07)' }}
                 />
@@ -143,10 +136,10 @@ export default function ExperienceSection() {
           <Container>
             <div className="flex flex-col items-center gap-6 text-center md:flex-row md:justify-center md:gap-10">
               <p className="text-[clamp(18px,2vw,33px)] leading-[1.3] font-medium text-obsidian md:text-[33px] md:leading-[1.3]">
-                {BRIEF_CTA.text}
+                {stats.cta.text}
               </p>
-              <Button variant="mint" href={BRIEF_CTA.button.href}>
-                {BRIEF_CTA.button.label}
+              <Button variant="mint" href={stats.cta.to}>
+                {stats.cta.label}
               </Button>
             </div>
           </Container>

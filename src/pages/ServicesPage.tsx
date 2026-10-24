@@ -4,63 +4,51 @@ import ClientLogoStrip from '../components/ClientLogoStrip'
 import IntroStatement from '../components/IntroStatement'
 import LatestWork from '../components/sections/LatestWork'
 import ExperienceSection from '../components/sections/ExperienceSection'
-import { asset } from '../content/assets'
+import Inline from '../content/live/inline'
+import { useServicesContent, useSiteChrome } from '../content/live/hooks'
 import { useMetaDescription, usePageTitle } from '../hooks/usePageTitle'
-import {
-  SERVICES_HERO,
-  SERVICES_HERO_CONTACT,
-  PAGE_SERVICES,
-  SERVICES_INTRO,
-  SERVICES_WORK_INTRO,
-} from '../content/services'
-
-/** Same copy and bold phrases as the Home hero description (§4.1). */
-function HeroDescription() {
-  return (
-    <>
-      <strong className="font-semibold text-obsidian">
-        We design and build purposeful websites
-      </strong>{' '}
-      that make brands{' '}
-      <strong className="font-semibold text-obsidian">
-        clearer, stronger, and easier to choose
-      </strong>
-      , backed by a team that cares about the details.
-    </>
-  )
-}
 
 /**
  * `/services` (services spec §1): a thin composition — PageHero, the services
  * rows (page variant), logo strip, intro statement (no CTA), latest work (with
  * the services intro) and the unchanged experience section. Header/footer come
  * from `RootLayout`.
+ *
+ * `_services` supplies the hero, intro and latest-work intro; the rows and the
+ * shared bands come from their collections/documents.
  */
 export default function ServicesPage() {
-  usePageTitle('Services | Chuech Studio')
-  useMetaDescription(
-    'Explore branding, web design, SEO, PPC, and video services from Chuech Studio, a Nairobi-based digital partner.',
-  )
+  const view = useServicesContent()
+  const { site } = useSiteChrome()
+
+  usePageTitle(view.seo.title)
+  useMetaDescription(view.seo.description)
 
   return (
     <>
       <PageHero
-        label={SERVICES_HERO.label}
-        title={SERVICES_HERO.title}
-        pills={SERVICES_HERO.pills}
-        image={{ src: asset(SERVICES_HERO.image) }}
-        description={<HeroDescription />}
-        contact={SERVICES_HERO_CONTACT}
+        label={view.hero.label}
+        title={view.hero.title}
+        pills={view.hero.pills}
+        image={{ src: view.hero.image.src, alt: view.hero.image.alt }}
+        description={<Inline text={view.hero.description} reveal="load" />}
+        contact={{ email: site.email, phone: site.phone }}
       />
-      <ServicesSection services={PAGE_SERVICES} showBadge={false} variant="page" />
-      <ClientLogoStrip />
-      <IntroStatement
-        text={SERVICES_INTRO.text}
-        highlights={[...SERVICES_INTRO.highlights]}
-        cta={null}
+      <ServicesSection
+        heading={view.hero.label}
+        services={view.services}
+        showBadge={false}
+        variant="page"
       />
-      <LatestWork intro={SERVICES_WORK_INTRO} />
-      <ExperienceSection />
+      <ClientLogoStrip clients={view.clients} />
+      <IntroStatement text={view.introStatement.text} cta={null} />
+      <LatestWork
+        view={view.latestWork}
+        intro={view.latestWorkIntro}
+        projects={view.projects}
+        testimonials={view.testimonials}
+      />
+      <ExperienceSection stats={view.stats} />
     </>
   )
 }

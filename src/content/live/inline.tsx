@@ -1,13 +1,28 @@
 import { Fragment } from 'react'
 import { Link } from 'react-router'
 import { firstMarkPosition, parseInline } from './inline-markup'
+import HighlightReveal from '../../components/ui/HighlightReveal'
 
-/** A highlighted phrase's lavender pill (remaining-sections spec §5.1). */
-function Mark({ children }: { children: string }) {
+/** How a highlighted phrase reveals: with the scroll, or on mount (above the fold). */
+export type RevealMode = 'scroll' | 'load'
+
+/**
+ * A highlighted phrase's lavender pill (remaining-sections spec §5.1), wrapped
+ * in the shared word-reveal (highlight-scroll-reveal spec §3). The pill's own
+ * classes stay exactly as they were; only the words inside fade.
+ *
+ * Every `highlight` mark from the CMS grammar (`==…==`) lands here, so this is
+ * the single place the effect is wired into inline rich text — hardcoded
+ * fallback copy and API copy take the same path (§4).
+ */
+function Mark({ children, reveal }: { children: string; reveal: RevealMode }) {
   return (
-    <span className="rounded-pill mx-0.5 inline bg-secondary px-2 [box-decoration-break:clone]">
+    <HighlightReveal
+      mode={reveal}
+      className="rounded-pill mx-0.5 inline bg-secondary px-2 [box-decoration-break:clone]"
+    >
       {children}
-    </span>
+    </HighlightReveal>
   )
 }
 
@@ -19,6 +34,12 @@ type InlineProps = {
    * highlighted phrase (services spec §5.2). Off by default.
    */
   dotAfterFirstMark?: boolean
+  /**
+   * Reveal mode for highlighted phrases in this field (highlight-scroll-reveal
+   * spec §3.6): `"load"` for text visible at scroll position 0, which must
+   * never sit dim waiting for a scroll that never comes.
+   */
+  reveal?: RevealMode
 }
 
 /**
@@ -26,7 +47,12 @@ type InlineProps = {
  * line breaks so the component is valid inside the `<p>` elements the sections
  * already use.
  */
-export default function Inline({ text, tone = 'light', dotAfterFirstMark = false }: InlineProps) {
+export default function Inline({
+  text,
+  tone = 'light',
+  dotAfterFirstMark = false,
+  reveal = 'scroll',
+}: InlineProps) {
   const paragraphs = parseInline(text)
   const firstMark = dotAfterFirstMark ? firstMarkPosition(paragraphs) : null
 
@@ -58,7 +84,7 @@ export default function Inline({ text, tone = 'light', dotAfterFirstMark = false
               const first = firstMark?.paragraph === paragraphIndex && firstMark.index === index
               return (
                 <Fragment key={index}>
-                  <Mark>{node.value}</Mark>
+                  <Mark reveal={reveal}>{node.value}</Mark>
                   {first ? (
                     <span
                       aria-hidden="true"

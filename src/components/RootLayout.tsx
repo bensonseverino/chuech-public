@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react'
 import { Outlet, useLocation } from 'react-router'
 import SiteHeader from './SiteHeader'
 import SiteFooter from './sections/SiteFooter'
+import { useSiteContent } from '../content/live/hooks'
 
 /**
  * Router shell (services spec §3.1): sticky header, `<main id="main">` with the
@@ -17,6 +18,7 @@ export default function RootLayout() {
   const { pathname, hash } = useLocation()
   const mainRef = useRef<HTMLElement>(null)
   const initialised = useRef(false)
+  const content = useSiteContent()
 
   useEffect(() => {
     if (hash) {
@@ -40,11 +42,11 @@ export default function RootLayout() {
       className="min-h-svh bg-fog font-sans text-obsidian antialiased"
       style={{ overflowX: 'clip' }}
     >
-      <SiteHeader />
+      <SiteHeader site={content.site} navigation={content.navigation} />
       <main id="main" ref={mainRef} tabIndex={-1} className="focus:outline-none">
-        <Outlet />
+        <Outlet context={content} />
       </main>
-      <SiteFooter />
+      <SiteFooter footer={content.footer} site={content.site} />
     </div>
   )
 }
