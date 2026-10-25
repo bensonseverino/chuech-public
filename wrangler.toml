@@ -14,6 +14,13 @@
 # wrangler.toml, so there are no dashboard bindings to copy. Once this file
 # lands, it becomes the source of truth — add any future dashboard variable to
 # this file instead of the dashboard, or the next deploy will drop it.
+#
+# The resource ids below are copied from the CMS repo's
+# `site-integration/wrangler.toml`. Pages validates them at deploy time: a
+# placeholder such as "<prod id — …>" fails the Function upload with
+# `Error 8000022: Invalid KV namespace ID ... Not a valid hex string`. Keep the
+# two files byte-identical on ids, or the site and the CMS silently read
+# different data.
 # ---------------------------------------------------------------------------
 
 name = "marino-site"
@@ -24,8 +31,8 @@ compatibility_date = "2026-10-01"
 [[d1_databases]]
 binding = "DB"
 database_name = "marino-cms"
-database_id = "<prod id — same database as the CMS>"
-preview_database_id = "<preview id — same preview database as the CMS>"
+database_id = "dd6ca990-ad83-4665-a88b-efb7480c6aa4"
+preview_database_id = "8fb9ed3c-470f-4ac8-bfa1-42abccb21765"
 
 # --- R2: the same media bucket, read-only for the site -----------------------
 [[r2_buckets]]
@@ -36,8 +43,8 @@ preview_bucket_name = "marino-media"
 # --- KV: read content_version so edge cache keys can be busted ---------------
 [[kv_namespaces]]
 binding = "CACHE"
-id = "<prod id — same namespace as the CMS>"
-preview_id = "<preview id — same namespace as the CMS>"
+id = "ab557d09fa75405d9e747bd53676d3d5"
+preview_id = "486bba6292bb4c7e91bc32779937b711"
 
 # --- Plain variables (public; no secrets here) -------------------------------
 [vars]
@@ -46,8 +53,10 @@ preview_id = "<preview id — same namespace as the CMS>"
 # functions/media/[[path]].ts, so the site works without a separate R2 custom
 # domain. Set this to a `https://media.<domain>` origin if one is configured.
 MEDIA_PUBLIC_BASE = "/media"
-# TODO(owner): set after Phase 1 — see docs/cloudflare-setup.md §4 and §11.
-SITE_ORIGIN = "https://example.com"
+# Canonical origin: used for robots.txt's Sitemap line, the sitemap's <loc>
+# entries, and the form-POST origin allowlist. Must be the origin the site is
+# actually served from (same value as the CMS's SITE_ORIGIN).
+SITE_ORIGIN = "https://chuechstudio.co.ke"
 
 # Secrets for this project (set with `wrangler pages secret put`, never here):
 #   TURNSTILE_SECRET, IP_HASH_SALT, PREVIEW_SECRET
