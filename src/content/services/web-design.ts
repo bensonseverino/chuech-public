@@ -1,6 +1,6 @@
 /*
  * `/web-design` content (web-design spec §7). Everything here is what the
- * generic `ServicePage` template renders, so Branding / SEO / PPC / Video can
+ * generic `ServicePage` template renders, so Branding / SEO / PPC can
  * reuse it later with their own object of the same shape.
  *
  * The structure and service copy were adapted for Chuech Studio from the

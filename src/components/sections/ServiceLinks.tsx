@@ -1,4 +1,5 @@
 import OutlineChip from '../primitives/OutlineChip'
+import { Reveal } from '../ui/Reveal'
 import { ROUTES } from '../../routes'
 
 const LINKS = [
@@ -6,7 +7,6 @@ const LINKS = [
   { label: 'Web Design', to: ROUTES.webDesign },
   { label: 'SEO', to: ROUTES.seo },
   { label: 'PPC', to: ROUTES.ppc },
-  { label: 'Video', to: ROUTES.video },
 ] as const
 
 /**
@@ -16,7 +16,7 @@ const LINKS = [
  */
 export default function ServiceLinks() {
   return (
-    <section className="px-4 pt-[40px] pb-[62px] md:px-8 md:pt-[50px] lg:pt-[70px] lg:pb-[90px]">
+    <Reveal as="section" className="px-4 pt-[40px] pb-[62px] md:px-8 md:pt-[50px] lg:pt-[70px] lg:pb-[90px]">
       <h2 className="text-center text-[28px] leading-[1.2] font-normal text-obsidian md:text-[33px]">
         View our work by service
       </h2>
@@ -29,6 +29,6 @@ export default function ServiceLinks() {
           </li>
         ))}
       </ul>
-    </section>
+    </Reveal>
   )
 }

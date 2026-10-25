@@ -72,8 +72,8 @@
   background: var(--color-primary);
   color: var(--color-obsidian);
   transition:
-    box-shadow var(--default-transition-duration) var(--ease-standard),
-    visibility var(--default-transition-duration) var(--ease-standard);
+    box-shadow var(--default-transition-duration) var(--ease-smooth),
+    visibility var(--default-transition-duration) var(--ease-smooth);
 }
 
 /* Hidden until there is somewhere to go in that direction. */

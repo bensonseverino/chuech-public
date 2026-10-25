@@ -1,4 +1,5 @@
 import DarkPanel from '../primitives/DarkPanel'
+import { Reveal } from '../ui/Reveal'
 import SectionHeading from '../primitives/SectionHeading'
 import LongArrowLink from '../primitives/LongArrowLink'
 import ProjectCard from '../primitives/ProjectCard'
@@ -39,7 +40,10 @@ export default function LatestWork({
       className="scroll-mt-24 py-[15px] md:py-[25px] lg:py-[80px]"
     >
       <DarkPanel>
-        <div className="grid gap-y-[25px] md:grid-cols-2 md:items-start md:gap-x-[30px] md:gap-y-0 lg:gap-x-[calc(var(--u)*5)]">
+        <Reveal
+          stagger={0.1}
+          className="grid gap-y-[25px] md:grid-cols-2 md:items-start md:gap-x-[30px] md:gap-y-0 lg:gap-x-[calc(var(--u)*5)]"
+        >
           {/* DOM order: right column first (header + its two cards). */}
           <div className="flex min-w-0 flex-col gap-[25px] md:col-start-2 md:row-start-1 md:gap-[30px] lg:gap-[50px]">
             <div>
@@ -81,7 +85,7 @@ export default function LatestWork({
 
             <TestimonialSlider tone="dark" testimonials={testimonials} />
           </div>
-        </div>
+        </Reveal>
       </DarkPanel>
     </section>
   )

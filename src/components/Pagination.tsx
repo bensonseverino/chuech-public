@@ -1,4 +1,4 @@
-import { Link } from 'react-router'
+import { TransitionLink } from './transition/PageTransitionProvider'
 import { ChevronIcon } from './icons'
 import './Pagination.css'
 
@@ -26,21 +26,21 @@ export default function Pagination({
           <ChevronIcon className="pagination-icon rotate-180" />
         </span>
       ) : (
-        <Link to={`?page=${page - 1}`} aria-label="Previous page" className="pagination-circle">
+        <TransitionLink to={`?page=${page - 1}`} aria-label="Previous page" className="pagination-circle">
           <ChevronIcon className="pagination-icon rotate-180" />
-        </Link>
+        </TransitionLink>
       )}
 
       <ol className="pagination-numbers">
         {pages.map((n) => (
           <li key={n}>
-            <Link
+            <TransitionLink
               to={`?page=${n}`}
               aria-current={n === page ? 'page' : undefined}
               className={`pagination-number${n === page ? ' is-current' : ''}`}
             >
               {n}
-            </Link>
+            </TransitionLink>
           </li>
         ))}
       </ol>
@@ -50,9 +50,9 @@ export default function Pagination({
           <ChevronIcon className="pagination-icon" />
         </span>
       ) : (
-        <Link to={`?page=${page + 1}`} aria-label="Next page" className="pagination-circle">
+        <TransitionLink to={`?page=${page + 1}`} aria-label="Next page" className="pagination-circle">
           <ChevronIcon className="pagination-icon" />
-        </Link>
+        </TransitionLink>
       )}
     </nav>
   )

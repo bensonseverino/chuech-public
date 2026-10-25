@@ -1,4 +1,5 @@
 import Container from '../primitives/Container'
+import { Reveal } from '../ui/Reveal'
 import SectionHeading from '../primitives/SectionHeading'
 import RevealRow from '../primitives/RevealRow'
 import { imageSrc } from '../../content/assets'
@@ -36,7 +37,8 @@ export default function ServicesSection({
   const isPage = variant === 'page'
 
   return (
-    <section
+    <Reveal
+      as="section"
       id="services"
       aria-label={heading}
       className={
@@ -72,6 +74,6 @@ export default function ServicesSection({
           ))}
         </ul>
       </Container>
-    </section>
+    </Reveal>
   )
 }

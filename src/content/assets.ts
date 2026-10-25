@@ -6,12 +6,10 @@ import workPh from '../assets/marino/work-ph.svg'
 import heroTeam from '../assets/marino/hero-team.svg'
 import heroTerminal from '../assets/marino/hero-terminal.svg'
 import contactThumb from '../assets/marino/contact-thumb.svg'
-import articlePh from '../assets/marino/article-ph.svg'
 import serviceBranding from '../assets/marino/service-branding.svg'
 import serviceWebDesign from '../assets/marino/service-web-design.svg'
 import serviceSeo from '../assets/marino/service-seo.svg'
 import servicePpc from '../assets/marino/service-ppc.svg'
-import serviceVideo from '../assets/marino/service-video.svg'
 import blackbird from '../assets/marino/blackbird.svg'
 import blackbirdLogo from '../assets/marino/blackbird-logo.svg'
 import stats1 from '../assets/marino/stats-1.svg'
@@ -62,7 +60,6 @@ const SLOTS: Record<string, string> = {
      land; swap the file, not the slot. */
   'branding-feature': heroTeam,
   'branding-why': heroTeam,
-  'article-ph': articlePh,
   /* TODO(asset): services page hero photo — 16:9 team shot (4 people at a
      table with plants). Reuses the hero-team placeholder until the real
      services-hero.jpg lands; swap the file, not the slot. */
@@ -71,7 +68,6 @@ const SLOTS: Record<string, string> = {
   'service-web-design': serviceWebDesign,
   'service-seo': serviceSeo,
   'service-ppc': servicePpc,
-  'service-video': serviceVideo,
   blackbird,
   'blackbird-logo': blackbirdLogo,
   'stats-1': stats1,

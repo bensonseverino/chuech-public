@@ -7,6 +7,7 @@ import ExperienceSection from '../components/sections/ExperienceSection'
 import Inline from '../content/live/inline'
 import { useServicesContent, useSiteChrome } from '../content/live/hooks'
 import { useMetaDescription, usePageTitle } from '../hooks/usePageTitle'
+import { useScrollRefresh } from '../hooks/useScrollRefresh'
 
 /**
  * `/services` (services spec §1): a thin composition — PageHero, the services
@@ -23,6 +24,8 @@ export default function ServicesPage() {
 
   usePageTitle(view.seo.title)
   useMetaDescription(view.seo.description)
+  // Re-measure ScrollTriggers when the CMS payload replaces the fallback.
+  useScrollRefresh(view)
 
   return (
     <>

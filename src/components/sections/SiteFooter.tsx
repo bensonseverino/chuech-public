@@ -1,4 +1,4 @@
-import { Link } from 'react-router'
+import { TransitionLink } from '../transition/PageTransitionProvider'
 import Container from '../primitives/Container'
 import Button from '../primitives/Button'
 import Inline from '../../content/live/inline'
@@ -62,12 +62,12 @@ export default function SiteFooter({ footer, site }: { footer: FooterView; site:
           <ul className="grid grid-flow-col grid-cols-2 grid-rows-4 gap-x-6 gap-y-3 md:grid-cols-3 md:grid-rows-3 lg:grid-cols-4 lg:grid-rows-2">
             {footer.links.map((link) => (
               <li key={link.label}>
-                <Link
+                <TransitionLink
                   to={link.to}
                   className="text-[14px] font-medium text-white/70 transition-colors hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
                 >
                   {link.label}
-                </Link>
+                </TransitionLink>
               </li>
             ))}
           </ul>

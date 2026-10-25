@@ -159,6 +159,8 @@ export default function ContactForm({
               <textarea
                 {...shared}
                 rows={5}
+                /* Inner scroller: wheel inside it must not move the page (spec §4). */
+                data-lenis-prevent
                 className={`${shared.className} min-h-[140px] resize-y py-[15px]`}
               />
             ) : (

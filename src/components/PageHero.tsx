@@ -3,6 +3,7 @@ import Container from './primitives/Container'
 import SectionBadge from './primitives/SectionBadge'
 import FloatPill from './primitives/FloatPill'
 import MediaFrame from './primitives/MediaFrame'
+import { useHeroLoad } from '../hooks/useHeroLoad'
 import './PageHero.css'
 
 type ContactLink = { label: string; href: string }
@@ -62,10 +63,13 @@ export default function PageHero({
   spacingBottom = DEFAULT_SPACING,
 }: PageHeroProps) {
   const [pillA, pillB] = pills
+  // Above-the-fold hero animates on load, never on scroll (smooth-scroll §7).
+  const rootRef = useHeroLoad<HTMLElement>()
 
   return (
     /* Bottom spacing is per-breakpoint (Services: 40px everywhere — §4.3). */
     <section
+      ref={rootRef}
       className="page-hero"
       style={
         {
@@ -78,7 +82,7 @@ export default function PageHero({
       <Container className="pt-5 md:pt-10 lg:pt-[calc(var(--u)*3.51)]">
         <div className="page-hero-grid md:grid md:grid-cols-[1fr_29vw] md:items-start lg:grid-cols-[1fr_calc(var(--u)*21)]">
           {/* --- Badge --- */}
-          <div className="page-hero-badge">
+          <div data-hero-block className="page-hero-badge">
             <SectionBadge
               as="p"
               iconClassName="h-3.5 w-[37px]"
@@ -89,7 +93,7 @@ export default function PageHero({
           </div>
 
           {/* --- Title (+ mobile Pill A floating over its top-right) --- */}
-          <h1 className="page-hero-title relative mt-[10px] text-[clamp(40px,11.8vw,70px)] leading-none font-semibold tracking-[-0.0163em] text-obsidian md:text-[8.75vw] lg:text-[calc(var(--u)*6.732)]">
+          <h1 data-hero-block className="page-hero-title relative mt-[10px] text-[clamp(40px,11.8vw,70px)] leading-none font-semibold tracking-[-0.0163em] text-obsidian md:text-[8.75vw] lg:text-[calc(var(--u)*6.732)]">
             {title}
             <FloatPill
               size="sm"
@@ -102,7 +106,7 @@ export default function PageHero({
           </h1>
 
           {/* --- Row: Pill B + description --- */}
-          <div className="page-hero-row mt-5 flex items-center md:mt-[35px]">
+          <div data-hero-block className="page-hero-row mt-5 flex items-center md:mt-[35px]">
             {/* The wrapper owns the responsive display: FloatPill's base
                 `inline-flex` would otherwise beat a bare `hidden`. */}
             <span className="mr-4 hidden shrink-0 md:inline-flex lg:-ml-[calc(var(--u)*1.45)] lg:mr-[calc(var(--u)*2.7)]">
@@ -121,6 +125,7 @@ export default function PageHero({
 
           {/* --- Media (+ desktop/tablet Pill A on the image's top-left) --- */}
           <div
+            data-hero-block
             className={`page-hero-media relative mt-[40px] w-full self-start md:mt-0 md:justify-self-end ${
               showImageOnMobile ? '' : 'hidden md:block'
             }`}
@@ -147,7 +152,7 @@ export default function PageHero({
           </div>
 
           {/* --- Contact line (md+ only) --- */}
-          <div className="page-hero-contact hidden justify-self-end md:mt-[25px] md:flex">
+          <div data-hero-block className="page-hero-contact hidden justify-self-end md:mt-[25px] md:flex">
             <p className="flex items-baseline gap-[10px] text-[14px] lg:gap-[calc(var(--u)*0.65)] lg:text-[calc(var(--u)*0.85)]">
               <a
                 href={contact.email.href}

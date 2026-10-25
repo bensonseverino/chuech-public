@@ -1,4 +1,5 @@
 import Marquee from '../primitives/Marquee'
+import { Reveal } from '../ui/Reveal'
 import MediaFrame from '../primitives/MediaFrame'
 import FloatPill from '../primitives/FloatPill'
 import Button from '../primitives/Button'
@@ -22,7 +23,7 @@ export default function ExperienceSection({ stats }: { stats: HomeView['stats'] 
   const desktopSr = stats.marquee.map((item) => `${item}.`).join(' ')
 
   return (
-    <section aria-label="Chuech Studio in focus" className="stats-section scroll-mt-24">
+    <Reveal as="section" aria-label="Chuech Studio in focus" className="stats-section scroll-mt-24">
       {/* ---------- < 1024px: floating stage + CTA row ---------- */}
       <div className="lg:hidden">
         <p className="sr-only">{mobileSr}</p>
@@ -145,6 +146,6 @@ export default function ExperienceSection({ stats }: { stats: HomeView['stats'] 
           </Container>
         </div>
       </div>
-    </section>
+    </Reveal>
   )
 }

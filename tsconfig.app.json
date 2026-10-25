@@ -16,6 +16,10 @@
     "noEmit": true,
     "jsx": "react-jsx",
 
+    /* `@/…` imports (smooth-scroll spec §2/§4), matching vite.config.ts.
+       Relative form: TS 6 deprecates `baseUrl`. */
+    "paths": { "@/*": ["./src/*"] },
+
     /* Linting */
     "noUnusedLocals": true,
     "noUnusedParameters": true,

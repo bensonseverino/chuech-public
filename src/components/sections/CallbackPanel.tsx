@@ -1,4 +1,5 @@
 import { useId } from 'react'
+import { Reveal } from '../ui/Reveal'
 import Container from '../primitives/Container'
 import SectionHeading, { TITLE_ROLE } from '../primitives/SectionHeading'
 import Button from '../primitives/Button'
@@ -27,7 +28,7 @@ export default function CallbackPanel({
   const headingId = useId()
 
   return (
-    <section aria-labelledby={headingId} className="mt-[50px] lg:mt-[62px]">
+    <Reveal as="section" aria-labelledby={headingId} className="mt-[50px] lg:mt-[62px]">
       <Container>
         <div className="rounded-panel bg-white px-[25px] py-[25px] shadow-soft lg:px-[70px] lg:py-[62px]">
           <div className="grid gap-[25px] md:grid-cols-2 md:items-start md:gap-[25px] lg:gap-[70px]">
@@ -79,6 +80,6 @@ export default function CallbackPanel({
           </div>
         </div>
       </Container>
-    </section>
+    </Reveal>
   )
 }

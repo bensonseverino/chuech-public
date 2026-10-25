@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
-import { Link, useLocation } from 'react-router'
+import { useLocation } from 'react-router'
+import { TransitionLink } from './transition/PageTransitionProvider'
+import { useScrollLock } from '../hooks/useScrollLock'
 import chuechLogo from '../assets/marino/chuech-logo2.svg'
 import { MenuIcon, CloseIcon, ArrowRightIcon } from './icons'
 import Expandable from './primitives/Expandable'
@@ -100,7 +102,7 @@ function NavMenu({ navigation }: { navigation: NavigationView }) {
 
           return (
             <li key={item.label} className="lg:flex-1">
-              <Link
+              <TransitionLink
                 to={item.to}
                 aria-haspopup={menu ? true : undefined}
                 aria-expanded={menu ? openMenu === menu : undefined}
@@ -120,7 +122,7 @@ function NavMenu({ navigation }: { navigation: NavigationView }) {
                     <ArrowRightIcon className="h-[calc(var(--u)*0.42)] w-[calc(var(--u)*0.42)] text-obsidian" />
                   </span>
                 ) : null}
-              </Link>
+              </TransitionLink>
             </li>
           )
         })}
@@ -145,13 +147,13 @@ function NavMenu({ navigation }: { navigation: NavigationView }) {
         >
           {menuItems(rows, renderedMenu).map((sub) => (
             <li key={sub.label}>
-              <Link
+              <TransitionLink
                 to={sub.to}
                 className="inline-flex items-center gap-1.5 whitespace-nowrap text-obsidian transition-opacity hover:opacity-60 focus-visible:opacity-60 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-obsidian lg:gap-[calc(var(--u)*0.34)]"
               >
                 <ArrowRightIcon className="h-3.5 w-3.5 shrink-0 lg:h-[calc(var(--u)*0.5)] lg:w-[calc(var(--u)*0.5)]" />
                 {sub.label}
-              </Link>
+              </TransitionLink>
             </li>
           ))}
         </ul>
@@ -219,7 +221,7 @@ function MobileMenu({
                 if (!menu) {
                   return (
                     <li key={item.label}>
-                      <Link
+                      <TransitionLink
                         to={item.to}
                         aria-current={active ? 'page' : undefined}
                         onClick={onClose}
@@ -227,7 +229,7 @@ function MobileMenu({
                       >
                         {item.label}
                         <ArrowRightIcon className="h-4 w-4 shrink-0 text-obsidian/35" />
-                      </Link>
+                      </TransitionLink>
                     </li>
                   )
                 }
@@ -257,14 +259,14 @@ function MobileMenu({
                       <ul className="flex flex-col pb-1">
                         {menuItems(rows, menu).map((sub) => (
                           <li key={sub.label}>
-                            <Link
+                            <TransitionLink
                               to={sub.to}
                               onClick={onClose}
                               className="flex min-h-[40px] items-center gap-2 rounded-button py-0.5 pr-3 pl-6 text-[14px] text-obsidian/80 transition-colors hover:bg-silver/35 hover:text-obsidian focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-obsidian"
                             >
                               <ArrowRightIcon className="h-3.5 w-3.5 shrink-0 text-obsidian/45" />
                               {sub.label}
-                            </Link>
+                            </TransitionLink>
                           </li>
                         ))}
                       </ul>
@@ -311,6 +313,10 @@ export default function SiteHeader({
   const [expanded, setExpanded] = useState<string | null>(null)
   const mobileRef = useRef<HTMLElement>(null)
 
+  // Freezes the page (Lenis stop, or body overflow before Lenis mounts) while
+  // the mobile panel is open — smooth-scroll spec §4 / §12.
+  useScrollLock(menuOpen)
+
   function closeMenu() {
     setMenuOpen(false)
     setExpanded(null)
@@ -354,9 +360,9 @@ export default function SiteHeader({
 
         <div className="px-2.5 pt-2.5 sm:px-3">
           <div className="glass rounded-nav mx-auto flex max-w-[1440px] items-center justify-between gap-2 py-1.5 pr-1.5 pl-4">
-            <Link to={ROUTES.home} className="min-w-0 py-0.5 pl-2">
+            <TransitionLink to={ROUTES.home} className="min-w-0 py-0.5 pl-2">
               <img src={chuechLogo} alt={site.companyName} className="h-8 w-auto" />
-            </Link>
+            </TransitionLink>
 
             <div className="flex items-center gap-1.5">
               {/* Shared Button (mint); important overrides preserve the frozen
@@ -397,7 +403,7 @@ export default function SiteHeader({
       {/* --- md+: the Chuech logo, deliberately NOT sticky --- */}
       <header className="relative z-40 hidden h-[calc(var(--u)*2.5_+_58px)] md:block lg:h-[calc(var(--u)*6.33)]">
         <div className="relative mx-auto w-full max-w-[1440px] px-8 lg:w-[calc(var(--u)*70.56)] lg:max-w-none lg:px-0">
-          <Link
+          <TransitionLink
             to={ROUTES.home}
             className="absolute top-[calc(var(--u)*2.5_+_29px)] left-8 block -translate-y-1/2 lg:top-[calc(var(--u)*4.415)] lg:left-0"
           >
@@ -406,7 +412,7 @@ export default function SiteHeader({
               alt={site.companyName}
               className="block h-7 w-auto lg:h-[calc(var(--u)*2.25)]"
             />
-          </Link>
+          </TransitionLink>
         </div>
       </header>
     </>

@@ -1,4 +1,5 @@
 import { useId } from 'react'
+import { Reveal } from '../ui/Reveal'
 import Container from '../primitives/Container'
 import SectionHeading, { TITLE_ROLE } from '../primitives/SectionHeading'
 import CheckList from '../primitives/CheckList'
@@ -20,7 +21,7 @@ export default function FeaturePanel({ feature }: { feature: ServicePageView['fe
   const headingId = useId()
 
   return (
-    <section aria-labelledby={headingId} className="mt-[50px] lg:mt-[100px]">
+    <Reveal as="section" aria-labelledby={headingId} className="mt-[50px] lg:mt-[100px]">
       <Container>
         <div className="rounded-panel bg-white px-[25px] py-[25px] shadow-soft lg:px-[70px] lg:py-[62px]">
           <div className="grid gap-[25px] md:grid-cols-2 md:gap-[25px] lg:gap-[70px]">
@@ -68,6 +69,6 @@ export default function FeaturePanel({ feature }: { feature: ServicePageView['fe
           </div>
         </div>
       </Container>
-    </section>
+    </Reveal>
   )
 }

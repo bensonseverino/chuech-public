@@ -7,6 +7,8 @@ import ServiceLinks from '../components/sections/ServiceLinks'
 import Inline from '../content/live/inline'
 import { useSiteChrome, useWorkContent } from '../content/live/hooks'
 import { useMetaDescription, usePageTitle } from '../hooks/usePageTitle'
+import { useScrollRefresh } from '../hooks/useScrollRefresh'
+import { useLenis } from '../providers/lenis-context'
 
 /**
  * `/work` (work page spec §1): the existing `PageHero` with the Work props, the
@@ -25,6 +27,8 @@ export default function WorkPage() {
 
   usePageTitle(view.seo.title)
   useMetaDescription(view.seo.description)
+  // Re-measure ScrollTriggers when the CMS payload replaces the fallback.
+  useScrollRefresh(view)
 
   const [params] = useSearchParams()
   const totalPages = Math.max(1, Math.ceil(view.projects.length / view.pageSize))
@@ -35,7 +39,8 @@ export default function WorkPage() {
 
   // On page change, land on the top of the grid (grid top minus the sticky
   // header and 24px). The first render is skipped so a direct load keeps the
-  // hero in view. No smooth scroll under reduced motion.
+  // hero in view. Eased by Lenis; native jump under reduced motion.
+  const lenis = useLenis()
   const firstRun = useRef(true)
   useEffect(() => {
     if (firstRun.current) {
@@ -48,12 +53,11 @@ export default function WorkPage() {
       ? document.querySelector('nav[aria-label="Primary"]')
       : document.querySelector('header.sticky')
     const headerBottom = sticky ? Math.max(0, sticky.getBoundingClientRect().bottom) : 0
+    const top = window.scrollY + grid.getBoundingClientRect().top - headerBottom - 24
     const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    window.scrollTo({
-      top: window.scrollY + grid.getBoundingClientRect().top - headerBottom - 24,
-      behavior: reduce ? 'auto' : 'smooth',
-    })
-  }, [page])
+    if (lenis && !reduce) lenis.scrollTo(top, { duration: 1.4 })
+    else window.scrollTo({ top, behavior: 'auto' })
+  }, [page, lenis])
 
   return (
     <>

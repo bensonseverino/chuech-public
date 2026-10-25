@@ -29,8 +29,8 @@
   background: #000;
   color: white;
   transition:
-    background-color var(--default-transition-duration) var(--ease-standard),
-    color var(--default-transition-duration) var(--ease-standard);
+    background-color var(--default-transition-duration) var(--ease-smooth),
+    color var(--default-transition-duration) var(--ease-smooth);
 }
 
 /* 44px tap target without enlarging the visual circle. */
@@ -63,7 +63,7 @@
 .pagination-icon {
   width: 18px;
   height: 18px;
-  transition: translate var(--default-transition-duration) var(--ease-standard);
+  transition: translate var(--default-transition-duration) var(--ease-smooth);
 }
 
 .pagination-circle:not(.is-disabled):hover .pagination-icon,
@@ -103,7 +103,7 @@
   line-height: 1;
   color: var(--color-obsidian);
   text-decoration: none;
-  transition: text-decoration-color var(--default-transition-duration) var(--ease-standard);
+  transition: text-decoration-color var(--default-transition-duration) var(--ease-smooth);
 }
 
 .pagination-number:hover {

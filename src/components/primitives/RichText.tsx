@@ -1,4 +1,4 @@
-import { Link } from 'react-router'
+import { TransitionLink } from '../transition/PageTransitionProvider'
 import type { RichSegment } from '../../content/home'
 
 type RichTextProps = {
@@ -25,9 +25,9 @@ export default function RichText({ segments, tone = 'light' }: RichTextProps) {
 
         // Internal paths become router links; external/mailto stay anchors (§3.2).
         return segment.href.startsWith('/') ? (
-          <Link key={index} to={segment.href} className={linkClass}>
+          <TransitionLink key={index} to={segment.href} className={linkClass}>
             {segment.label}
-          </Link>
+          </TransitionLink>
         ) : (
           <a key={index} href={segment.href} className={linkClass}>
             {segment.label}

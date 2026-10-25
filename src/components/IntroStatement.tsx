@@ -1,4 +1,5 @@
 import Container from './primitives/Container'
+import { Reveal } from './ui/Reveal'
 import Button from './primitives/Button'
 import Inline from '../content/live/inline'
 import type { LinkView } from '../content/live/types'
@@ -24,7 +25,14 @@ export default function IntroStatement({
   dotAfterFirstMark = false,
 }: IntroStatementProps) {
   return (
-    <section aria-label="About the team" className="py-[var(--space-50)] lg:py-[var(--space-80)]">
+    <Reveal
+      as="section"
+      aria-label="About the team"
+      className="py-[var(--space-50)] lg:py-[var(--space-80)]"
+      /* The statement's marks drive their own opacity (HighlightReveal), so
+         only the y-motion runs here — smooth-scroll spec §7. */
+      fade={false}
+    >
       <Container>
         <div className="mx-auto flex max-w-[1000px] flex-col items-center gap-[var(--space-25)]">
           <p className="text-center text-[clamp(18px,calc(14px+1.45vw),33px)] leading-[1.5] font-medium tracking-[-1px] text-obsidian">
@@ -37,6 +45,6 @@ export default function IntroStatement({
           ) : null}
         </div>
       </Container>
-    </section>
+    </Reveal>
   )
 }

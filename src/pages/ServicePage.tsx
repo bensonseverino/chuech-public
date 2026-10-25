@@ -7,6 +7,7 @@ import ExperienceSection from '../components/sections/ExperienceSection'
 import FaqSection from '../components/sections/FaqSection'
 import { useServicePage } from '../content/live/hooks'
 import { useMetaDescription, usePageTitle } from '../hooks/usePageTitle'
+import { useScrollRefresh } from '../hooks/useScrollRefresh'
 
 /**
  * Service sub-page template (web-design spec §1). It owns the section order
@@ -22,6 +23,8 @@ export default function ServicePage({ slug }: { slug: string }) {
 
   usePageTitle(page.seo.title)
   useMetaDescription(page.seo.description)
+  // Re-measure ScrollTriggers when the CMS payload replaces the fallback.
+  useScrollRefresh(page)
 
   const { tag, slugs, limit } = page.projects
   const carousel = (

@@ -326,7 +326,6 @@ export const SITE_FALLBACK: SiteContent = {
           { label: 'Testimonials', to: ROUTES.testimonials },
         ],
       },
-      { label: 'Blog', to: ROUTES.blog },
     ],
     cta: { label: 'Contact', to: ROUTES.contact },
   },
@@ -336,6 +335,15 @@ export const SITE_FALLBACK: SiteContent = {
     cta: { label: FOOTER.getInTouch, to: FOOTER.contact.href },
     legal: FOOTER.legal,
   },
+}
+
+/**
+ * Areas the site no longer has — the blog (`/blog`) and the Video service
+ * (`/video-production`). Kept out of the nav, footer and service lists even
+ * when the CMS still publishes them.
+ */
+function isRemovedPath(to: string): boolean {
+  return /^\/(blog|video-production)(\/|$)/.test(to)
 }
 
 export function siteFromCms(payload: SitePayload): SiteContent {
@@ -352,14 +360,14 @@ export function siteFromCms(payload: SitePayload): SiteContent {
 
   const nav = payload.navigation
   const items = nav?.items
-    ?.filter((item) => item.label && item.to)
+    ?.filter((item) => item.label && item.to && !isRemovedPath(item.to as string))
     .map((item) => ({
       label: item.label as string,
       to: item.to as string,
       ...(item.children?.length
         ? {
             children: item.children
-              .filter((child) => child.label && child.to)
+              .filter((child) => child.label && child.to && !isRemovedPath(child.to as string))
               .map((child) => ({ label: child.label as string, to: child.to as string })),
           }
         : {}),
@@ -375,7 +383,7 @@ export function siteFromCms(payload: SitePayload): SiteContent {
     statement: footerDoc?.statement || SITE_FALLBACK.footer.statement,
     links: footerDoc?.links?.length
       ? footerDoc.links
-          .filter((link) => link.label && link.to)
+          .filter((link) => link.label && link.to && !isRemovedPath(link.to as string))
           .map((link) => ({ label: link.label as string, to: link.to as string }))
       : SITE_FALLBACK.footer.links,
     cta: {
@@ -416,6 +424,8 @@ function localService(service: (typeof SERVICES)[number]): ServiceView {
 
 function serviceView(service: CmsService): ServiceView | null {
   if (!service.slug || !service.title) return null
+  // The Video service page is gone, so its row never renders.
+  if (service.slug === 'video-production') return null
 
   const keywords: Keyword[] = []
   for (const keyword of service.keywords ?? []) {

@@ -159,14 +159,6 @@ export const SERVICES: Service[] = [
     keywords: ['Google Ads', 'Shopping Campaigns', 'Remarketing', 'Conversion Tracking', 'Display Advertising'],
     image: 'service-ppc',
   },
-  {
-    slug: 'video-production',
-    title: 'Video',
-    description:
-      'Cinematic video content created to elevate brands and move audiences to action.',
-    keywords: ['Brand Videos', 'Testimonial Videos', 'Event Videos', 'Social Content', 'Product Videos'],
-    image: 'service-video',
-  },
 ]
 
 /* ------------------------------------------------------------------ */
@@ -213,65 +205,6 @@ export const EXPERIENCE_SR =
   'Digital experiences, thoughtfully made. Purposeful websites, built to perform. Thoughtful by design. Built for growth.'
 
 /* ------------------------------------------------------------------ */
-/* 5.7 Insights                                                        */
-/* ------------------------------------------------------------------ */
-
-export const INSIGHTS = {
-  heading: 'What\u2019s happening?',
-  viewAll: { label: 'View all articles', href: ROUTES.blog },
-} as const
-
-export type InsightArticle = {
-  title: string
-  /** Live format: 'Month . Year'. */
-  dateLabel: string
-  href: string
-  excerpt: string
-  categories: string[]
-  image: string
-}
-
-/* TODO(asset): article thumbnails — replace with the real card images. */
-export const ARTICLES: InsightArticle[] = [
-  {
-    title: 'How thoughtful design makes brands easier to choose',
-    dateLabel: 'July . 2026',
-    href: '/blog/thoughtful-design-makes-brands-easier-to-choose/',
-    excerpt:
-      'Good design does more than look polished. It clarifies who you are, what you offer, and why people should choose you.',
-    categories: ['Branding'],
-    image: 'article-ph',
-  },
-  {
-    title: 'Getting the foundations right before you grow',
-    dateLabel: 'July . 2026',
-    href: '/blog/getting-the-foundations-right/',
-    excerpt:
-      'A strong website starts with structure, clarity, and a plan for how every page supports the business.',
-    categories: ['Web Design', 'SEO'],
-    image: 'article-ph',
-  },
-  {
-    title: 'Designing for growth, not just launch day',
-    dateLabel: 'June . 2026',
-    href: '/blog/designing-for-growth/',
-    excerpt:
-      'The best websites are built to evolve with your business, not just to look good on launch day.',
-    categories: ['Web Design', 'SEO', 'PPC'],
-    image: 'article-ph',
-  },
-  {
-    title: 'Why long-term thinking matters in search',
-    dateLabel: 'May . 2026',
-    href: '/blog/long-term-thinking-in-search/',
-    excerpt:
-      'Search visibility is built steadily through useful content, solid technical foundations, and patience.',
-    categories: ['SEO'],
-    image: 'article-ph',
-  },
-]
-
-/* ------------------------------------------------------------------ */
 /* 5.8 Case study                                                      */
 /* ------------------------------------------------------------------ */
 
@@ -313,9 +246,7 @@ export const FAQ_ITEMS: FaqItem[] = [
       { label: 'PPC', href: ROUTES.ppc },
       ' and ',
       { label: 'SEO', href: ROUTES.seo },
-      '. We can also undertake ',
-      { label: 'video', href: ROUTES.video },
-      ' campaigns and help businesses carve out a distinct identity with our ',
+      '. We can also undertake video campaigns and help businesses carve out a distinct identity with our ',
       { label: 'branding', href: ROUTES.branding },
       ' work. We like to combine all these channels into one integrated strategy so that they can support each other, which ultimately means businesses can generate strong visibility and measurable commercial growth.',
     ],
@@ -404,7 +335,7 @@ export const FOOTER = {
     ', ',
     { label: 'PPC', href: ROUTES.ppc },
     ', and ',
-    { label: 'Video', href: ROUTES.video },
+    'Video',
     '.',
   ] as RichSegment[],
   getInTouch: 'Get in Touch',
@@ -417,7 +348,6 @@ export const FOOTER = {
     { label: 'Work', href: ROUTES.work },
     { label: 'About', href: ROUTES.aboutUs },
     { label: 'Culture', href: ROUTES.culture },
-    { label: 'Blog', href: ROUTES.blog },
     { label: 'Testimonials', href: ROUTES.testimonials },
     { label: 'Privacy Policy', href: ROUTES.privacyPolicy },
     { label: 'Terms & Conditions', href: ROUTES.termsConditions },

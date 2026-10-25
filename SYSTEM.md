@@ -105,8 +105,8 @@ component — import `ROUTES`.
 | `/web-design` | `ServicePage` + `WEB_DESIGN` | built |
 | `/seo-manchester` | `ServicePage` + `SEO` | built |
 | `/branding` | `ServicePage` + `BRANDING` | built |
-| `/ppc-manchester`, `/video-production`, `/ai-seo` | — | content/route reserved, **not built** |
-| `/about`, `/culture`, `/blog`, `/testimonials`, `/contact`, `/privacy-policy`, `/terms-and-conditions`, `/seo-consultant` | — | **not built** |
+| `/ppc-manchester`, `/ai-seo` | — | content/route reserved, **not built** |
+| `/about`, `/culture`, `/testimonials`, `/contact`, `/privacy-policy`, `/terms-and-conditions`, `/seo-consultant` | — | **not built** |
 
 Every unbuilt path deliberately falls through to `NotFoundPage`; the header
 still links to some of them because those links exist in the live site. Do not

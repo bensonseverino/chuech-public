@@ -83,7 +83,6 @@ export type HomePayload = {
   projects: unknown[]
   testimonials: unknown[]
   clients: unknown[]
-  articles: unknown[]
 }
 
 export function siteContent() {
@@ -98,7 +97,7 @@ export function servicesPageContent() {
 export function workPageContent() {
   return fetchEnvelope<{ index: unknown; projects: unknown[] }>('/work-page')
 }
-export function collectionContent<T>(name: 'services' | 'projects' | 'testimonials' | 'clients' | 'articles') {
+export function collectionContent<T>(name: 'services' | 'projects' | 'testimonials' | 'clients') {
   return fetchEnvelope<T[]>(`/collections/${name}`)
 }
 export function pageContent(slug: string) {

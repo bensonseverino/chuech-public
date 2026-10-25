@@ -1,5 +1,5 @@
 import { Fragment } from 'react'
-import { Link } from 'react-router'
+import { TransitionLink } from '../transition/PageTransitionProvider'
 import LongArrow from './LongArrow'
 import type { Keyword } from '../../content/home'
 import './RevealRow.css'
@@ -25,7 +25,7 @@ type RevealRowProps = {
  * title, stretched over the whole row.
  *
  * A keyword may be an object with an `href`: it renders as a real inline
- * `<Link>` sitting above the row link (`relative z-[1]`) so it stays clickable
+ * `<TransitionLink>` sitting above the row link (`relative z-[1]`) so it stays clickable
  * and is underlined (services spec §5.1).
  */
 export default function RevealRow({
@@ -45,12 +45,12 @@ export default function RevealRow({
 
         <div className="svc-body">
           <h3 className="svc-title">
-            <Link
+            <TransitionLink
               to={href}
               className="rounded-button after:absolute after:inset-0 focus-visible:outline-2 focus-visible:outline-offset-8 focus-visible:outline-obsidian"
             >
               {title}
-            </Link>
+            </TransitionLink>
             <span aria-hidden="true" className="svc-dot" />
           </h3>
 
@@ -63,12 +63,12 @@ export default function RevealRow({
                   {typeof keyword === 'string' ? (
                     keyword
                   ) : (
-                    <Link
+                    <TransitionLink
                       to={keyword.href}
                       className="relative z-[1] underline decoration-1 underline-offset-4 transition-[text-decoration-thickness] hover:decoration-2 focus-visible:outline-2 focus-visible:outline-offset-[3px] focus-visible:outline-obsidian"
                     >
                       {keyword.label}
-                    </Link>
+                    </TransitionLink>
                   )}
                 </Fragment>
               ))}

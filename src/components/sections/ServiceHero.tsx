@@ -4,6 +4,7 @@ import SectionBadge from '../primitives/SectionBadge'
 import SectionHeading, { TITLE_ROLE } from '../primitives/SectionHeading'
 import OutlineChip from '../primitives/OutlineChip'
 import ContactForm from '../ContactForm'
+import { useHeroLoad } from '../../hooks/useHeroLoad'
 import Inline from '../../content/live/inline'
 import HighlightReveal from '../ui/HighlightReveal'
 import type { ServicePageView } from '../../content/live/types'
@@ -46,13 +47,15 @@ function FormHeading({ heading, highlight }: { heading: string; highlight?: stri
  */
 export default function ServiceHero({ hero }: { hero: ServicePageView['hero'] }) {
   const capped = hero.titleMaxWidth !== undefined
+  // Above-the-fold hero animates on load, never on scroll (smooth-scroll §7).
+  const rootRef = useHeroLoad<HTMLElement>()
 
   return (
-    <section aria-label={hero.label}>
+    <section ref={rootRef} aria-label={hero.label}>
       <Container className="pt-5 md:pt-10 lg:pt-[calc(var(--u)*3.51)]">
         <div className="grid gap-[50px] md:grid-cols-2 md:items-start md:gap-[35px] lg:grid-cols-[calc(var(--u)*25.9)_calc(var(--u)*40.5)] lg:gap-[calc(var(--u)*3.5)]">
           {/* --- Left column --- */}
-          <div className="min-w-0">
+          <div data-hero-block className="min-w-0">
             <SectionBadge
               as="p"
               iconClassName="h-3.5 w-[37px]"
@@ -101,7 +104,7 @@ export default function ServiceHero({ hero }: { hero: ServicePageView['hero'] })
           </div>
 
           {/* --- Form card --- */}
-          <div className="rounded-panel bg-white px-[35px] py-[35px] shadow-soft">
+          <div data-hero-block className="rounded-panel bg-white px-[35px] py-[35px] shadow-soft">
             {hero.form.heading ? (
               <h2 className={`${TITLE_ROLE} text-obsidian`}>
                 <FormHeading heading={hero.form.heading} highlight={hero.form.highlight} />

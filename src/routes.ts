@@ -11,7 +11,6 @@ export const ROUTES = {
   work: '/work',
   aboutUs: '/about',
   culture: '/culture',
-  blog: '/blog',
   testimonials: '/testimonials',
   contact: '/contact',
   privacyPolicy: '/privacy-policy',
@@ -21,7 +20,6 @@ export const ROUTES = {
   seo: '/seo-manchester',
   aiSeo: '/ai-seo',
   ppc: '/ppc-manchester',
-  video: '/video-production',
   /* Not built; kept so existing content links resolve. */
   seoConsultant: '/seo-consultant',
 } as const

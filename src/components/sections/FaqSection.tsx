@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Reveal } from '../ui/Reveal'
 import Container from '../primitives/Container'
 import Expandable from '../primitives/Expandable'
 import LongArrowLink from '../primitives/LongArrowLink'
@@ -48,7 +49,8 @@ export default function FaqSection({
   const roomy = icon === 'arrow'
 
   return (
-    <section
+    <Reveal
+      as="section"
       id="faq"
       aria-label={heading}
       className="scroll-mt-24 py-[var(--space-50)] lg:py-[var(--space-80)]"
@@ -156,6 +158,6 @@ export default function FaqSection({
           ) : null}
         </div>
       </Container>
-    </section>
+    </Reveal>
   )
 }

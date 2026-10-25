@@ -7,6 +7,7 @@ import ExperienceSection from '../components/sections/ExperienceSection'
 import FaqSection from '../components/sections/FaqSection'
 import { useSiteChrome, useHomeContent } from '../content/live/hooks'
 import { useMetaDescription, usePageTitle } from '../hooks/usePageTitle'
+import { useScrollRefresh } from '../hooks/useScrollRefresh'
 
 /**
  * Home page assembly in the real live order (remaining-sections spec §4):
@@ -23,6 +24,8 @@ export default function Home() {
 
   usePageTitle(view.seo.title)
   useMetaDescription(view.seo.description)
+  // Re-measure ScrollTriggers when the CMS payload replaces the fallback.
+  useScrollRefresh(view)
 
   return (
     <>

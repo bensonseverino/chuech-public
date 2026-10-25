@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import { Link } from 'react-router'
+import { TransitionLink } from '../transition/PageTransitionProvider'
 
 type OutlineChipProps = {
   children: ReactNode
@@ -14,7 +14,7 @@ type OutlineChipProps = {
    * 45px pill used by the work page service links.
    */
   size?: 'sm' | 'lg'
-  /** Internal route — makes the chip a router `<Link>` (interactive). */
+  /** Internal route — makes the chip a router `<TransitionLink>` (interactive). */
   to?: string
   /** External / mailto target — makes the chip a plain anchor. */
   href?: string
@@ -56,9 +56,9 @@ export default function OutlineChip({
 
   if (to !== undefined) {
     return (
-      <Link to={to} className={classes}>
+      <TransitionLink to={to} className={classes}>
         {children}
-      </Link>
+      </TransitionLink>
     )
   }
   if (href !== undefined) {

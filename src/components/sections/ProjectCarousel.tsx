@@ -3,6 +3,7 @@ import Container from '../primitives/Container'
 import SectionHeading, { TITLE_ROLE } from '../primitives/SectionHeading'
 import LongArrowLink from '../primitives/LongArrowLink'
 import ProjectCard from '../primitives/ProjectCard'
+import { Reveal } from '../ui/Reveal'
 import { ChevronIcon } from '../icons'
 import type { ProjectView, ServicePageView } from '../../content/live/types'
 import './ProjectCarousel.css'
@@ -69,7 +70,7 @@ export default function ProjectCarousel({
   }
 
   return (
-    <section aria-labelledby={headingId} className="mt-[50px] lg:mt-[62px]">
+    <Reveal as="section" aria-labelledby={headingId} className="mt-[50px] lg:mt-[62px]">
       <Container>
         <SectionHeading variant="dot" id={headingId} className={`${TITLE_ROLE} text-obsidian`}>
           {heading}
@@ -89,6 +90,9 @@ export default function ProjectCarousel({
           tabIndex={0}
           onKeyDown={onKeyDown}
           onScroll={sync}
+          /* Horizontal scroller: horizontal gestures stay native to the row,
+             while vertical wheeling over it keeps Lenis smoothing the page. */
+          data-lenis-prevent-horizontal
           className="pc-scroll no-scrollbar focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-obsidian"
         >
           <ul className="pc-track">
@@ -127,6 +131,6 @@ export default function ProjectCarousel({
           </button>
         </div>
       </div>
-    </section>
+    </Reveal>
   )
 }

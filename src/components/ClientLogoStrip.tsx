@@ -1,4 +1,5 @@
 import Marquee from './primitives/Marquee'
+import { Reveal } from './ui/Reveal'
 import type { ClientView } from '../content/live/types'
 
 /*
@@ -26,7 +27,8 @@ const WORDMARK_STYLES: Record<string, { className: string; size: number }> = {
  */
 export default function ClientLogoStrip({ clients }: { clients: ClientView[] }) {
   return (
-    <section
+    <Reveal
+      as="section"
       aria-label="Clients"
       className="mt-4 border-t border-silver bg-white md:mt-6 lg:mt-0"
       style={{ paddingBlock: 'max(16px, calc(var(--u)*2.6))' }}
@@ -64,6 +66,6 @@ export default function ClientLogoStrip({ clients }: { clients: ClientView[] }) 
           })}
         </ul>
       </Marquee>
-    </section>
+    </Reveal>
   )
 }

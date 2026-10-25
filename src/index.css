@@ -40,8 +40,12 @@
 
   /* Motion */
   --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+  /* GSAP/CSS parity curve (smooth-scroll spec §2/§8): the `ease-smooth`
+     utility, and the default easing for every transition that does not name
+     its own — so hovers feel like the GSAP motion. */
+  --ease-smooth: cubic-bezier(0.22, 1, 0.36, 1);
   --default-transition-duration: 350ms;
-  --default-transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  --default-transition-timing-function: var(--ease-smooth);
 
   /* Keyframe loops: shared decorative float + marquee (remaining-sections §2.1).
      float-a / float-b are transform-only 2–3px drifts; float-b runs the mirrored
@@ -131,7 +135,8 @@
 }
 
 html {
-  scroll-behavior: smooth;
+  /* `scroll-behavior: smooth` removed (smooth-scroll spec §3): it fights Lenis.
+     In-page anchors are eased by Lenis itself. */
   background: var(--color-fog);
   /* `clip` (not `hidden`) so sticky positioning keeps working. */
   overflow-x: clip;

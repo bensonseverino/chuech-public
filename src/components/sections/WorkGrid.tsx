@@ -1,4 +1,5 @@
 import ProjectCard from '../primitives/ProjectCard'
+import { Reveal } from '../ui/Reveal'
 import type { ProjectView } from '../../content/live/types'
 import './WorkGrid.css'
 
@@ -15,7 +16,7 @@ export default function WorkGrid({ projects }: { projects: ProjectView[] }) {
   return (
     <section id="work-grid" aria-label="Projects" className="work-grid-wrap">
       <h2 className="sr-only">Projects</h2>
-      <ul className="work-grid">
+      <Reveal as="ul" stagger={0.1} className="work-grid">
         {projects.map((project) => (
           <li key={project.slug}>
             <ProjectCard
@@ -29,7 +30,7 @@ export default function WorkGrid({ projects }: { projects: ProjectView[] }) {
             />
           </li>
         ))}
-      </ul>
+      </Reveal>
     </section>
   )
 }

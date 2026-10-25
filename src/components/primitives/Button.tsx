@@ -1,10 +1,10 @@
 import type { AnchorHTMLAttributes, ReactNode } from 'react'
-import { Link } from 'react-router'
+import { TransitionLink } from '../transition/PageTransitionProvider'
 
 type ButtonProps = Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'children' | 'href'> & {
   variant?: 'mint' | 'dark' | 'ghost-dark'
   children: ReactNode
-  /** Internal path — renders a router `<Link>`. */
+  /** Internal path — renders a router `<TransitionLink>`. */
   to?: string
   /** External / `mailto:` / `tel:` target — renders an `<a>`. */
   href?: string
@@ -20,7 +20,7 @@ const VARIANTS: Record<NonNullable<ButtonProps['variant']>, string> = {
 /**
  * CTA button (remaining-sections spec §3): rounded-button, 14px/500, 44px min
  * tap height, standard transitions. Internal CTAs (`to`) render a router
- * `<Link>`; `mailto:`/`tel:`/external targets (`href`) stay real anchors
+ * `<TransitionLink>`; `mailto:`/`tel:`/external targets (`href`) stay real anchors
  * (services spec §3.2).
  */
 export default function Button({
@@ -35,9 +35,9 @@ export default function Button({
 
   if (to !== undefined && href === undefined) {
     return (
-      <Link to={to} className={classes} {...rest}>
+      <TransitionLink to={to} className={classes} {...rest}>
         {children}
-      </Link>
+      </TransitionLink>
     )
   }
 

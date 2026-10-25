@@ -1,4 +1,4 @@
-import { Link } from 'react-router'
+import { TransitionLink } from '../transition/PageTransitionProvider'
 import LongArrow from './LongArrow'
 import OutlineChip from './OutlineChip'
 import { imageSrc } from '../../content/assets'
@@ -61,12 +61,12 @@ export default function ProjectCard({
 
       <div className="p-[25px] md:p-[30px] lg:p-[40px]">
         <h3 className="text-[clamp(21px,15.3px+1.53vw,33px)] leading-[1.1] font-medium text-white">
-          <Link
+          <TransitionLink
             to={`/work/${slug}/`}
             className="after:absolute after:inset-0 focus-visible:outline-none"
           >
             {title}
-          </Link>
+          </TransitionLink>
         </h3>
         <span
           aria-hidden="true"

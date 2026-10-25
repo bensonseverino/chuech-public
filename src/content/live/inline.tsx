@@ -1,5 +1,5 @@
 import { Fragment } from 'react'
-import { Link } from 'react-router'
+import { TransitionLink } from '../../components/transition/PageTransitionProvider'
 import { firstMarkPosition, parseInline } from './inline-markup'
 import HighlightReveal from '../../components/ui/HighlightReveal'
 
@@ -97,9 +97,9 @@ export default function Inline({
 
             if (node.type === 'link') {
               return node.to.startsWith('/') ? (
-                <Link key={index} to={node.to} className={linkClass}>
+                <TransitionLink key={index} to={node.to} className={linkClass}>
                   {node.value}
-                </Link>
+                </TransitionLink>
               ) : (
                 <a key={index} href={node.to} className={linkClass}>
                   {node.value}
