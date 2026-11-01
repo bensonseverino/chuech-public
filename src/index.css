@@ -232,6 +232,35 @@ body {
   }
 }
 
+/*
+  Page transition (page-transition spec §4 + §7).
+
+  --z-revealer: stacking order for the obsidian revealer overlay. It must sit
+  above every page section (hero forms reach z-20) but below the sticky glass
+  nav (z-50) and the md+ logo header (z-40). The nav's own z-index is left
+  alone — only this variable moves.
+*/
+:root {
+  --z-revealer: 30;
+}
+
+/* Page transition: disable default view-transition animations, so only the
+   custom clip-path expansion runs. Without these overrides the browser's own
+   cross-fade fights the custom animation. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+/* Incoming page renders on top; outgoing page stays visible beneath it */
+::view-transition-old(root) {
+  z-index: 1;
+}
+::view-transition-new(root) {
+  z-index: 2;
+}
+
 @utility no-scrollbar {
   scrollbar-width: none;
   &::-webkit-scrollbar {

@@ -46,6 +46,7 @@ export default function ExperienceSection({ stats }: { stats: HomeView['stats'] 
             className="stats-float stats-m1"
             radius="card md:media"
             src={imageSrc(stats.frames[0].src)}
+            video={{ slotId: 'experience-a' }}
           />
           <FloatPill className="stats-float stats-p1" size="sm" variant="a">
             {pillOne}
@@ -54,6 +55,7 @@ export default function ExperienceSection({ stats }: { stats: HomeView['stats'] 
             className="stats-float stats-m2"
             radius="card md:media"
             src={imageSrc(stats.frames[1].src)}
+            video={{ slotId: 'experience-b' }}
           />
           <FloatPill className="stats-float stats-p2" size="sm" variant="b">
             {pillTwo}
@@ -63,6 +65,7 @@ export default function ExperienceSection({ stats }: { stats: HomeView['stats'] 
             radius="media"
             halo
             src={imageSrc(stats.frames[2].src)}
+            video={{ slotId: 'experience-c' }}
           />
         </div>
 
@@ -113,6 +116,7 @@ export default function ExperienceSection({ stats }: { stats: HomeView['stats'] 
                   src={imageSrc(stats.frames[0].src)}
                   className="align-middle"
                   style={{ width: 'calc(var(--u)*9.07)' }}
+                  video={{ slotId: 'experience-a' }}
                 />
               </span>
               <span className="mt-2 flex flex-wrap items-center gap-x-[0.3em] gap-y-2 lg:mt-0">
@@ -120,12 +124,14 @@ export default function ExperienceSection({ stats }: { stats: HomeView['stats'] 
                   src={imageSrc(stats.frames[1].src)}
                   className="align-middle"
                   style={{ width: 'calc(var(--u)*9.07)' }}
+                  video={{ slotId: 'experience-b' }}
                 />
                 {pillTwo}
                 <MediaFrame
                   src={imageSrc(stats.frames[2].src)}
                   className="hidden lg:inline-block"
                   style={{ width: 'calc(var(--u)*9.07)' }}
+                  video={{ slotId: 'experience-c' }}
                 />
               </span>
             </p>

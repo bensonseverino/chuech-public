@@ -1,5 +1,5 @@
 import type { AnchorHTMLAttributes, ReactNode } from 'react'
-import { TransitionLink } from '../transition/PageTransitionProvider'
+import { TransitionLink } from '@/components/TransitionLink'
 
 type ButtonProps = Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'children' | 'href'> & {
   variant?: 'mint' | 'dark' | 'ghost-dark'

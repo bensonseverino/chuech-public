@@ -59,7 +59,7 @@ export default function HeroSection({ hero, site }: { hero: HomeView['hero']; si
                   in it reveals on load instead of sitting dim (§3.6). */}
               <Inline text={hero.description} reveal="load" />
             </p>
-            <ContactRow site={site} thumb={hero.media[2].src} />
+            <ContactRow site={site} />
           </div>
         </div>
       </section>

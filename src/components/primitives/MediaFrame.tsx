@@ -1,4 +1,5 @@
 import { useEffect, useRef, type CSSProperties } from 'react'
+import LazyVideo from '@/components/LazyVideo'
 
 type MediaFrameProps = {
   src: string
@@ -20,6 +21,12 @@ type MediaFrameProps = {
   halo?: boolean
   /** Above-the-fold media: eager load + high fetch priority (services spec §7). */
   priority?: boolean
+  /**
+   * Render an ImageKit clip inside the frame instead of `src` (imagekit-videos
+   * spec §4). The frame keeps owning the size, aspect ratio, radius and glow,
+   * so swapping the media never moves anything.
+   */
+  video?: { slotId: string; priority?: boolean }
   className?: string
   style?: CSSProperties
 }
@@ -59,6 +66,7 @@ export default function MediaFrame({
   radius = 'media',
   halo = false,
   priority = false,
+  video,
   className = '',
   style,
 }: MediaFrameProps) {
@@ -101,7 +109,13 @@ export default function MediaFrame({
         .join(' ')}
       style={halo ? undefined : style}
     >
-      {isVideo ? (
+      {video ? (
+        <LazyVideo
+          slotId={video.slotId}
+          priority={video.priority}
+          className="absolute inset-0"
+        />
+      ) : isVideo ? (
         <video
           ref={videoRef}
           src={src}

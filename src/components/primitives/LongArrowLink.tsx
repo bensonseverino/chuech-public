@@ -1,5 +1,5 @@
 import type { CSSProperties, ReactNode } from 'react'
-import { TransitionLink } from '../transition/PageTransitionProvider'
+import { TransitionLink } from '@/components/TransitionLink'
 import LongArrow from './LongArrow'
 
 type Tone = 'light' | 'dark' | 'mint'

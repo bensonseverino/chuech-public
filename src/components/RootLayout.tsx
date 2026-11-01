@@ -4,8 +4,8 @@ import SiteHeader from './SiteHeader'
 import SiteFooter from './sections/SiteFooter'
 import { useSiteContent } from '../content/live/hooks'
 import { SmoothScrollProvider } from '../providers/SmoothScrollProvider'
-import { PageTransitionProvider } from './transition/PageTransitionProvider'
 import { ScrollManager } from './transition/ScrollManager'
+import Revealer from './Revealer'
 
 /**
  * Router shell (services spec §3.1): sticky header, `<main id="main">` with the
@@ -14,10 +14,10 @@ import { ScrollManager } from './transition/ScrollManager'
  * layout so the sticky nav layer still travels the whole document.
  *
  * This route also hosts the smooth-scroll stack (smooth-scroll spec §6/§9):
- * one Lenis instance, the transition overlay around the whole shell, and
- * `ScrollManager`, which now owns scroll-on-navigation (top, or the `#hash`
- * target) plus the ScrollTrigger refresh — so this component only keeps the
- * focus move that assistive tech relies on.
+ * one Lenis instance, `ScrollManager`, which owns scroll-on-navigation (top, or
+ * the `#hash` target) plus the ScrollTrigger refresh, and the page-transition
+ * `Revealer` (page-transition spec §6) — so this component only keeps the focus
+ * move that assistive tech relies on.
  */
 export default function RootLayout() {
   const { pathname, hash } = useLocation()
@@ -42,19 +42,19 @@ export default function RootLayout() {
 
   return (
     <SmoothScrollProvider>
-      <PageTransitionProvider>
-        <ScrollManager />
-        <div
-          className="min-h-svh bg-fog font-sans text-obsidian antialiased"
-          style={{ overflowX: 'clip' }}
-        >
-          <SiteHeader site={content.site} navigation={content.navigation} />
-          <main id="main" ref={mainRef} tabIndex={-1} className="focus:outline-none">
-            <Outlet context={content} />
-          </main>
-          <SiteFooter footer={content.footer} site={content.site} />
-        </div>
-      </PageTransitionProvider>
+      <ScrollManager />
+      {/* Keyed by pathname so it remounts and replays on every route change. */}
+      <Revealer key={pathname} />
+      <div
+        className="min-h-svh bg-fog font-sans text-obsidian antialiased"
+        style={{ overflowX: 'clip' }}
+      >
+        <SiteHeader site={content.site} navigation={content.navigation} />
+        <main id="main" ref={mainRef} tabIndex={-1} className="focus:outline-none">
+          <Outlet context={content} />
+        </main>
+        <SiteFooter footer={content.footer} site={content.site} />
+      </div>
     </SmoothScrollProvider>
   )
 }

@@ -1,4 +1,4 @@
-import { TransitionLink } from '../transition/PageTransitionProvider'
+import { TransitionLink } from '@/components/TransitionLink'
 import Container from '../primitives/Container'
 import Button from '../primitives/Button'
 import Inline from '../../content/live/inline'

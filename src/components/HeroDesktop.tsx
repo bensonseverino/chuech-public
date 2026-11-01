@@ -35,7 +35,14 @@ export default function HeroDesktop({
             Building Brands
           </span>
           <span className="relative inline-block shrink-0" style={{ width: 'calc(var(--u)*9.07)', zIndex: 10 }}>
-            <MediaPill className="shadow-glow-md" src={media[0].src} alt={media[0].alt} style={FRAME} />
+            <MediaPill
+              className="shadow-glow-md"
+              src={media[0].src}
+              alt={media[0].alt}
+              style={FRAME}
+              slotId="hero-a"
+              priority
+            />
             <FloatingPill
               variant="b"
               className="absolute z-20 inline-flex"
@@ -58,7 +65,13 @@ export default function HeroDesktop({
         {/* Line 2 — Media B (indented) + That Grow, Scale, (team pill on B) */}
         <span className="flex items-center gap-[calc(var(--u)*1.77)] pl-[calc(var(--u)*3.55)]">
           <span className="relative inline-block shrink-0" style={{ width: 'calc(var(--u)*9.07)', zIndex: 10 }}>
-            <MediaPill className="shadow-glow-md" src={media[1].src} alt={media[1].alt} style={FRAME} />
+            <MediaPill
+              className="shadow-glow-md"
+              src={media[1].src}
+              alt={media[1].alt}
+              style={FRAME}
+              slotId="hero-b"
+            />
             <FloatingPill
               className="absolute z-20 inline-flex"
               style={{
@@ -122,6 +135,7 @@ export default function HeroDesktop({
                 src={media[2].src}
                 alt={media[2].alt}
                 style={FRAME}
+                slotId="hero-c"
               />
             </span>
           </span>

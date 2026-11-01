@@ -1,4 +1,4 @@
-import { TransitionLink } from './transition/PageTransitionProvider'
+import { TransitionLink } from '@/components/TransitionLink'
 import { ChevronIcon } from './icons'
 import './Pagination.css'
 

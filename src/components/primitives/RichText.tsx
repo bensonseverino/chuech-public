@@ -1,4 +1,4 @@
-import { TransitionLink } from '../transition/PageTransitionProvider'
+import { TransitionLink } from '@/components/TransitionLink'
 import type { RichSegment } from '../../content/home'
 
 type RichTextProps = {

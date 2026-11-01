@@ -69,7 +69,7 @@ export default function LatestWork({
             </div>
 
             {rightProjects.map((project) => (
-              <ProjectCard key={project.slug} {...project} />
+              <ProjectCard key={project.slug} {...project} videoSlot={`home-work-${project.slug}`} />
             ))}
           </div>
 
@@ -79,7 +79,7 @@ export default function LatestWork({
                 lets the cards join the column's flex flow at md+. */}
             <div className="hidden md:contents">
               {leftProjects.map((project) => (
-                <ProjectCard key={project.slug} {...project} />
+                <ProjectCard key={project.slug} {...project} videoSlot={`home-work-${project.slug}`} />
               ))}
             </div>
 

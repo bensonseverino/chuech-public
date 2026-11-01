@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { useLocation } from 'react-router'
-import { TransitionLink } from './transition/PageTransitionProvider'
+import { TransitionLink } from '@/components/TransitionLink'
 import { useScrollLock } from '../hooks/useScrollLock'
 import chuechLogo from '../assets/marino/chuech-logo2.svg'
 import { MenuIcon, CloseIcon, ArrowRightIcon } from './icons'

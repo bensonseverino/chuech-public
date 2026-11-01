@@ -1,5 +1,5 @@
 import { Fragment } from 'react'
-import { TransitionLink } from '../transition/PageTransitionProvider'
+import { TransitionLink } from '@/components/TransitionLink'
 import LongArrow from './LongArrow'
 import type { Keyword } from '../../content/home'
 import './RevealRow.css'

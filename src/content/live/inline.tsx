@@ -1,5 +1,5 @@
 import { Fragment } from 'react'
-import { TransitionLink } from '../../components/transition/PageTransitionProvider'
+import { TransitionLink } from '@/components/TransitionLink'
 import { firstMarkPosition, parseInline } from './inline-markup'
 import HighlightReveal from '../../components/ui/HighlightReveal'
 

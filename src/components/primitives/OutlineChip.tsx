@@ -1,5 +1,5 @@
 import type { ReactNode } from 'react'
-import { TransitionLink } from '../transition/PageTransitionProvider'
+import { TransitionLink } from '@/components/TransitionLink'
 
 type OutlineChipProps = {
   children: ReactNode
