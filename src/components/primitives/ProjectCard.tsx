@@ -1,5 +1,4 @@
 import { TransitionLink } from '@/components/TransitionLink'
-import LazyVideo from '@/components/LazyVideo'
 import LongArrow from './LongArrow'
 import OutlineChip from './OutlineChip'
 import { imageSrc } from '../../content/assets'
@@ -16,12 +15,6 @@ type ProjectCardProps = {
    * stretch to the row height instead. Default keeps the Home panel's aspect.
    */
   fill?: boolean
-  /**
-   * ImageKit slot id — renders a clip in the media layer instead of the photo
-   * (imagekit-videos spec §4). Only the Home board passes it; the work grid and
-   * service carousels keep the project photography.
-   */
-  videoSlot?: string
   className?: string
 }
 
@@ -39,7 +32,6 @@ export default function ProjectCard({
   image,
   focus = 'center',
   fill = false,
-  videoSlot,
   className = '',
 }: ProjectCardProps) {
   // `fill` replaces the card's own aspect ratio with the grid row height.
@@ -49,21 +41,14 @@ export default function ProjectCard({
     <article
       className={`group relative isolate flex ${shape} flex-col justify-end overflow-hidden rounded-[30px] has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-primary ${className}`}
     >
-      {videoSlot ? (
-        <LazyVideo
-          slotId={videoSlot}
-          className="absolute inset-0 -z-20 h-full w-full transition-transform ease-standard group-hover:scale-[1.04] group-focus-within:scale-[1.04]"
-        />
-      ) : (
-        <img
-          src={imageSrc(image)}
-          alt=""
-          loading="lazy"
-          decoding="async"
-          style={{ objectPosition: focus }}
-          className="absolute inset-0 -z-20 h-full w-full object-cover transition-transform ease-standard group-hover:scale-[1.04] group-focus-within:scale-[1.04]"
-        />
-      )}
+      <img
+        src={imageSrc(image)}
+        alt=""
+        loading="lazy"
+        decoding="async"
+        style={{ objectPosition: focus }}
+        className="absolute inset-0 -z-20 h-full w-full object-cover transition-transform ease-standard group-hover:scale-[1.04] group-focus-within:scale-[1.04]"
+      />
       {/* Functional legibility scrim — the one documented gradient exception. */}
       <span
         aria-hidden="true"
