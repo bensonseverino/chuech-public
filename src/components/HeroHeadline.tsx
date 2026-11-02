@@ -33,7 +33,6 @@ export default function HeroHeadline({
           asSlot={false}
           alt=""
           className="shadow-glow-md w-[25vw] max-w-[180px] md:w-28 md:max-w-none md:aspect-[2/1] lg:w-32"
-          slotId="hero-a"
           priority
         />
         <span className="shrink-0 whitespace-nowrap">Brands</span>
@@ -49,7 +48,6 @@ export default function HeroHeadline({
             asSlot={false}
             alt=""
             className="shadow-glow-md w-[32vw] max-w-24 md:max-w-none md:w-36 md:aspect-[9/4]"
-            slotId="hero-b"
           />
         </span>
       </span>

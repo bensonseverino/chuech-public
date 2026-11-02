@@ -4,7 +4,7 @@ import MediaFrame from '../primitives/MediaFrame'
 import FloatPill from '../primitives/FloatPill'
 import Button from '../primitives/Button'
 import Container from '../primitives/Container'
-import { pillSrc, imageSrc } from '../../content/assets'
+import { pillSrc } from '../../content/assets'
 import type { HomeView } from '../../content/live/types'
 import './ExperienceSection.css'
 
@@ -46,7 +46,6 @@ export default function ExperienceSection({ stats }: { stats: HomeView['stats'] 
             className="stats-float stats-m1"
             radius="card md:media"
             src={pillSrc()}
-            video={{ slotId: 'experience-a' }}
           />
           <FloatPill className="stats-float stats-p1" size="sm" variant="a">
             {pillOne}
@@ -55,7 +54,6 @@ export default function ExperienceSection({ stats }: { stats: HomeView['stats'] 
             className="stats-float stats-m2"
             radius="card md:media"
             src={pillSrc()}
-            video={{ slotId: 'experience-b' }}
           />
           <FloatPill className="stats-float stats-p2" size="sm" variant="b">
             {pillTwo}
@@ -65,7 +63,6 @@ export default function ExperienceSection({ stats }: { stats: HomeView['stats'] 
             radius="media"
             halo
             src={pillSrc()}
-            video={{ slotId: 'experience-c' }}
           />
         </div>
 
@@ -113,25 +110,22 @@ export default function ExperienceSection({ stats }: { stats: HomeView['stats'] 
               <span className="flex flex-wrap items-center gap-x-[0.3em] gap-y-2">
                 {pillOne}
                 <MediaFrame
-                  src={imageSrc(stats.frames[0].src)}
+                  src={pillSrc()}
                   className="align-middle"
                   style={{ width: 'calc(var(--u)*9.07)' }}
-                  video={{ slotId: 'experience-a' }}
                 />
               </span>
               <span className="mt-2 flex flex-wrap items-center gap-x-[0.3em] gap-y-2 lg:mt-0">
                 <MediaFrame
-                  src={imageSrc(stats.frames[1].src)}
+                  src={pillSrc()}
                   className="align-middle"
                   style={{ width: 'calc(var(--u)*9.07)' }}
-                  video={{ slotId: 'experience-b' }}
                 />
                 {pillTwo}
                 <MediaFrame
-                  src={imageSrc(stats.frames[2].src)}
+                  src={pillSrc()}
                   className="hidden lg:inline-block"
                   style={{ width: 'calc(var(--u)*9.07)' }}
-                  video={{ slotId: 'experience-c' }}
                 />
               </span>
             </p>

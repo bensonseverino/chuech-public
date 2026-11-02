@@ -40,7 +40,6 @@ export default function HeroDesktop({
               asSlot={false}
               alt=""
               style={FRAME}
-              slotId="hero-a"
               priority
             />
             <FloatingPill
@@ -71,7 +70,6 @@ export default function HeroDesktop({
               asSlot={false}
               alt=""
               style={FRAME}
-              slotId="hero-b"
             />
             <FloatingPill
               className="absolute z-20 inline-flex"
@@ -137,7 +135,6 @@ export default function HeroDesktop({
                 asSlot={false}
                 alt=""
                 style={FRAME}
-                slotId="hero-c"
               />
             </span>
           </span>
