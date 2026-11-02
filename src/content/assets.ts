@@ -78,9 +78,9 @@ const SLOTS: Record<string, string> = {
   'stats-1': stats1,
   'stats-2': stats2,
   'stats-3': stats3,
-  /* Floating hero/experience pills — a small rotating pool of the supplied
-     GIFs + WebPs, assigned randomly per render so the pills don't all show
-     the same image. */
+  /* Floating hero/experience pills — the supplied GIFs + WebPs. The hero
+     always leads with the two GIFs; the stills fill the remaining hero frame
+     (random per page load) and every experience frame. */
   'pill-1': pillGif1,
   'pill-2': pillGif2,
   'pill-3': pillWebp1,
@@ -107,12 +107,41 @@ export function imageSrc(value: string): string {
     : asset(value)
 }
 
-/**
- * A random pill from the rotating pool (`pill-1`…`pill-5`). Each call picks an
- * independent random pill so the hero/experience media frames don't all resolve
- * to the same file on one paint — the assignment is per-render, not stateful.
- */
-export function pillSrc(): string {
-  const slot = `pill-${1 + (Math.random() * 5 | 0)}`
-  return asset(slot)
+/* The two supplied GIFs always lead the hero; the three stills fill the rest. */
+const HERO_GIF_SLOTS = ['pill-1', 'pill-2'] as const
+const STILL_PILL_SLOTS = ['pill-3', 'pill-4', 'pill-5'] as const
+
+function randomFrom<T>(items: readonly T[]): T {
+  return items[Math.floor(Math.random() * items.length)]
 }
+
+function shuffled<T>(items: readonly T[]): T[] {
+  const out = [...items]
+  for (let i = out.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1))
+    ;[out[i], out[j]] = [out[j], out[i]]
+  }
+  return out
+}
+
+/**
+ * Hero frames: both GIFs, then one random still. Computed once per page load so
+ * the hidden mobile and desktop hero branches share the same three sources and
+ * re-renders cannot reshuffle the pills mid-animation.
+ */
+export const HERO_PILL_SRCS: readonly [string, string, string] = [
+  asset(HERO_GIF_SLOTS[0]),
+  asset(HERO_GIF_SLOTS[1]),
+  asset(randomFrom(STILL_PILL_SLOTS)),
+]
+
+/**
+ * Experience frames: the three stills in a random order, once per page load.
+ * Mobile shows the first two; tablet/desktop show all three.
+ */
+const experiencePills = shuffled(STILL_PILL_SLOTS).map(asset)
+export const EXPERIENCE_PILL_SRCS: readonly [string, string, string] = [
+  experiencePills[0],
+  experiencePills[1],
+  experiencePills[2],
+]

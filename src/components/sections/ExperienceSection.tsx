@@ -4,7 +4,8 @@ import MediaFrame from '../primitives/MediaFrame'
 import FloatPill from '../primitives/FloatPill'
 import Button from '../primitives/Button'
 import Container from '../primitives/Container'
-import { pillSrc } from '../../content/assets'
+import { MEDIA_PILL_SIZE } from '../primitives/mediaPillSize'
+import { EXPERIENCE_PILL_SRCS } from '../../content/assets'
 import type { HomeView } from '../../content/live/types'
 import './ExperienceSection.css'
 
@@ -19,6 +20,7 @@ import './ExperienceSection.css'
  */
 export default function ExperienceSection({ stats }: { stats: HomeView['stats'] }) {
   const [pillOne, pillTwo] = stats.pills
+  const [mediaOne, mediaTwo, mediaThree] = EXPERIENCE_PILL_SRCS
   const mobileSr = `${stats.marquee[0] ?? ''}. ${stats.marquee[1] ?? ''}. ${pillOne}. ${pillTwo}.`
   const desktopSr = stats.marquee.map((item) => `${item}.`).join(' ')
 
@@ -43,26 +45,26 @@ export default function ExperienceSection({ stats }: { stats: HomeView['stats'] 
           </div>
 
           <MediaFrame
-            className="stats-float stats-m1"
+            className={`stats-float stats-m1 ${MEDIA_PILL_SIZE}`}
             radius="card md:media"
-            src={pillSrc()}
+            src={mediaOne}
           />
           <FloatPill className="stats-float stats-p1" size="sm" variant="a">
             {pillOne}
           </FloatPill>
           <MediaFrame
-            className="stats-float stats-m2"
+            className={`stats-float stats-m2 ${MEDIA_PILL_SIZE}`}
             radius="card md:media"
-            src={pillSrc()}
+            src={mediaTwo}
           />
           <FloatPill className="stats-float stats-p2" size="sm" variant="b">
             {pillTwo}
           </FloatPill>
           <MediaFrame
-            className="stats-float stats-m3"
+            className={`stats-float stats-m3 ${MEDIA_PILL_SIZE}`}
             radius="media"
             halo
-            src={pillSrc()}
+            src={mediaThree}
           />
         </div>
 
@@ -110,22 +112,19 @@ export default function ExperienceSection({ stats }: { stats: HomeView['stats'] 
               <span className="flex flex-wrap items-center gap-x-[0.3em] gap-y-2">
                 {pillOne}
                 <MediaFrame
-                  src={pillSrc()}
-                  className="align-middle"
-                  style={{ width: 'calc(var(--u)*9.07)' }}
+                  src={mediaOne}
+                  className={`align-middle ${MEDIA_PILL_SIZE}`}
                 />
               </span>
               <span className="mt-2 flex flex-wrap items-center gap-x-[0.3em] gap-y-2 lg:mt-0">
                 <MediaFrame
-                  src={pillSrc()}
-                  className="align-middle"
-                  style={{ width: 'calc(var(--u)*9.07)' }}
+                  src={mediaTwo}
+                  className={`align-middle ${MEDIA_PILL_SIZE}`}
                 />
                 {pillTwo}
                 <MediaFrame
-                  src={pillSrc()}
-                  className="hidden lg:inline-block"
-                  style={{ width: 'calc(var(--u)*9.07)' }}
+                  src={mediaThree}
+                  className={`hidden lg:inline-block ${MEDIA_PILL_SIZE}`}
                 />
               </span>
             </p>

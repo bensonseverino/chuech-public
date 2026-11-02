@@ -63,8 +63,6 @@
   .stats-m1 {
     right: 5.9%;
     top: 0;
-    width: 123px;
-    height: 69px;
   }
 
   .stats-p1 {
@@ -80,8 +78,6 @@
   .stats-m2 {
     left: 6.7%;
     top: 201px;
-    width: 123px;
-    height: 69px;
   }
 
   .stats-m3 {
@@ -98,13 +94,14 @@
   }
 
   /*
-   * Small phones (<=374px): the fixed 123px frames and ~180px pills overlap
-   * once the stage is narrower than ~350px of content — at 320px the 7.1%
-   * Decades pill's right edge runs under the right-anchored frame, and the
-   * Clients pill runs into the bottom-left frame. Both frames stay at their
-   * spec'd anchors (top-right / bottom-left) and the two pills shift instead:
-   * the Decades pill drops below the top frame, the Clients pill lifts clear
-   * of the bottom frame. 375px and up already clears both pairs, so the
+   * Small phones (<=374px): the media frames (max 123px, but still large
+   * relative to the stage) and ~180px pills overlap once the stage is narrower
+   * than ~350px of content — at 320px the 7.1% Decades pill's right edge runs
+   * under the right-anchored frame, and the Clients pill runs into the
+   * bottom-left frame. Both frames stay at their spec'd anchors (top-right /
+   * bottom-left) and the two pills shift instead: the Decades pill drops below
+   * the top frame, the Clients pill lifts clear of the bottom frame. 375px and
+   * up already clears both pairs, so the
    * reference composition is untouched (experience spec §5.4: no float may
    * overlap another float).
    *
@@ -145,8 +142,6 @@
       left: 3.3%;
       right: auto;
       top: 0;
-      width: 134px;
-      height: 76px;
     }
 
     .stats-p1 {
@@ -158,8 +153,6 @@
       left: 58%;
       right: auto;
       top: 29px;
-      width: 134px;
-      height: 76px;
     }
 
     .stats-p2 {
@@ -172,8 +165,6 @@
       display: block;
       left: 23.4%;
       top: 261px;
-      width: 134px;
-      height: 76px;
     }
   }
 }

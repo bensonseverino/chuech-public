@@ -18,8 +18,8 @@ type MediaPillProps = {
 
 /**
  * Hero frame adapter over the shared MediaFrame primitive (remaining-sections
- * §3). Radius/glow/overflow come from the primitive; the desktop composition
- * keeps passing unit sizing through `style`.
+ * §3). Radius/glow/overflow come from the primitive; every caller sizes it with
+ * the shared `MEDIA_PILL_SIZE` classes.
  *
  * `slotId` swaps the photo for an ImageKit clip inside the same frame
  * (imagekit-videos spec §4); geometry is untouched either way. When `src` is a

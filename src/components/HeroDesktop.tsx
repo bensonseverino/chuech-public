@@ -1,12 +1,11 @@
 import MediaPill from './MediaPill'
 import FloatingPill from './FloatingPill'
-import { pillSrc } from '../content/assets'
+import { MEDIA_PILL_SIZE } from './primitives/mediaPillSize'
+import { HERO_PILL_SRCS } from '../content/assets'
 import type { SiteView } from '../content/live/types'
 
 // Headline line metrics (change spec §2b): 6.73 units, pitch ≈ 1.0em.
 const LINE = { fontSize: 'calc(var(--u)*6.732)', lineHeight: '1.0' } as const
-
-const FRAME = { width: 'calc(var(--u)*9.07)' } as const
 
 /**
  * Desktop (lg+) hero — change spec §2.
@@ -35,11 +34,10 @@ export default function HeroDesktop({
           </span>
           <span className="relative inline-block shrink-0" style={{ width: 'calc(var(--u)*9.07)', zIndex: 10 }}>
             <MediaPill
-              className="shadow-glow-md"
-              src={pillSrc()}
+              className={`shadow-glow-md ${MEDIA_PILL_SIZE}`}
+              src={HERO_PILL_SRCS[0]}
               asSlot={false}
               alt=""
-              style={FRAME}
               priority
             />
             <FloatingPill
@@ -65,11 +63,10 @@ export default function HeroDesktop({
         <span className="flex items-center gap-[calc(var(--u)*1.77)] pl-[calc(var(--u)*3.55)]">
           <span className="relative inline-block shrink-0" style={{ width: 'calc(var(--u)*9.07)', zIndex: 10 }}>
             <MediaPill
-              className="shadow-glow-md"
-              src={pillSrc()}
+              className={`shadow-glow-md ${MEDIA_PILL_SIZE}`}
+              src={HERO_PILL_SRCS[1]}
               asSlot={false}
               alt=""
-              style={FRAME}
             />
             <FloatingPill
               className="absolute z-20 inline-flex"
@@ -130,11 +127,10 @@ export default function HeroDesktop({
                 }}
               />
               <MediaPill
-                className="shadow-glow-lg relative z-10"
-                src={pillSrc()}
+                className={`shadow-glow-lg relative z-10 ${MEDIA_PILL_SIZE}`}
+                src={HERO_PILL_SRCS[2]}
                 asSlot={false}
                 alt=""
-                style={FRAME}
               />
             </span>
           </span>

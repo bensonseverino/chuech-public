@@ -1,6 +1,7 @@
 import MediaPill from './MediaPill'
 import FloatingPill from './FloatingPill'
-import { pillSrc } from '../content/assets'
+import { MEDIA_PILL_SIZE } from './primitives/mediaPillSize'
+import { HERO_PILL_SRCS } from '../content/assets'
 
 /**
  * "Building Brands That Grow, Scale, & Lead" as controlled line rows (spec §8):
@@ -29,10 +30,10 @@ export default function HeroHeadline({
       {/* Line 2 — media 1 + "Brands" */}
       <span className="flex items-center gap-[0.16em]">
         <MediaPill
-          src={pillSrc()}
+          src={HERO_PILL_SRCS[0]}
           asSlot={false}
           alt=""
-          className="shadow-glow-md w-[25vw] max-w-[180px] md:w-28 md:max-w-none md:aspect-[2/1] lg:w-32"
+          className={`shadow-glow-md ${MEDIA_PILL_SIZE}`}
           priority
         />
         <span className="shrink-0 whitespace-nowrap">Brands</span>
@@ -44,10 +45,10 @@ export default function HeroHeadline({
         <span className="flex items-center gap-[0.16em]">
           <span className="shrink-0 whitespace-nowrap">Scale,</span>
           <MediaPill
-            src={pillSrc()}
+            src={HERO_PILL_SRCS[1]}
             asSlot={false}
             alt=""
-            className="shadow-glow-md w-[32vw] max-w-24 md:max-w-none md:w-36 md:aspect-[9/4]"
+            className={`shadow-glow-md ${MEDIA_PILL_SIZE}`}
           />
         </span>
       </span>
