@@ -50,7 +50,7 @@ export default function HeroSection({ hero, site }: { hero: HomeView['hero']; si
             <PartnerBadge companyName={site.companyName} location={site.address} />
           </div>
           <div data-hero-block>
-            <HeroHeadline pills={hero.pills} media={hero.media} />
+            <HeroHeadline pills={hero.pills} />
           </div>
 
           <div data-hero-block className="mt-5 grid items-start gap-5 pb-10 md:mt-8 md:grid-cols-2 md:items-end md:gap-10 md:pb-14">
@@ -71,7 +71,7 @@ export default function HeroSection({ hero, site }: { hero: HomeView['hero']; si
             <DesktopBadge site={site} />
           </div>
           <div data-hero-block>
-            <HeroDesktop pills={hero.pills} media={hero.media} site={site} />
+            <HeroDesktop pills={hero.pills} site={site} />
           </div>
         </Container>
       </section>

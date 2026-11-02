@@ -4,7 +4,7 @@ import MediaFrame from '../primitives/MediaFrame'
 import FloatPill from '../primitives/FloatPill'
 import Button from '../primitives/Button'
 import Container from '../primitives/Container'
-import { imageSrc } from '../../content/assets'
+import { pillSrc, imageSrc } from '../../content/assets'
 import type { HomeView } from '../../content/live/types'
 import './ExperienceSection.css'
 
@@ -45,7 +45,7 @@ export default function ExperienceSection({ stats }: { stats: HomeView['stats'] 
           <MediaFrame
             className="stats-float stats-m1"
             radius="card md:media"
-            src={imageSrc(stats.frames[0].src)}
+            src={pillSrc()}
             video={{ slotId: 'experience-a' }}
           />
           <FloatPill className="stats-float stats-p1" size="sm" variant="a">
@@ -54,7 +54,7 @@ export default function ExperienceSection({ stats }: { stats: HomeView['stats'] 
           <MediaFrame
             className="stats-float stats-m2"
             radius="card md:media"
-            src={imageSrc(stats.frames[1].src)}
+            src={pillSrc()}
             video={{ slotId: 'experience-b' }}
           />
           <FloatPill className="stats-float stats-p2" size="sm" variant="b">
@@ -64,7 +64,7 @@ export default function ExperienceSection({ stats }: { stats: HomeView['stats'] 
             className="stats-float stats-m3"
             radius="media"
             halo
-            src={imageSrc(stats.frames[2].src)}
+            src={pillSrc()}
             video={{ slotId: 'experience-c' }}
           />
         </div>

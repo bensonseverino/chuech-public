@@ -15,6 +15,11 @@ import blackbirdLogo from '../assets/marino/blackbird-logo.svg'
 import stats1 from '../assets/marino/stats-1.svg'
 import stats2 from '../assets/marino/stats-2.svg'
 import stats3 from '../assets/marino/stats-3.svg'
+import pillGif1 from '../assets/med/pill-1.gif'
+import pillGif2 from '../assets/med/pill-1b.gif'
+import pillWebp1 from '../assets/med/pill-1.webp'
+import pillWebp2 from '../assets/med/pill-2.webp'
+import pillWebp3 from '../assets/med/pill-3.webp'
 
 const SLOTS: Record<string, string> = {
   'work-ph': workPh,
@@ -73,6 +78,14 @@ const SLOTS: Record<string, string> = {
   'stats-1': stats1,
   'stats-2': stats2,
   'stats-3': stats3,
+  /* Floating hero/experience pills — a small rotating pool of the supplied
+     GIFs + WebPs, assigned randomly per render so the pills don't all show
+     the same image. */
+  'pill-1': pillGif1,
+  'pill-2': pillGif2,
+  'pill-3': pillWebp1,
+  'pill-4': pillWebp2,
+  'pill-5': pillWebp3,
 }
 
 /** Resolve a content asset slot to its imported local URL. */
@@ -92,4 +105,14 @@ export function imageSrc(value: string): string {
   return value.startsWith('/') || value.startsWith('http') || value.startsWith('data:')
     ? value
     : asset(value)
+}
+
+/**
+ * A random pill from the rotating pool (`pill-1`…`pill-5`). Each call picks an
+ * independent random pill so the hero/experience media frames don't all resolve
+ * to the same file on one paint — the assignment is per-render, not stateful.
+ */
+export function pillSrc(): string {
+  const slot = `pill-${1 + (Math.random() * 5 | 0)}`
+  return asset(slot)
 }

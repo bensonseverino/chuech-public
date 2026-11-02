@@ -1,6 +1,6 @@
 import MediaPill from './MediaPill'
 import FloatingPill from './FloatingPill'
-import type { MediaView } from '../content/live/types'
+import { pillSrc } from '../content/assets'
 
 /**
  * "Building Brands That Grow, Scale, & Lead" as controlled line rows (spec §8):
@@ -10,10 +10,8 @@ import type { MediaView } from '../content/live/types'
  */
 export default function HeroHeadline({
   pills,
-  media,
 }: {
   pills: [string, string]
-  media: [MediaView, MediaView, MediaView]
 }) {
   return (
     <h1
@@ -31,8 +29,9 @@ export default function HeroHeadline({
       {/* Line 2 — media 1 + "Brands" */}
       <span className="flex items-center gap-[0.16em]">
         <MediaPill
-          src={media[0].src}
-          alt={media[0].alt}
+          src={pillSrc()}
+          asSlot={false}
+          alt=""
           className="shadow-glow-md w-[25vw] max-w-[180px] md:w-28 md:max-w-none md:aspect-[2/1] lg:w-32"
           slotId="hero-a"
           priority
@@ -46,8 +45,9 @@ export default function HeroHeadline({
         <span className="flex items-center gap-[0.16em]">
           <span className="shrink-0 whitespace-nowrap">Scale,</span>
           <MediaPill
-            src={media[1].src}
-            alt={media[1].alt}
+            src={pillSrc()}
+            asSlot={false}
+            alt=""
             className="shadow-glow-md w-[32vw] max-w-24 md:max-w-none md:w-36 md:aspect-[9/4]"
             slotId="hero-b"
           />

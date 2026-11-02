@@ -1,6 +1,7 @@
 import MediaPill from './MediaPill'
 import FloatingPill from './FloatingPill'
-import type { MediaView, SiteView } from '../content/live/types'
+import { pillSrc } from '../content/assets'
+import type { SiteView } from '../content/live/types'
 
 // Headline line metrics (change spec §2b): 6.73 units, pitch ≈ 1.0em.
 const LINE = { fontSize: 'calc(var(--u)*6.732)', lineHeight: '1.0' } as const
@@ -16,11 +17,9 @@ const FRAME = { width: 'calc(var(--u)*9.07)' } as const
  */
 export default function HeroDesktop({
   pills,
-  media,
   site,
 }: {
   pills: [string, string]
-  media: [MediaView, MediaView, MediaView]
   site: SiteView
 }) {
   return (
@@ -37,8 +36,9 @@ export default function HeroDesktop({
           <span className="relative inline-block shrink-0" style={{ width: 'calc(var(--u)*9.07)', zIndex: 10 }}>
             <MediaPill
               className="shadow-glow-md"
-              src={media[0].src}
-              alt={media[0].alt}
+              src={pillSrc()}
+              asSlot={false}
+              alt=""
               style={FRAME}
               slotId="hero-a"
               priority
@@ -67,8 +67,9 @@ export default function HeroDesktop({
           <span className="relative inline-block shrink-0" style={{ width: 'calc(var(--u)*9.07)', zIndex: 10 }}>
             <MediaPill
               className="shadow-glow-md"
-              src={media[1].src}
-              alt={media[1].alt}
+              src={pillSrc()}
+              asSlot={false}
+              alt=""
               style={FRAME}
               slotId="hero-b"
             />
@@ -132,8 +133,9 @@ export default function HeroDesktop({
               />
               <MediaPill
                 className="shadow-glow-lg relative z-10"
-                src={media[2].src}
-                alt={media[2].alt}
+                src={pillSrc()}
+                asSlot={false}
+                alt=""
                 style={FRAME}
                 slotId="hero-c"
               />
