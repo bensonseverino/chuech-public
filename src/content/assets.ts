@@ -20,6 +20,7 @@ import pillGif2 from '../assets/med/pill-1b.gif'
 import pillWebp1 from '../assets/med/pill-1.webp'
 import pillWebp2 from '../assets/med/pill-2.webp'
 import pillWebp3 from '../assets/med/pill-3.webp'
+import pillContact from '../assets/med/pill-contact.gif'
 
 const SLOTS: Record<string, string> = {
   'work-ph': workPh,
@@ -86,6 +87,8 @@ const SLOTS: Record<string, string> = {
   'pill-3': pillWebp1,
   'pill-4': pillWebp2,
   'pill-5': pillWebp3,
+  /* Contact-row thumbnail: the supplied team GIF beside the email/phone. */
+  'pill-contact': pillContact,
 }
 
 /** Resolve a content asset slot to its imported local URL. */
