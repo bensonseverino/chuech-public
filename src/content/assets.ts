@@ -80,16 +80,15 @@ const SLOTS: Record<string, string> = {
   'stats-1': stats1,
   'stats-2': stats2,
   'stats-3': stats3,
-  /* Floating hero/experience pills. The two hero GIFs + the contact GIF are
-     the originals; the four still-image pills (hero frame 3 + the three
-     experience frames) now carry the new sticker-sheet GIFs. */
+  /* Media pill GIFs — the two hero originals, the four sticker-sheet GIFs and
+     the contact thumb. All seven live in one daily-rotating pool (§assets). */
   'pill-1': pillGif1,
   'pill-2': pillGif2,
   'pill-3': pillStill1,
   'pill-4': pillStill2,
   'pill-5': pillStill3,
   'pill-6': pillStill4,
-  /* Contact-row thumbnail: the supplied team GIF beside the email/phone. */
+  /* Contact-row thumbnail slot: joins the daily pill pool. */
   'pill-contact': pillContact,
 }
 
@@ -112,41 +111,69 @@ export function imageSrc(value: string): string {
     : asset(value)
 }
 
-/* The two supplied GIFs always lead the hero; the four new GIFs fill the four
-   still-image pills (hero frame 3 + the three experience frames). */
-const HERO_GIF_SLOTS = ['pill-1', 'pill-2'] as const
-const STILL_PILL_SLOTS = ['pill-3', 'pill-4', 'pill-5', 'pill-6'] as const
+/* Every pill GIF — the two hero originals, the four sticker-sheet GIFs and
+   the contact thumbnail — live in one pool. One daily shuffle assigns all
+   seven across the site's seven pill frames (2 hero + 1 hero-third + 3
+   experience + 1 contact): the arrangement holds for the local calendar day
+   and rotates to a fresh mix at midnight. */
+const GIF_SLOTS = [
+  'pill-1',
+  'pill-2',
+  'pill-3',
+  'pill-4',
+  'pill-5',
+  'pill-6',
+  'pill-contact',
+] as const
 
-function shuffled<T>(items: readonly T[]): T[] {
+/** Seed from the local calendar date so the shuffle changes once per day. */
+function dailySeed(): number {
+  const d = new Date()
+  return d.getFullYear() * 10000 + (d.getMonth() + 1) * 100 + d.getDate()
+}
+
+/** Deterministic Fisher-Yates (mulberry32 PRNG) for reproducible daily mixes. */
+function seededShuffle<T>(items: readonly T[], seed: number): T[] {
   const out = [...items]
+  let s = seed >>> 0
   for (let i = out.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1))
+    s = (s + 0x6d2b79f5) >>> 0
+    let t = s
+    t = Math.imul(t ^ (t >>> 15), t | 1)
+    t ^= t + Math.imul(t ^ (t >>> 7), t | 61)
+    const rand = ((t ^ (t >>> 14)) >>> 0) / 4294967296
+    const j = Math.floor(rand * (i + 1))
     ;[out[i], out[j]] = [out[j], out[i]]
   }
   return out
 }
 
+/* Resolved once per module load: seven different GIFs, one per pill frame. */
+const dailyPills = seededShuffle(GIF_SLOTS, dailySeed()).map(asset)
+
 /**
- * The four still-image pills: one shuffle decides everything, once per page
- * load. Slot 0 lands in the hero's third frame; the remaining three fill the
- * experience frames. Every GIF shows exactly once, re-renders cannot reshuffle
- * the pills mid-animation, and the hidden/exported branches share the order.
+ * Hero frames: three of the day's seven GIFs, leading the headline. Computed
+ * once per page load so the hidden mobile and desktop hero branches share the
+ * same three sources and re-renders cannot reshuffle the pills mid-animation.
  */
-const shuffledStills = shuffled(STILL_PILL_SLOTS).map(asset)
-export const HERO_STILL_SLOT = shuffledStills[0]
-export const EXPERIENCE_PILL_SRCS: readonly [string, string, string] = [
-  shuffledStills[1],
-  shuffledStills[2],
-  shuffledStills[3],
+export const HERO_PILL_SRCS: readonly [string, string, string] = [
+  dailyPills[0],
+  dailyPills[1],
+  dailyPills[2],
 ]
 
 /**
- * Hero frames: both GIFs, then one of the four new GIFs. Computed once per
- * page load so the hidden mobile and desktop hero branches share the same
- * three sources.
+ * Experience frames: three more of the day's GIFs. Mobile shows the first
+ * two; tablet/desktop show all three.
  */
-export const HERO_PILL_SRCS: readonly [string, string, string] = [
-  asset(HERO_GIF_SLOTS[0]),
-  asset(HERO_GIF_SLOTS[1]),
-  HERO_STILL_SLOT,
+export const EXPERIENCE_PILL_SRCS: readonly [string, string, string] = [
+  dailyPills[3],
+  dailyPills[4],
+  dailyPills[5],
 ]
+
+/**
+ * Contact-row thumbnail: the last of the day's GIFs, so the thumbnail joins
+ * the daily rotation instead of staying fixed.
+ */
+export const CONTACT_THUMB = dailyPills[6]

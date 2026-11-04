@@ -1,10 +1,10 @@
-import { asset } from '../content/assets'
+import { CONTACT_THUMB } from '../content/assets'
 import type { SiteView } from '../content/live/types'
 
 /**
  * Small rounded media thumbnail + email/phone stack (spec §9).
- * The thumb is a supplied team GIF beside the contact details; the email and
- * phone links remain the interactive elements (the illustration is decorative).
+ * The thumb is one of the day's rotating GIFs beside the contact details; the
+ * email and phone links remain the interactive elements (it is decorative).
  */
 export default function ContactRow({ site }: { site: SiteView }) {
   return (
@@ -14,7 +14,7 @@ export default function ContactRow({ site }: { site: SiteView }) {
         className="rounded-media shadow-glow-md relative block h-12 w-20 shrink-0 overflow-hidden sm:h-14 sm:w-24 md:h-16 md:w-28"
       >
         <img
-          src={asset('pill-contact')}
+          src={CONTACT_THUMB}
           alt=""
           draggable={false}
           loading="lazy"
