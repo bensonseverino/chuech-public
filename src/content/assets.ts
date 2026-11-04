@@ -17,9 +17,10 @@ import stats2 from '../assets/marino/stats-2.svg'
 import stats3 from '../assets/marino/stats-3.svg'
 import pillGif1 from '../assets/med/pill-1.gif'
 import pillGif2 from '../assets/med/pill-1b.gif'
-import pillWebp1 from '../assets/med/pill-1.webp'
-import pillWebp2 from '../assets/med/pill-2.webp'
-import pillWebp3 from '../assets/med/pill-3.webp'
+import pillStill1 from '../assets/med/pill-3.gif'
+import pillStill2 from '../assets/med/pill-4.gif'
+import pillStill3 from '../assets/med/pill-5.gif'
+import pillStill4 from '../assets/med/pill-6.gif'
 import pillContact from '../assets/med/pill-contact.gif'
 
 const SLOTS: Record<string, string> = {
@@ -79,14 +80,15 @@ const SLOTS: Record<string, string> = {
   'stats-1': stats1,
   'stats-2': stats2,
   'stats-3': stats3,
-  /* Floating hero/experience pills — the supplied GIFs + WebPs. The hero
-     always leads with the two GIFs; the stills fill the remaining hero frame
-     (random per page load) and every experience frame. */
+  /* Floating hero/experience pills. The two hero GIFs + the contact GIF are
+     the originals; the four still-image pills (hero frame 3 + the three
+     experience frames) now carry the new sticker-sheet GIFs. */
   'pill-1': pillGif1,
   'pill-2': pillGif2,
-  'pill-3': pillWebp1,
-  'pill-4': pillWebp2,
-  'pill-5': pillWebp3,
+  'pill-3': pillStill1,
+  'pill-4': pillStill2,
+  'pill-5': pillStill3,
+  'pill-6': pillStill4,
   /* Contact-row thumbnail: the supplied team GIF beside the email/phone. */
   'pill-contact': pillContact,
 }
@@ -110,13 +112,10 @@ export function imageSrc(value: string): string {
     : asset(value)
 }
 
-/* The two supplied GIFs always lead the hero; the three stills fill the rest. */
+/* The two supplied GIFs always lead the hero; the four new GIFs fill the four
+   still-image pills (hero frame 3 + the three experience frames). */
 const HERO_GIF_SLOTS = ['pill-1', 'pill-2'] as const
-const STILL_PILL_SLOTS = ['pill-3', 'pill-4', 'pill-5'] as const
-
-function randomFrom<T>(items: readonly T[]): T {
-  return items[Math.floor(Math.random() * items.length)]
-}
+const STILL_PILL_SLOTS = ['pill-3', 'pill-4', 'pill-5', 'pill-6'] as const
 
 function shuffled<T>(items: readonly T[]): T[] {
   const out = [...items]
@@ -128,23 +127,26 @@ function shuffled<T>(items: readonly T[]): T[] {
 }
 
 /**
- * Hero frames: both GIFs, then one random still. Computed once per page load so
- * the hidden mobile and desktop hero branches share the same three sources and
- * re-renders cannot reshuffle the pills mid-animation.
+ * The four still-image pills: one shuffle decides everything, once per page
+ * load. Slot 0 lands in the hero's third frame; the remaining three fill the
+ * experience frames. Every GIF shows exactly once, re-renders cannot reshuffle
+ * the pills mid-animation, and the hidden/exported branches share the order.
+ */
+const shuffledStills = shuffled(STILL_PILL_SLOTS).map(asset)
+export const HERO_STILL_SLOT = shuffledStills[0]
+export const EXPERIENCE_PILL_SRCS: readonly [string, string, string] = [
+  shuffledStills[1],
+  shuffledStills[2],
+  shuffledStills[3],
+]
+
+/**
+ * Hero frames: both GIFs, then one of the four new GIFs. Computed once per
+ * page load so the hidden mobile and desktop hero branches share the same
+ * three sources.
  */
 export const HERO_PILL_SRCS: readonly [string, string, string] = [
   asset(HERO_GIF_SLOTS[0]),
   asset(HERO_GIF_SLOTS[1]),
-  asset(randomFrom(STILL_PILL_SLOTS)),
-]
-
-/**
- * Experience frames: the three stills in a random order, once per page load.
- * Mobile shows the first two; tablet/desktop show all three.
- */
-const experiencePills = shuffled(STILL_PILL_SLOTS).map(asset)
-export const EXPERIENCE_PILL_SRCS: readonly [string, string, string] = [
-  experiencePills[0],
-  experiencePills[1],
-  experiencePills[2],
+  HERO_STILL_SLOT,
 ]
