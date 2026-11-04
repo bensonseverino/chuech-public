@@ -1,17 +1,20 @@
 import { CONTACT_THUMB } from '../content/assets'
+import { MEDIA_PILL_SIZE } from './primitives/mediaPillSize'
 import type { SiteView } from '../content/live/types'
 
 /**
- * Small rounded media thumbnail + email/phone stack (spec §9).
+ * Rounded media thumbnail + email/phone stack (spec §9).
  * The thumb is one of the day's rotating GIFs beside the contact details; the
  * email and phone links remain the interactive elements (it is decorative).
+ * It shares the one media-pill size (hero + experience + contact can never
+ * drift apart) and now carries the same per-breakpoint scale.
  */
 export default function ContactRow({ site }: { site: SiteView }) {
   return (
-    <div className="flex min-w-0 items-center gap-3 md:justify-self-end">
+    <div className="flex min-w-0 items-center gap-[calc(var(--u)*1.1)] md:justify-self-end">
       <span
         aria-hidden="true"
-        className="rounded-media shadow-glow-md relative block h-12 w-20 shrink-0 overflow-hidden sm:h-14 sm:w-24 md:h-16 md:w-28"
+        className={`rounded-media shadow-glow-md relative block shrink-0 overflow-hidden ${MEDIA_PILL_SIZE}`}
       >
         <img
           src={CONTACT_THUMB}
@@ -22,7 +25,7 @@ export default function ContactRow({ site }: { site: SiteView }) {
           className="absolute inset-0 h-full w-full object-cover"
         />
       </span>
-      <p className="flex min-w-0 flex-col text-[13px] leading-snug sm:text-sm">
+      <p className="flex min-w-0 flex-col text-sm leading-snug md:text-[15px]">
         <a
           href={site.email.href}
           className="font-semibold text-obsidian hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-obsidian"

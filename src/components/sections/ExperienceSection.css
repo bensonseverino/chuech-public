@@ -1,64 +1,81 @@
 /*
  * "Decades of experience" stage — experience spec §9.1.
  *
- * Everything here is scoped below 1024px: the approved desktop layout (the
- * full-bleed ticker, the stats display and the brief CTA) lives in a
- * `hidden lg:block` wrapper inside the same section and is never touched.
- * The stage wrapper itself is `lg:hidden`, so these rules have nothing to
- * paint on desktop.
+ * One floating-stage composition renders at every breakpoint. The structural
+ * rules below are shared; each half of the stylesheet only sets the
+ * breakpoint-specific geometry:
+ *
+ *  - `width < 1024px`: mobile (reference 490px, stage 270px) and tablet
+ *    (reference 957px, stage 336px) anchors.
+ *  - `width >= 1024px`: large-screen anchors measured off the approved
+ *    reference (stats stage), stage height `var(--u)*34`.
  *
  * Uses `width < 1024px` (not `max-width: 1023px`) so it is exactly
  * complementary to Tailwind's `lg:` = `min-width: 1024px`. With the max-width
  * form there is a sliver — any fractional viewport in (1023, 1024), which is
  * what a real browser gets under zoom or subpixel scaling — where `lg:` is
- * false (so the mobile branch renders) and this query is ALSO false (so the
- * stage renders unstyled). See spec QA 4: 1023 tablet, 1024 desktop.
+ * false (so the "mobile" geometry applies) and this query is ALSO false (so
+ * the stage renders unstyled). See spec QA 4: 1023 tablet, 1024 desktop.
  */
+
+/* ---------- shared structure (every breakpoint) ---------- */
+
+.stats-section {
+  padding: 35px 0 62px;
+  overflow-x: clip;
+  color: var(--color-obsidian);
+}
+
+.stats-stage {
+  position: relative;
+  height: 270px;
+}
+
+.stats-marquee {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 46%;
+  transform: translateY(-50%);
+  z-index: 0;
+}
+
+.stats-text {
+  font-size: min(19vw, 240px);
+  font-weight: 600;
+  letter-spacing: -0.05em;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+/* Solid CSS circle (not `●`: font fallback would change its size). */
+.stats-dot {
+  display: inline-block;
+  width: 0.45em;
+  height: 0.45em;
+  border-radius: 50%;
+  background: currentColor;
+  vertical-align: 0.225em;
+  margin: 0 0.1em 0 0.22em;
+}
+
+.stats-float {
+  position: absolute;
+  z-index: 1;
+}
+
+.stats-cta {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  gap: 18px;
+  margin-top: 40px;
+}
+
+/* ---------- < 1024px: mobile + tablet anchors ---------- */
+
 @media (width < 1024px) {
-  .stats-section {
-    padding: 35px 0 62px;
-    overflow-x: clip;
-    color: var(--color-obsidian);
-  }
-
-  .stats-stage {
-    position: relative;
-    height: 270px;
-  }
-
-  .stats-marquee {
-    position: absolute;
-    left: 0;
-    right: 0;
-    top: 46%;
-    transform: translateY(-50%);
-    z-index: 0;
-  }
-
-  .stats-text {
-    font-size: min(19vw, 240px);
-    font-weight: 600;
-    letter-spacing: -0.05em;
-    line-height: 1;
-    white-space: nowrap;
-  }
-
-  /* Solid CSS circle (not `●`: font fallback would change its size). */
-  .stats-dot {
-    display: inline-block;
-    width: 0.45em;
-    height: 0.45em;
-    border-radius: 50%;
-    background: currentColor;
-    vertical-align: 0.225em;
-    margin: 0 0.1em 0 0.22em;
-  }
-
-  .stats-float {
-    position: absolute;
-    z-index: 1;
-  }
-
   /* --- Mobile anchors (reference 490px; stage 270px tall) --- */
   .stats-m1 {
     right: 5.9%;
@@ -82,15 +99,6 @@
 
   .stats-m3 {
     display: none;
-  }
-
-  .stats-cta {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    gap: 18px;
-    margin-top: 40px;
   }
 
   /*
@@ -166,5 +174,48 @@
       left: 23.4%;
       top: 261px;
     }
+  }
+}
+
+/* ---------- >= 1024px: large-screen anchors (reference stage) ---------- */
+
+@media (width >= 1024px) {
+  .stats-section {
+    padding: 45px 0 62px;
+  }
+
+  .stats-stage {
+    height: calc(var(--u) * 34);
+  }
+
+  .stats-marquee {
+    top: 44.6%;
+  }
+
+  .stats-m1 {
+    right: auto;
+    left: 14.6%;
+    top: 5%;
+  }
+
+  .stats-p1 {
+    left: 33%;
+    top: 21%;
+  }
+
+  .stats-m2 {
+    left: 62%;
+    top: 13%;
+  }
+
+  .stats-p2 {
+    left: 66%;
+    top: 69%;
+  }
+
+  .stats-m3 {
+    display: block;
+    left: 25.7%;
+    top: 73%;
   }
 }

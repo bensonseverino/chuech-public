@@ -1,7 +1,7 @@
 import MediaPill from './MediaPill'
 import FloatingPill from './FloatingPill'
 import { MEDIA_PILL_SIZE } from './primitives/mediaPillSize'
-import { HERO_PILL_SRCS } from '../content/assets'
+import { CONTACT_THUMB, HERO_PILL_SRCS } from '../content/assets'
 import type { SiteView } from '../content/live/types'
 
 // Headline line metrics (change spec §2b): 6.73 units, pitch ≈ 1.0em.
@@ -44,8 +44,8 @@ export default function HeroDesktop({
               variant="b"
               className="absolute z-20 inline-flex"
               style={{
-                left: 'calc(100% - var(--u)*1.6)',
-                top: 'calc(100% - var(--u)*1.2)',
+                left: 'calc(100% - var(--u)*2)',
+                top: 'calc(100% - var(--u)*0.5)',
                 width: 'calc(var(--u)*12.3)',
                 height: 'calc(var(--u)*3.27)',
                 minHeight: 'calc(var(--u)*3.27)',
@@ -71,8 +71,8 @@ export default function HeroDesktop({
             <FloatingPill
               className="absolute z-20 inline-flex"
               style={{
-                right: 'calc(100% - var(--u)*1.3)',
-                top: '48%',
+                right: 'calc(100% - var(--u)*0.7)',
+                top: 'calc(100% + var(--u)*0.95)',
                 width: 'calc(var(--u)*10.2)',
                 height: 'calc(var(--u)*3.3)',
                 minHeight: 'calc(var(--u)*3.3)',
@@ -137,21 +137,38 @@ export default function HeroDesktop({
         </span>
       </h1>
 
-      {/* Contact details — one right-aligned line, bottom right of the hero. */}
+      {/* Contact details — one right-aligned line, bottom right of the hero.
+          The thumb is one of the day's rotating GIFs, sized like every other
+          media pill on the page. */}
       <div className="flex justify-end">
-        <p className="flex items-baseline gap-[calc(var(--u)*0.65)] text-[calc(var(--u)*0.85)]">
-          <a
-            href={site.email.href}
-            className="font-semibold text-obsidian hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-obsidian"
+        <p className="flex items-center gap-[calc(var(--u)*0.9)] text-[calc(var(--u)*0.85)]">
+          <span
+            aria-hidden="true"
+            className={`rounded-media shadow-glow-md relative block shrink-0 overflow-hidden ${MEDIA_PILL_SIZE}`}
           >
-            {site.email.label}
-          </a>
-          <a
-            href={site.phone.href}
-            className="text-obsidian hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-obsidian"
-          >
-            {site.phone.label}
-          </a>
+            <img
+              src={CONTACT_THUMB}
+              alt=""
+              draggable={false}
+              loading="lazy"
+              decoding="async"
+              className="absolute inset-0 h-full w-full object-cover"
+            />
+          </span>
+          <span className="flex items-baseline gap-[calc(var(--u)*0.65)]">
+            <a
+              href={site.email.href}
+              className="font-semibold text-obsidian hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-obsidian"
+            >
+              {site.email.label}
+            </a>
+            <a
+              href={site.phone.href}
+              className="text-obsidian hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-obsidian"
+            >
+              {site.phone.label}
+            </a>
+          </span>
         </p>
       </div>
     </div>

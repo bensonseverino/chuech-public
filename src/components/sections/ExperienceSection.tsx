@@ -3,7 +3,6 @@ import { Reveal } from '../ui/Reveal'
 import MediaFrame from '../primitives/MediaFrame'
 import FloatPill from '../primitives/FloatPill'
 import Button from '../primitives/Button'
-import Container from '../primitives/Container'
 import { MEDIA_PILL_SIZE } from '../primitives/mediaPillSize'
 import { EXPERIENCE_PILL_SRCS } from '../../content/assets'
 import type { HomeView } from '../../content/live/types'
@@ -13,137 +12,78 @@ import './ExperienceSection.css'
  * "Decades of experience" section (experience spec, replaces §5.5 StatsBand
  * and §5.6 BriefCta).
  *
- * - **< 1024px:** the marquee stage — a giant scrolling headline with two mint
- *   pills and three glowing frames floating around it — plus the one-line CTA.
- * - **>= 1024px:** the approved layout, verbatim: the full-bleed ticker, the
- *   stats display with inline media frames, and the brief CTA. Nothing moves.
+ * One floating-stage composition at every breakpoint: a giant scrolling
+ * headline with two mint pills and three glowing frames floating around it,
+ * plus the one-line CTA. The frame anchors scale with the viewport — mobile
+ * and tablet anchors live in the `< 1024px` half of ExperienceSection.css,
+ * the large-screen anchors (matching the approved reference) in the
+ * `>= 1024px` half.
  */
 export default function ExperienceSection({ stats }: { stats: HomeView['stats'] }) {
   const [pillOne, pillTwo] = stats.pills
   const [mediaOne, mediaTwo, mediaThree] = EXPERIENCE_PILL_SRCS
-  const mobileSr = `${stats.marquee[0] ?? ''}. ${stats.marquee[1] ?? ''}. ${pillOne}. ${pillTwo}.`
-  const desktopSr = stats.marquee.map((item) => `${item}.`).join(' ')
+  const srText = `${stats.marquee[0] ?? ''}. ${stats.marquee[1] ?? ''}. ${pillOne}. ${pillTwo}.`
 
   return (
     <Reveal as="section" aria-label="Chuech Studio in focus" className="stats-section scroll-mt-24">
-      {/* ---------- < 1024px: floating stage + CTA row ---------- */}
-      <div className="lg:hidden">
-        <p className="sr-only">{mobileSr}</p>
+      <p className="sr-only">{srText}</p>
 
-        <div className="stats-stage" aria-hidden="true">
-          <div className="stats-marquee">
-            <Marquee speed={100} bleed>
-              <span className="stats-text">
-                {stats.marquee[0]}
-                <i className="stats-dot" />
-              </span>
-              <span className="stats-text">
-                {stats.marquee[1]}
-                <i className="stats-dot" />
-              </span>
-            </Marquee>
-          </div>
-
-          <MediaFrame
-            className={`stats-float stats-m1 ${MEDIA_PILL_SIZE}`}
-            radius="card md:media"
-            src={mediaOne}
-          />
-          <FloatPill className="stats-float stats-p1" size="sm" variant="a">
-            {pillOne}
-          </FloatPill>
-          <MediaFrame
-            className={`stats-float stats-m2 ${MEDIA_PILL_SIZE}`}
-            radius="card md:media"
-            src={mediaTwo}
-          />
-          <FloatPill className="stats-float stats-p2" size="sm" variant="b">
-            {pillTwo}
-          </FloatPill>
-          <MediaFrame
-            className={`stats-float stats-m3 ${MEDIA_PILL_SIZE}`}
-            radius="media"
-            halo
-            src={mediaThree}
-          />
-        </div>
-
-        <div className="stats-cta px-4">
-          <p className="font-semibold text-obsidian text-[16px] md:text-[17px]">
-            {stats.cta.text}
-          </p>
-          <Button variant="mint" href={stats.cta.to}>
-            {stats.cta.label}
-          </Button>
-        </div>
-      </div>
-
-      {/* ---------- >= 1024px: approved layout, unchanged ---------- */}
-      <div className="hidden lg:block">
-        {/* --- Ticker: full bleed, hairline top and bottom --- */}
-        <div className="border-y border-silver py-[var(--space-25)]">
-          <p className="sr-only">{desktopSr}</p>
-          <Marquee seconds={45}>
-            <ul className="flex items-center" style={{ gap: '40px' }}>
-              {stats.marquee.map((item) => (
-                <li
-                  key={item}
-                  className="flex items-center whitespace-nowrap text-[28px] leading-[1.2] font-medium text-obsidian"
-                  style={{ gap: '40px' }}
-                >
-                  {item}
-                  <span
-                    aria-hidden="true"
-                    className="inline-block h-[6px] w-[6px] shrink-0 rounded-full bg-obsidian"
-                  />
-                </li>
-              ))}
-            </ul>
+      <div className="stats-stage" aria-hidden="true">
+        <div className="stats-marquee">
+          <Marquee speed={100} bleed>
+            <span className="stats-text">
+              {stats.marquee[0]}
+              <i className="stats-dot" />
+            </span>
+            <span className="stats-text">
+              {stats.marquee[1]}
+              <i className="stats-dot" />
+            </span>
           </Marquee>
         </div>
 
-        {/* --- Stats display: hero-language lines with inline media frames --- */}
-        <div className="py-[var(--space-50)] lg:py-[var(--space-80)]">
-          <div className="mx-auto px-4 md:px-8 lg:w-[calc(var(--u)*70.56)] lg:px-0">
-            <p
-              className="font-semibold tracking-[-0.024em] text-obsidian"
-              style={{ fontSize: 'clamp(53px, 8vw, 82.5px)', lineHeight: 1.1 }}
-            >
-              <span className="flex flex-wrap items-center gap-x-[0.3em] gap-y-2">
-                {pillOne}
-                <MediaFrame
-                  src={mediaOne}
-                  className={`align-middle ${MEDIA_PILL_SIZE}`}
-                />
-              </span>
-              <span className="mt-2 flex flex-wrap items-center gap-x-[0.3em] gap-y-2 lg:mt-0">
-                <MediaFrame
-                  src={mediaTwo}
-                  className={`align-middle ${MEDIA_PILL_SIZE}`}
-                />
-                {pillTwo}
-                <MediaFrame
-                  src={mediaThree}
-                  className={`hidden lg:inline-block ${MEDIA_PILL_SIZE}`}
-                />
-              </span>
-            </p>
-          </div>
-        </div>
+        <MediaFrame
+          className={`stats-float stats-m1 ${MEDIA_PILL_SIZE}`}
+          radius="card md:media"
+          src={mediaOne}
+        />
+        {/* On large screens the pills take the hero-footprint geometry
+            (17px label, 3.3em tall, 1.77em side padding) so the stage reads
+            like the reference: the sm size stays for phones and tablets. */}
+        <FloatPill
+          className="stats-float stats-p1 lg:px-[1.77em] lg:h-[3.3em] lg:text-[17px]"
+          size="sm"
+          variant="a"
+        >
+          {pillOne}
+        </FloatPill>
+        <MediaFrame
+          className={`stats-float stats-m2 ${MEDIA_PILL_SIZE}`}
+          radius="card md:media"
+          src={mediaTwo}
+        />
+        <FloatPill
+          className="stats-float stats-p2 lg:px-[1.77em] lg:h-[3.3em] lg:text-[17px]"
+          size="sm"
+          variant="b"
+        >
+          {pillTwo}
+        </FloatPill>
+        <MediaFrame
+          className={`stats-float stats-m3 ${MEDIA_PILL_SIZE}`}
+          radius="media"
+          halo
+          src={mediaThree}
+        />
+      </div>
 
-        {/* --- Brief CTA (was §5.6, verbatim) --- */}
-        <div className="py-[var(--space-50)] lg:py-[var(--space-80)]">
-          <Container>
-            <div className="flex flex-col items-center gap-6 text-center md:flex-row md:justify-center md:gap-10">
-              <p className="text-[clamp(18px,2vw,33px)] leading-[1.3] font-medium text-obsidian md:text-[33px] md:leading-[1.3]">
-                {stats.cta.text}
-              </p>
-              <Button variant="mint" href={stats.cta.to}>
-                {stats.cta.label}
-              </Button>
-            </div>
-          </Container>
-        </div>
+      <div className="stats-cta px-4">
+        <p className="font-semibold text-obsidian text-[16px] md:text-[17px]">
+          {stats.cta.text}
+        </p>
+        <Button variant="mint" href={stats.cta.to}>
+          {stats.cta.label}
+        </Button>
       </div>
     </Reveal>
   )
