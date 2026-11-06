@@ -12,7 +12,7 @@ export const ROUTES = {
   aboutUs: '/about',
   contact: '/contact',
   privacyPolicy: '/privacy-policy',
-  termsConditions: '/terms-and-conditions',
+  termsConditions: '/terms-conditions',
   branding: '/branding',
   webDesign: '/web-design',
   seo: '/seo-manchester',
