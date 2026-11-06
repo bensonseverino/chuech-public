@@ -24,10 +24,10 @@ export const about = {
 
   /** Hero mint pills. */
   heroPills: {
-    /** Bottom-left of heading block ("Est TODO_YEAR"). */
-    left: 'Est TODO_YEAR',
-    /** Above hero image ("Proudly from TODO_CITY"). */
-    top: 'Proudly from TODO_CITY',
+    /** Bottom-left of heading block ("Est 2026"). */
+    left: 'Est 2026',
+    /** Above hero image ("Proudly from Nairobi"). */
+    top: 'Proudly from Nairobi',
   },
 
   /** Intro paragraph under heading. */
