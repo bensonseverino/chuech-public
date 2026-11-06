@@ -13,13 +13,13 @@ import { contact } from './contact'
  */
 export const company = {
   tradingName: 'Chuech studio',
-  legalName: 'TODO legal company name',
-  address: 'TODO registered address',
+  legalName: 'Chuech Studio',
+  address: 'Nairobi, Kenya',
   email: contact.email,
   phone: contact.phone,
   website: 'https://TODO-domain',
-  effectiveDate: 'TODO',
-  lastUpdated: 'TODO',
+  effectiveDate: '5/01/2026',
+  lastUpdated: '5/01/2026',
   /* No company registration number or VAT/tax number is shown on this page. */
   registrationLine: 'TODO e.g. a company registered in [country].',
   governingLaw: 'TODO the law of [jurisdiction]',
