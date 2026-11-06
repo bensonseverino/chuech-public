@@ -12,16 +12,16 @@ import { contact } from './contact'
  * the draft template's `.com` address was explicitly marked "match contact.ts".
  */
 export const company = {
-  tradingName: 'Chuech studio',
+  tradingName: 'Chuech Studio',
   legalName: 'Chuech Studio',
   address: 'Nairobi, Kenya',
   email: contact.email,
   phone: contact.phone,
-  website: 'https://TODO-domain',
+  website: 'https://chuechstudio.co.ke',
   effectiveDate: '5/01/2026',
   lastUpdated: '5/01/2026',
   /* No company registration number or VAT/tax number is shown on this page. */
-  registrationLine: 'TODO e.g. a company registered in [country].',
+  registrationLine: 'We are a company registered in Kenya.',
   governingLaw: 'TODO the law of [jurisdiction]',
   courts: 'TODO the courts of [jurisdiction]',
   dataLaw: 'TODO the data protection laws that apply to us (name them)',
