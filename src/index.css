@@ -16,6 +16,10 @@
   --color-obsidian: #231f20;
   --color-fog: #f3f3f3;
   --color-silver: #c1c1c1;
+  /* Contact page (contact spec §4/§5): dark input fill and the warm-grey
+     map-loading canvas. Neither existed in the shared palette. */
+  --color-surface-input: #363636;
+  --color-map-loading: #e4e3e0;
 
   /* Font */
   --font-sans: "Plus Jakarta Sans Variable", "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;

@@ -6,6 +6,7 @@ import { useSiteContent } from '../content/live/hooks'
 import { SmoothScrollProvider } from '../providers/SmoothScrollProvider'
 import { ScrollManager } from './transition/ScrollManager'
 import Revealer from './Revealer'
+import { ROUTES } from '../routes'
 
 /**
  * Router shell (services spec §3.1): sticky header, `<main id="main">` with the
@@ -24,6 +25,10 @@ export default function RootLayout() {
   const mainRef = useRef<HTMLElement>(null)
   const initialised = useRef(false)
   const content = useSiteContent()
+  // `/contact` paints the shell behind the floating header obsidian too, so the
+  // gap around the nav matches the hero and the page never flashes fog at the
+  // top (contact spec §2). Every other route keeps the shared fog canvas.
+  const darkShell = pathname === ROUTES.contact
 
   useEffect(() => {
     // A real `#hash` target scrolls (ScrollManager) but keeps focus where it is;
@@ -46,7 +51,7 @@ export default function RootLayout() {
       {/* Keyed by pathname so it remounts and replays on every route change. */}
       <Revealer key={pathname} />
       <div
-        className="min-h-svh bg-fog font-sans text-obsidian antialiased"
+        className={`min-h-svh font-sans text-obsidian antialiased ${darkShell ? 'bg-obsidian' : 'bg-fog'}`}
         style={{ overflowX: 'clip' }}
       >
         <SiteHeader site={content.site} navigation={content.navigation} />

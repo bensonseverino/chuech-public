@@ -10,8 +10,6 @@ export const ROUTES = {
   services: '/services',
   work: '/work',
   aboutUs: '/about',
-  culture: '/culture',
-  testimonials: '/testimonials',
   contact: '/contact',
   privacyPolicy: '/privacy-policy',
   termsConditions: '/terms-and-conditions',

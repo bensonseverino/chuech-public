@@ -347,8 +347,6 @@ export const FOOTER = {
     { label: 'Services', href: ROUTES.services },
     { label: 'Work', href: ROUTES.work },
     { label: 'About', href: ROUTES.aboutUs },
-    { label: 'Culture', href: ROUTES.culture },
-    { label: 'Testimonials', href: ROUTES.testimonials },
     { label: 'Privacy Policy', href: ROUTES.privacyPolicy },
     { label: 'Terms & Conditions', href: ROUTES.termsConditions },
   ],

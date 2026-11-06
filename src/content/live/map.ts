@@ -317,15 +317,7 @@ export const SITE_FALLBACK: SiteContent = {
         children: SERVICES.map((service) => ({ label: service.title, to: `/${service.slug}` })),
       },
       { label: 'Work', to: ROUTES.work },
-      {
-        label: 'About',
-        to: ROUTES.aboutUs,
-        children: [
-          { label: 'About Us', to: ROUTES.aboutUs },
-          { label: 'Culture', to: ROUTES.culture },
-          { label: 'Testimonials', to: ROUTES.testimonials },
-        ],
-      },
+      { label: 'About', to: ROUTES.aboutUs },
     ],
     cta: { label: 'Contact', to: ROUTES.contact },
   },
@@ -338,12 +330,13 @@ export const SITE_FALLBACK: SiteContent = {
 }
 
 /**
- * Areas the site no longer has — the blog (`/blog`) and the Video service
- * (`/video-production`). Kept out of the nav, footer and service lists even
- * when the CMS still publishes them.
+ * Areas the site no longer have — the blog (`/blog`), the Video service
+ * (`/video-production`) and the removed Culture/Testimonials pages. Kept out of
+ * the nav, footer and service lists even when the CMS still publishes them
+ * (about spec §6).
  */
 function isRemovedPath(to: string): boolean {
-  return /^\/(blog|video-production)(\/|$)/.test(to)
+  return /^\/(blog|video-production|culture|testimonials)(\/|$)/.test(to)
 }
 
 export function siteFromCms(payload: SitePayload): SiteContent {

@@ -43,6 +43,11 @@ function isItemActive(pathname: string, item: NavRow) {
   return item.activePaths.some((path) => pathname === path || pathname.startsWith(`${path}/`))
 }
 
+/** The Contact CTA doubles as the active nav item on `/contact` (contact spec §6). */
+function isCtaActive(pathname: string, to: string) {
+  return pathname === to || pathname.startsWith(`${to}/`)
+}
+
 /** Tablet sizing first, scaled to the frozen unit geometry at lg+. */
 const CELL =
   'flex h-11 items-center justify-center rounded-button px-4 text-[14px] font-normal text-obsidian transition-colors hover:bg-silver/35 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-obsidian lg:h-[calc(var(--u)*2.83)] lg:px-0 lg:text-[max(11px,calc(var(--u)*0.766))]'
@@ -55,6 +60,7 @@ const CELL =
 function NavMenu({ navigation }: { navigation: NavigationView }) {
   const { pathname } = useLocation()
   const rows = navRows(navigation)
+  const ctaActive = isCtaActive(pathname, navigation.cta.to)
   const [openMenu, setOpenMenu] = useState<string | null>(null)
   // Keeps the last opened panel mounted so the collapse animates smoothly.
   const [renderedMenu, setRenderedMenu] = useState<string | null>(null)
@@ -127,14 +133,32 @@ function NavMenu({ navigation }: { navigation: NavigationView }) {
           )
         })}
         <li className="lg:flex-1">
-          {/* Shared Button (mint); unit geometry preserved via lg overrides. */}
-          <Button
-            variant="mint"
-            to={navigation.cta.to}
-            className="mx-auto flex min-h-0! h-11 text-[14px]! lg:h-[calc(var(--u)*2.3)] lg:w-[calc(var(--u)*7.74)] lg:px-0! lg:text-[max(11px,calc(var(--u)*0.766))]!"
-          >
-            {navigation.cta.label}
-          </Button>
+          {ctaActive ? (
+            /* Active Contact state (contact spec §6): white pill, dark label,
+               mint arrow dot on the right. Only `/contact` changes. */
+            <TransitionLink
+              to={navigation.cta.to}
+              aria-current="page"
+              className="mx-auto flex h-11 items-center justify-center gap-2 rounded-button bg-white px-4 text-[14px] font-normal text-obsidian transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-obsidian lg:h-[calc(var(--u)*2.3)] lg:w-[calc(var(--u)*7.74)] lg:gap-[calc(var(--u)*0.34)] lg:px-0 lg:text-[max(11px,calc(var(--u)*0.766))]"
+            >
+              <span>{navigation.cta.label}</span>
+              <span
+                aria-hidden="true"
+                className="grid h-5 w-5 shrink-0 place-items-center rounded-full bg-primary lg:h-[calc(var(--u)*0.9)] lg:w-[calc(var(--u)*0.9)]"
+              >
+                <ArrowRightIcon className="h-3 w-3 rotate-180 text-obsidian lg:h-[calc(var(--u)*0.42)] lg:w-[calc(var(--u)*0.42)]" />
+              </span>
+            </TransitionLink>
+          ) : (
+            /* Shared Button (mint); unit geometry preserved via lg overrides. */
+            <Button
+              variant="mint"
+              to={navigation.cta.to}
+              className="mx-auto flex min-h-0! h-11 text-[14px]! lg:h-[calc(var(--u)*2.3)] lg:w-[calc(var(--u)*7.74)] lg:px-0! lg:text-[max(11px,calc(var(--u)*0.766))]!"
+            >
+              {navigation.cta.label}
+            </Button>
+          )}
         </li>
       </ul>
 
@@ -192,6 +216,7 @@ function MobileMenu({
 }) {
   const { pathname } = useLocation()
   const rows = navRows(navigation)
+  const ctaActive = isCtaActive(pathname, navigation.cta.to)
 
   return (
     <>
@@ -277,10 +302,28 @@ function MobileMenu({
             </ul>
 
             <div className="px-0.5 pt-1.5 pb-0.5">
-              {/* Shared Button (mint), full width on touch. */}
-              <Button variant="mint" to={navigation.cta.to} className="w-full">
-                {navigation.cta.label}
-              </Button>
+              {/* Shared Button (mint), full width on touch. On `/contact` it
+                  carries the same active treatment as the desktop pill. */}
+              {ctaActive ? (
+                <TransitionLink
+                  to={navigation.cta.to}
+                  aria-current="page"
+                  onClick={onClose}
+                  className="flex min-h-[44px] w-full items-center justify-center gap-2 rounded-button bg-white px-6 text-[14px] font-medium text-obsidian shadow-soft transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-obsidian"
+                >
+                  {navigation.cta.label}
+                  <span
+                    aria-hidden="true"
+                    className="grid h-5 w-5 shrink-0 place-items-center rounded-full bg-primary"
+                  >
+                    <ArrowRightIcon className="h-3 w-3 rotate-180 text-obsidian" />
+                  </span>
+                </TransitionLink>
+              ) : (
+                <Button variant="mint" to={navigation.cta.to} className="w-full">
+                  {navigation.cta.label}
+                </Button>
+              )}
             </div>
           </nav>
         </Expandable>
@@ -312,6 +355,8 @@ export default function SiteHeader({
   // Only one sub-row is expanded at a time, matching the desktop container.
   const [expanded, setExpanded] = useState<string | null>(null)
   const mobileRef = useRef<HTMLElement>(null)
+  const { pathname } = useLocation()
+  const ctaActive = isCtaActive(pathname, navigation.cta.to)
 
   // Freezes the page (Lenis stop, or body overflow before Lenis mounts) while
   // the mobile panel is open — smooth-scroll spec §4 / §12.
@@ -365,15 +410,32 @@ export default function SiteHeader({
             </TransitionLink>
 
             <div className="flex items-center gap-1.5">
-              {/* Shared Button (mint); important overrides preserve the frozen
-                  mobile geometry (§1 placement spec). */}
-              <Button
-                variant="mint"
-                to={navigation.cta.to}
-                className="min-h-0! px-4! py-1.5! text-[11px]! whitespace-nowrap"
-              >
-                {navigation.cta.label}
-              </Button>
+              {ctaActive ? (
+                /* Active Contact state on the mobile pill (contact spec §6). */
+                <TransitionLink
+                  to={navigation.cta.to}
+                  aria-current="page"
+                  className="inline-flex min-h-0 items-center justify-center gap-1.5 rounded-button bg-white px-4 py-1.5 text-[11px] font-medium whitespace-nowrap text-obsidian transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-obsidian"
+                >
+                  {navigation.cta.label}
+                  <span
+                    aria-hidden="true"
+                    className="grid h-4 w-4 shrink-0 place-items-center rounded-full bg-primary"
+                  >
+                    <ArrowRightIcon className="h-2.5 w-2.5 rotate-180 text-obsidian" />
+                  </span>
+                </TransitionLink>
+              ) : (
+                /* Shared Button (mint); important overrides preserve the frozen
+                    mobile geometry (§1 placement spec). */
+                <Button
+                  variant="mint"
+                  to={navigation.cta.to}
+                  className="min-h-0! px-4! py-1.5! text-[11px]! whitespace-nowrap"
+                >
+                  {navigation.cta.label}
+                </Button>
+              )}
               <button
                 type="button"
                 aria-label={menuOpen ? 'Close menu' : 'Open menu'}

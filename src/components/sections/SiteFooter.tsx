@@ -59,7 +59,7 @@ export default function SiteFooter({ footer, site }: { footer: FooterView; site:
 
         {/* Link list — column-first: mobile 2×4, tablet 3×(3,3,2), desktop 4×2 (§9). */}
         <nav aria-label="Footer" className="mt-[var(--space-40)]">
-          <ul className="grid grid-flow-col grid-cols-2 grid-rows-4 gap-x-6 gap-y-3 md:grid-cols-3 md:grid-rows-3 lg:grid-cols-4 lg:grid-rows-2">
+          <ul className="grid grid-flow-col grid-cols-2 grid-rows-4 gap-x-6 gap-y-3 sm:grid-cols-3 sm:grid-rows-3 lg:grid-cols-4 lg:grid-rows-2">
             {footer.links.map((link) => (
               <li key={link.label}>
                 <TransitionLink
@@ -74,14 +74,16 @@ export default function SiteFooter({ footer, site }: { footer: FooterView; site:
         </nav>
 
         {/* Bottom: hairline, alt logo, legal */}
-        <div className="mt-[var(--space-40)] border-t border-white/15 pt-6">
+        <div className="mt-[var(--space-40)] flex flex-col gap-3 border-t border-white/15 pt-6 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
           <p
             aria-hidden="true"
             className="text-[18px] font-medium tracking-[0.2em] whitespace-nowrap text-white"
           >
             {site.companyName.toUpperCase()}
           </p>
-          <p className="mt-3 text-[13px] leading-[1.2] font-medium text-white/70">{footer.legal}</p>
+          <p className="text-[13px] leading-[1.2] font-medium text-white/70 sm:text-right">
+            {footer.legal}
+          </p>
         </div>
       </Container>
     </footer>
