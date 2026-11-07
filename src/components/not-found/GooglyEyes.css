@@ -1,0 +1,53 @@
+/*
+ * Googly-eyes not-found page (404 spec §3). The responsive eye/gap sizes and
+ * the pupil ratio here MUST mirror `eyes.config.ts` — CSS cannot read that
+ * file, so the config drives the behaviour side and this drives layout.
+ * Everything else comes from the design tokens.
+ */
+
+/* Page background — switch to fog by changing this single line. */
+.not-found {
+  --notfound-bg: var(--color-secondary);
+  background: var(--notfound-bg);
+}
+
+/* Eye sizing per breakpoint: diameter + gap (mobile / tablet / desktop). */
+.googly-eyes {
+  --eye-size: min(43vw, 13rem);
+  --eye-gap: 4.5vw;
+  --pupil-size: calc(var(--eye-size) * 0.43);
+}
+
+@media (min-width: 640px) {
+  .googly-eyes {
+    --eye-size: 30vw;
+    --eye-gap: 2.5vw;
+  }
+}
+
+@media (min-width: 1024px) {
+  .googly-eyes {
+    --eye-size: min(24vw, 23.5rem);
+    --eye-gap: 2.5vw;
+  }
+}
+
+/* Heading sizing (mobile / tablet / desktop) to the spec's scale. */
+.not-found h1 {
+  font-size: 2.5rem;
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  font-weight: 700;
+}
+
+@media (min-width: 640px) {
+  .not-found h1 {
+    font-size: 3.25rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .not-found h1 {
+    font-size: clamp(3rem, 5.2vw, 5rem);
+  }
+}
