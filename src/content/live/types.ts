@@ -160,6 +160,8 @@ export type ServiceFormView = {
   fields: ContactField[]
   submitLabel: string
   source: string
+  /** Service tag in the lead payload, e.g. `ppc` (ppc spec §3.1). */
+  service?: string
 }
 
 export type ServicePageData = {

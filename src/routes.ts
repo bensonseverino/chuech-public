@@ -17,7 +17,10 @@ export const ROUTES = {
   webDesign: '/web-design',
   seo: '/seo-manchester',
   aiSeo: '/ai-seo',
-  ppc: '/ppc-manchester',
+  /* PPC (ppc spec §1): flat slug like /web-design and /branding. The old
+     /ppc-manchester reference slug was never built and claims a location the
+     studio does not make, so the page owns /ppc. */
+  ppc: '/ppc',
   /* Not built; kept so existing content links resolve. */
   seoConsultant: '/seo-consultant',
 } as const

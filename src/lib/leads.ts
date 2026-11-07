@@ -10,6 +10,8 @@
 export type LeadPayload = {
   /** Which form the lead came from, e.g. `web-design-hero`. */
   source: string
+  /** The service the lead is about, e.g. `ppc` (ppc spec §3.1). Optional. */
+  service?: string
   fields: Record<string, string>
 }
 

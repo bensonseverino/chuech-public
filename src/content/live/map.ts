@@ -34,6 +34,7 @@ import {
   SERVICES_WORK_INTRO,
 } from '../services'
 import { BRANDING } from '../services/branding'
+import { PPC } from '../services/ppc'
 import { SEO } from '../services/seo'
 import { WEB_DESIGN, type ServicePageContent } from '../services/web-design'
 import { fromSegments, markHighlights } from './inline-markup'
@@ -401,6 +402,7 @@ const LOCAL_PAGE_SLUG: Record<string, string> = {
   branding: 'branding',
   'web-design': 'web-design',
   'seo-manchester': 'seo-manchester',
+  ppc: 'ppc',
 }
 
 function localService(service: (typeof SERVICES)[number]): ServiceView {
@@ -873,6 +875,7 @@ export const SERVICE_FALLBACKS: Record<string, ServicePageView> = {
   'web-design': servicePageFromLocal(WEB_DESIGN),
   branding: servicePageFromLocal(BRANDING),
   'seo-manchester': servicePageFromLocal(SEO),
+  ppc: servicePageFromLocal(PPC),
 }
 
 /**

@@ -67,6 +67,12 @@ const SLOTS: Record<string, string> = {
      land; swap the file, not the slot. */
   'branding-feature': heroTeam,
   'branding-why': heroTeam,
+  /* TODO(asset): ppc page photos — `ppc-feature.jpg` (4:5 portrait, the team
+     planning a campaign) and `ppc-why.jpg` (4:3 landscape, the team at work).
+     Both reuse the hero-team placeholder until the real files land; swap the
+     file, not the slot. */
+  'ppc-feature': heroTeam,
+  'ppc-why': heroTeam,
   /* TODO(asset): services page hero photo — 16:9 team shot (4 people at a
      table with plants). Reuses the hero-team placeholder until the real
      services-hero.jpg lands; swap the file, not the slot. */

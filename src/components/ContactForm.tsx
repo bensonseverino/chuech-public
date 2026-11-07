@@ -13,6 +13,8 @@ type ContactFormProps = {
   submitLabel: string
   /** Identifies the form in the lead payload, e.g. `web-design-hero`. */
   source: string
+  /** Optional service tag in the lead payload, e.g. `ppc` (ppc spec §3.1). */
+  service?: string
   onSubmit?: (values: Record<string, string>) => Promise<void>
 }
 
@@ -68,6 +70,7 @@ export default function ContactForm({
   fields,
   submitLabel,
   source,
+  service,
   onSubmit,
 }: ContactFormProps) {
   const uid = useId()
@@ -109,7 +112,7 @@ export default function ContactForm({
 
     setStatus('submitting')
     try {
-      const payload = { source, fields: values }
+      const payload = { source, ...(service ? { service } : {}), fields: values }
       if (onSubmit) await onSubmit(values)
       else await submitLead(payload)
       setStatus('success')

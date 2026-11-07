@@ -27,11 +27,14 @@ export default function ServicePage({ slug }: { slug: string }) {
   useScrollRefresh(page)
 
   const { tag, slugs, limit } = page.projects
-  const carousel = (
+  const filtered =
     slugs
       ? slugs.flatMap((entry) => projects.filter((project) => project.slug === entry))
       : projects.filter((project) => project.tags.includes(tag))
-  ).slice(0, limit)
+  /* Falls back to the shared order when nothing carries the tag
+     (ppc spec §3.3); every existing slug already matches, so this is inert
+     for the earlier pages. */
+  const carousel = (filtered.length > 0 ? filtered : projects).slice(0, limit)
 
   return (
     <>
@@ -46,12 +49,17 @@ export default function ServicePage({ slug }: { slug: string }) {
       <PillarsPanel pillars={page.pillars} />
       <CallbackPanel why={page.why} testimonials={testimonials} />
       <ExperienceSection stats={stats} />
+      {/* PPC spec §3.7/§11: PPC allows several FAQs open at once and emits
+          FAQPage JSON-LD; the earlier pages keep their single-open look and
+          stay untouched. */}
       <FaqSection
         faq={page.faq}
         align="end"
         icon="arrow"
         showFounder={false}
         bottomSpace="80px"
+        multiple={slug === 'ppc'}
+        jsonLd={slug === 'ppc'}
       />
     </>
   )

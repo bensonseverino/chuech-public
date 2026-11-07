@@ -152,7 +152,7 @@ export const SERVICES: Service[] = [
     image: 'service-seo',
   },
   {
-    slug: 'ppc-manchester',
+    slug: 'ppc',
     title: 'PPC',
     description:
       'Paid media managed with precision to deliver efficient growth and measurable returns.',

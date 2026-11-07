@@ -25,6 +25,17 @@ type FaqSectionProps = {
   showFounder?: boolean
   /** Overrides the section's bottom padding (service pages use 80px). */
   bottomSpace?: string
+  /**
+   * Allow several rows to be open at once (ppc spec §3.7). Defaults to `false`,
+   * keeping Home's and the earlier service pages' one-at-a-time behaviour
+   * (web-design spec §5.8).
+   */
+  multiple?: boolean
+  /**
+   * Emit a `FAQPage` JSON-LD script built from the same items (ppc spec §3.7),
+   * so markup and content can never drift apart. Defaults to `false`.
+   */
+  jsonLd?: boolean
 }
 
 /**
@@ -40,13 +51,37 @@ export default function FaqSection({
   icon = 'plus',
   showFounder = true,
   bottomSpace,
+  multiple = false,
+  jsonLd = false,
 }: FaqSectionProps) {
   const heading = faq.heading
   const items = faq.items
   const intro = faq.intro ?? null
   // 0 = all closed (default); otherwise the 1-based index of the open item.
   const [openIndex, setOpenIndex] = useState(0)
+  // `multiple` mode: the set of 0-based indexes currently open.
+  const [openSet, setOpenSet] = useState<ReadonlySet<number>>(new Set())
   const roomy = icon === 'arrow'
+
+  /** Flattens the CMS inline grammar (**bold**, ==highlight==, [a](/b)). */
+  const plainText = (text: string): string =>
+    text
+      .replace(/\[([^\]]+)\]\([^)]*\)/g, '$1')
+      .replace(/\*\*([^*]+)\*\*/g, '$1')
+      .replace(/==([^=]+)==/g, '$1')
+
+  /** FAQPage JSON-LD generated from the same data the rows render (§3.7). */
+  const jsonLdText = jsonLd
+    ? JSON.stringify({
+        '@context': 'https://schema.org',
+        '@type': 'FAQPage',
+        mainEntity: items.map((item) => ({
+          '@type': 'Question',
+          name: item.question,
+          acceptedAnswer: { '@type': 'Answer', text: plainText(item.answer) },
+        })),
+      })
+    : null
 
   return (
     <Reveal
@@ -73,11 +108,33 @@ export default function FaqSection({
             <p className="mt-3 max-w-[60ch] text-[16px] leading-[24px] text-obsidian/70">{intro}</p>
           ) : null}
 
+          {jsonLdText ? (
+            <script
+              type="application/ld+json"
+              /* Structured data, not user-facing markup (ppc spec §3.7). */
+              dangerouslySetInnerHTML={{ __html: jsonLdText }}
+            />
+          ) : null}
+
           <ul className={align === 'end' ? 'mt-[40px]' : 'mt-8'}>
             {items.map((item, index) => {
-              const open = openIndex === index + 1
+              const open = multiple ? openSet.has(index) : openIndex === index + 1
               const panelId = `faq-panel-${index}`
               const triggerId = `faq-trigger-${index}`
+
+              function toggle() {
+                if (multiple) {
+                  setOpenSet((current) => {
+                    const next = new Set(current)
+                    if (next.has(index)) next.delete(index)
+                    else next.add(index)
+                    return next
+                  })
+                } else {
+                  setOpenIndex(open ? 0 : index + 1)
+                }
+              }
+
               return (
                 <li key={item.question} className="border-b border-silver">
                   <h3>
@@ -86,7 +143,7 @@ export default function FaqSection({
                       id={triggerId}
                       aria-expanded={open}
                       aria-controls={panelId}
-                      onClick={() => setOpenIndex(open ? 0 : index + 1)}
+                      onClick={toggle}
                       className={`group flex w-full items-center justify-between gap-6 text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-obsidian ${
                         roomy ? 'py-[25px] md:py-[30px] lg:py-[35px]' : 'py-5'
                       }`}
