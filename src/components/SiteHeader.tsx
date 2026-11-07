@@ -472,7 +472,7 @@ export default function SiteHeader({
             <img
               src={chuechLogo}
               alt={site.companyName}
-              className="block h-7 w-auto lg:h-[calc(var(--u)*2.25)]"
+              className="block h-7 w-auto lg:h-[calc(var(--u)*2.25_+_2px)]"
             />
           </TransitionLink>
         </div>
