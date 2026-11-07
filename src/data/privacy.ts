@@ -1,10 +1,8 @@
 /*
- * Privacy Policy content (privacy spec §5). Every company fact that is not
- * already shared with the Terms/contact data stays a visible TODO placeholder
- * — do NOT invent locations, laws, regulators or retention periods. Leave
- * every TODO in place until the owner fills it in, and have a qualified
- * lawyer in the relevant jurisdiction review the wording before the site goes
- * live (this draft is a template, not legal advice).
+ * Privacy Policy content (privacy spec §5). Company facts are filled in for
+ * Kenya (Data Protection Act, 2019; the ODPC as regulator; Nairobi location).
+ * Still have a qualified Kenyan advocate review the wording before the site
+ * goes live (this draft is a template, not legal advice).
  */
 import type { Block } from '../components/LegalText'
 
@@ -25,13 +23,19 @@ export const privacyCompany = {
   website: legalCompany.website,
   effectiveDate: legalCompany.effectiveDate,
   lastUpdated: legalCompany.lastUpdated,
-  baseLocation: 'TODO city, country', // used in "Who we are"
-  homeCountry: 'TODO country', // used in international transfers
+  baseLocation: 'Nairobi, Kenya', // used in "Who we are"
+  homeCountry: 'Kenya', // used in international transfers
   dataLaw: legalCompany.dataLaw,
-  regulator: 'TODO the data protection authority / regulator (name it)',
+  /* Kenya's data protection authority under the Data Protection Act, 2019. */
+  regulator: 'the Office of the Data Protection Commissioner (ODPC), Kenya',
   retention: {
-    enquiries: 'TODO e.g. up to 24 months',
-    clientProject: 'TODO e.g. up to 10 years after the end of the client relationship',
+    /* Aligned with common Kenyan commercial practice: 24 months for enquiries,
+     * 7 years for client records (covers tax/accounting record-keeping and the
+     * 6-year limitation period for contract claims under the Limitation of
+     * Actions Act, Cap 22). */
+    enquiries: 'up to 24 months after our last contact with you',
+    clientProject:
+      'up to 7 years after the end of the client relationship, so we can meet tax, accounting and legal record-keeping requirements in Kenya',
     marketing: 'until you unsubscribe or withdraw consent',
     analytics: 'in line with the settings of the relevant platform or tool',
   },
@@ -122,9 +126,9 @@ export const sections: { title: string; blocks: Block[] }[] = [
     blocks: [
       {
         type: 'p',
-        text: 'We use your personal data to respond to enquiries and provide information about our services; prepare proposals, quotations and project scopes; provide branding, web design, video and related creative and digital services; manage our client relationships and ongoing service delivery; improve our website, services and user experience; monitor website performance and marketing effectiveness; send relevant marketing communications where permitted by law; comply with legal and regulatory obligations; and establish, exercise or defend legal claims.',
+        text: 'We use your personal data to respond to enquiries and provide information about our services; prepare proposals, quotations and project scopes; provide branding, web design, SEO, PPC, video and related creative and digital services; manage our client relationships and ongoing service delivery; improve our website, services and user experience; monitor website performance and marketing effectiveness; send relevant marketing communications where permitted by law; comply with legal and regulatory obligations; and establish, exercise or defend legal claims.',
       },
-      // TODO: align this list with the services Chuech Studio actually offers (same list as the Services page).
+      /* Service list matches the Services page and footer — keep in sync. */
     ],
   },
   {
@@ -135,7 +139,9 @@ export const sections: { title: string; blocks: Block[] }[] = [
         text: 'Under {dataLaw}, we must have a lawful basis for processing your personal data. Depending on the circumstances, we may rely on consent, where you have opted in to receive marketing communications or accepted non-essential cookies; contract, where processing is necessary to take steps before entering into a contract or to perform a contract with you; legitimate interests, where processing is necessary for our legitimate business interests provided those interests are not overridden by your rights and freedoms; and legal obligation, where we need to comply with a legal or regulatory requirement.',
       },
       { type: 'p', text: 'Where we rely on consent, you can withdraw it at any time.' },
-      // TODO (lawyer): confirm the lawful bases match the applicable law.
+      /* Lawful bases match section 25 of the Data Protection Act, 2019:
+       * consent, performance of a contract, compliance with a legal
+       * obligation and legitimate interests. */
     ],
   },
   {

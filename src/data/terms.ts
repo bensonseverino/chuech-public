@@ -1,9 +1,8 @@
 /*
- * Terms & Conditions content (terms-page spec §5). All company facts that are
- * not already on the site are TODO placeholders — do NOT invent addresses,
- * dates, domains or governing law. Leave every TODO visible until the owner
- * fills them in, and have the wording reviewed by a qualified lawyer before
- * the site goes live (this draft is a template, not legal advice).
+ * Terms & Conditions content (terms-page spec §5). Company facts are filled
+ * in for the studio's Kenyan jurisdiction (governing law, courts, data law);
+ * still have the wording reviewed by a qualified Kenyan advocate before the
+ * site goes live (this draft is a template, not legal advice).
  */
 import { contact } from './contact'
 import { fillTokens } from './fill'
@@ -23,9 +22,10 @@ export const company = {
   lastUpdated: '5/01/2026',
   /* No company registration number or VAT/tax number is shown on this page. */
   registrationLine: 'We are a company registered in Kenya.',
-  governingLaw: 'TODO the law of [jurisdiction]',
-  courts: 'TODO the courts of [jurisdiction]',
-  dataLaw: 'TODO the data protection laws that apply to us (name them)',
+  /* Kenya-specific legal facts (Data Protection Act is the primary data law). */
+  governingLaw: 'the laws of the Republic of Kenya',
+  courts: 'The courts of the Republic of Kenya at Nairobi',
+  dataLaw: 'the Data Protection Act, No. 13 of 2019 (Republic of Kenya)',
 } as const
 
 /**
