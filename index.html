@@ -2,7 +2,18 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
+    <!--
+      Avi icon (favicon) in both brand colors: the dark icon is used when the
+      user's browser is in light mode (also the fallback), the white icon when
+      it is in dark mode so it stays visible on dark tab strips.
+    -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href="/favicon-white.svg"
+      media="(prefers-color-scheme: dark)"
+    />
     <!-- ImageKit media (imagekit-videos spec §5): warm the TLS/DNS route early. -->
     <link rel="preconnect" href="https://ik.imagekit.io" crossorigin />
     <link rel="dns-prefetch" href="https://ik.imagekit.io" />
