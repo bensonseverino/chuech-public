@@ -6,6 +6,7 @@
  * the site goes live (this draft is a template, not legal advice).
  */
 import { contact } from './contact'
+import { fillTokens } from './fill'
 
 /*
  * Email and phone are shared data (matched to `contact.ts`), not duplicated —
@@ -27,24 +28,12 @@ export const company = {
   dataLaw: 'TODO the data protection laws that apply to us (name them)',
 } as const
 
-const TOKEN_RE = /\{(\w+)\}/g
-
 /**
  * Fills every `{token}` in a paragraph with the matching `company` value
- * (terms spec §5). A token with no matching key is left as-is and reported in
- * dev rather than silently dropping.
+ * (terms spec §5) through the shared legal filler (§4 of `fill.ts`).
  */
 export function fill(text: string): string {
-  return text.replace(TOKEN_RE, (token, key: string) => {
-    const value = (company as Readonly<Record<string, string>>)[key]
-    if (value === undefined) {
-      if (import.meta.env.DEV) {
-        console.warn(`[terms] paragraph references unknown token {${key}}`)
-      }
-      return token
-    }
-    return value
-  })
+  return fillTokens(text, company as Readonly<Record<string, string>>, 'terms')
 }
 
 /* One-time dev report of the company facts the owner still has to supply. */

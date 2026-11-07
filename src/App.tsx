@@ -7,13 +7,15 @@ import ServicePage from './pages/ServicePage'
 import ContactPage from './pages/ContactPage'
 import AboutPage from './pages/AboutPage'
 import TermsPage from './pages/TermsPage'
+import PrivacyPolicyPage from './pages/PrivacyPolicyPage'
 import NotFoundPage from './pages/NotFoundPage'
 
 /**
  * App router (services spec §3; work page §3; web-design spec §3; contact spec
- * §7; about spec §7; terms spec §8). `/`, `/services`, `/work`, `/about`,
- * `/contact`, `/terms-conditions`, `/web-design`, `/seo-manchester` and
- * `/branding` exist; every other path falls through to `NotFoundPage`.
+ * §7; about spec §7; terms spec §8; privacy spec §7). `/`, `/services`,
+ * `/work`, `/about`, `/contact`, `/terms-conditions`, `/privacy-policy`,
+ * `/web-design`, `/seo-manchester` and `/branding` exist; every other path
+ * falls through to `NotFoundPage`.
  */
 const router = createBrowserRouter([
   {
@@ -25,6 +27,7 @@ const router = createBrowserRouter([
       { path: 'about', element: <AboutPage /> },
       { path: 'contact', element: <ContactPage /> },
       { path: 'terms-conditions', element: <TermsPage /> },
+      { path: 'privacy-policy', element: <PrivacyPolicyPage /> },
       { path: 'web-design', element: <ServicePage slug="web-design" /> },
       { path: 'seo-manchester', element: <ServicePage slug="seo-manchester" /> },
       { path: 'branding', element: <ServicePage slug="branding" /> },

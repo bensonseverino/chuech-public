@@ -8,25 +8,34 @@ import { company } from '../data/terms'
 export const LEGAL_LINK =
   'text-obsidian underline decoration-primary underline-offset-4 transition-opacity hover:opacity-70 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-obsidian'
 
-/** Body copy + heading size scale for the legal page (terms spec §6). */
+/** Body copy + heading size scale for the legal pages (terms spec §6). */
 export const LEGAL_TEXT =
   'text-[0.95rem] leading-[1.55] md:text-[0.85rem] lg:text-[0.8rem]'
 
-type DetailRow = {
+export type DetailRow = {
   label: string
   value: string
   href?: string
 }
 
+type LegalDetailsTableProps = {
+  /**
+   * Rows to render. Defaults to the Terms & Conditions table (terms spec
+   * §4); the Privacy Policy page passes its own (privacy spec §4).
+   */
+  rows?: DetailRow[]
+}
+
 /**
- * Company details table (terms spec §4): a semantic 2-column table with 1px
- * mid-grey borders, square corners, no zebra striping. Labels are
- * `<th scope="row">` at ~35% width (38% on mobile), where they may wrap.
- * Stays a real table on mobile (no card conversion) and — per spec — has no
- * Company number or VAT number row.
+ * Company details table (terms spec §4; privacy spec §4): a semantic
+ * 2-column table with 1px mid-grey borders, square corners, no zebra
+ * striping. Labels are `<th scope="row">` at ~35% width (38% on mobile),
+ * where they may wrap. Stays a real table on mobile (no card conversion)
+ * and — per spec — neither legal page has a Company number or VAT number
+ * row.
  */
-export default function LegalDetailsTable() {
-  const rows: DetailRow[] = [
+export default function LegalDetailsTable({ rows }: LegalDetailsTableProps = {}) {
+  const detailRows: DetailRow[] = rows ?? [
     { label: 'Company', value: company.legalName },
     { label: 'Address', value: company.address },
     { label: 'Email', value: company.email, href: `mailto:${company.email}` },
@@ -38,7 +47,7 @@ export default function LegalDetailsTable() {
   return (
     <table className={`w-full ${LEGAL_TEXT}`}>
       <tbody>
-        {rows.map((row) => (
+        {detailRows.map((row) => (
           <tr key={row.label}>
             <th
               scope="row"
