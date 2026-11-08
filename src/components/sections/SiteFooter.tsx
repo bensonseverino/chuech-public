@@ -85,9 +85,7 @@ export default function SiteFooter({ footer, site }: { footer: FooterView; site:
         <FooterLinks links={footerData.links} />
 
         {/* 6. Bottom row — logo + legal (spec §2.6) */}
-        <div
-          className="mt-[3.5rem] sm:mt-[4rem] lg:mt-[5.5rem] pt-[3.5rem] sm:pt-[4rem] lg:pt-[5rem] border-t border-white/15"
-        >
+        <div className="mt-[3.5rem] sm:mt-[4rem] lg:mt-[5.5rem]">
           <FooterBottom tradingName={tradingName} legalLine={footerData.legalLine} />
         </div>
       </Container>

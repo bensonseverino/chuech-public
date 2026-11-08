@@ -33,7 +33,7 @@ function FooterLinkItem({ link }: { link: FooterLink }) {
  */
 export default function FooterLinks({ links }: { links: FooterLink[] }) {
   return (
-    <nav aria-label="Footer">
+    <nav aria-label="Footer" className="mt-[3.5rem] sm:mt-[4rem] lg:mt-[5rem]">
       <ul
         className="grid grid-flow-col gap-x-6 gap-y-[0.85rem] sm:grid-cols-3 sm:grid-rows-2 md:grid-cols-3 md:grid-rows-2 grid-cols-2 grid-rows-3 md:gap-y-[0.85rem] gap-y-[1rem]"
         role="list"

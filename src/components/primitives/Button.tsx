@@ -36,7 +36,7 @@ export default function Button({
 }: ButtonProps) {
   const sizeClasses =
     size === 'footer'
-      ? 'min-h-[2.75rem] sm:min-h-[2.4rem] lg:min-h-[2.9rem] w-[7.8rem] sm:w-[6.8rem] lg:w-[9.25rem] px-4 sm:px-5 lg:px-7 text-[0.9rem]'
+      ? 'min-h-[2.75rem] sm:min-h-[2.4rem] lg:min-h-[2.9rem] w-[7.8rem] sm:w-[6.8rem] lg:w-[9.25rem] px-4 sm:px-5 lg:px-7 text-[0.9rem] py-[0.7rem] sm:py-[0.5rem] lg:py-[0.75rem]'
       : 'min-h-[44px] px-6 text-[14px]'
 
   const classes = `inline-flex items-center justify-center rounded-button font-medium transition focus-visible:outline-2 focus-visible:outline-offset-2 ${VARIANTS[variant]} ${sizeClasses} ${className}`
