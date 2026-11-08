@@ -47,7 +47,6 @@ export const footer = {
     { label: 'Services', href: ROUTES.services },
     { label: 'Work', href: ROUTES.work },
     { label: 'About', href: ROUTES.aboutUs },
-    { label: 'Blog', href: '/blog' },
     { label: 'Privacy Policy', href: ROUTES.privacyPolicy },
     { label: 'Terms & Conditions', href: ROUTES.termsConditions },
   ] satisfies FooterLink[],
@@ -61,8 +60,7 @@ if (import.meta.env.DEV) {
   for (const link of footer.links) {
     // The project's route constants: check if the href matches a known route
     const isKnown = Object.values(ROUTES).includes(link.href as typeof ROUTES[keyof typeof ROUTES])
-    // /blog is intentionally not a built route — it's a future page.
-    if (!isKnown && link.href !== '/blog') missing.push(link.href)
+    if (!isKnown) missing.push(link.href)
   }
   if (missing.length > 0) {
     console.warn(`[footer] links without matching route constants: ${missing.join(', ')}`)
