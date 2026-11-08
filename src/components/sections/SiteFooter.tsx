@@ -1,89 +1,94 @@
-import { TransitionLink } from '@/components/TransitionLink'
 import Container from '../primitives/Container'
 import Button from '../primitives/Button'
-import Inline from '../../content/live/inline'
+import FooterIntro from '../footer/FooterIntro'
+import FooterLinks from '../footer/FooterLinks'
+import FooterBottom from '../footer/FooterBottom'
+import { footer as footerData } from '../../data/footer'
+import { company } from '../../data/terms'
 import type { FooterView, SiteView } from '../../content/live/types'
 
 /**
- * Footer (remaining-sections spec §5.10): obsidian canvas, statement with
- * inline mint service links, Get in Touch block, link row, alt logo and
- * company line above a white/15 hairline.
- *
- * `_footer` supplies the statement, links, button and copyright; `_site`
- * supplies the email, phone and address.
+ * Footer (footer spec): full-bleed dark "Get in Touch" block with intro line,
+ * giant heading, contact details row, mint Contact pill, arrow-link grid, and
+ * bottom logo + legal row. All content driven by `src/data/footer.ts`; the
+ * component's props are unchanged so no page needs editing.
  */
 export default function SiteFooter({ footer, site }: { footer: FooterView; site: SiteView }) {
+  // Content is now driven by src/data/footer.ts; props kept for compat.
+  void footer
+  void site
+  const tradingName = company.tradingName
+
   return (
     <footer
       id="contact"
-      className="scroll-mt-24 bg-obsidian pt-[var(--space-80)] pb-[var(--space-40)] text-white"
+      className="scroll-mt-24 bg-obsidian text-white"
+      style={{ paddingTop: 'var(--space-80)', paddingBottom: 'var(--space-40)' }}
     >
       <Container>
-        {/* Statement */}
-        <p className="max-w-[70ch] text-[clamp(18px,2vw,28px)] leading-[1.5] font-normal text-white">
-          <Inline text={footer.statement} tone="dark" />
-        </p>
+        {/* 1. Intro line — centered, underlined service links (spec §2.1) */}
+        <FooterIntro
+          text={footerData.intro.text}
+          services={footerData.intro.services}
+          tradingName={tradingName}
+        />
 
-        {/* Get in Touch */}
-        <div className="mt-[var(--space-40)] grid grid-cols-1 gap-8 md:grid-cols-2">
-          <div>
-            <h2 className="text-[clamp(24px,2.6vw,33px)] leading-[1.3] font-medium text-white">
-              {footer.cta.label}
-            </h2>
-            <ul className="mt-4 flex flex-col gap-2 text-[16px] leading-[24px]">
-              <li>
-                <a
-                  href={site.email.href}
-                  className="text-white/70 transition-colors hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
-                >
-                  {site.email.label}
-                </a>
-              </li>
-              <li>
-                <a
-                  href={site.phone.href}
-                  className="text-white/70 transition-colors hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
-                >
-                  {site.phone.label}
-                </a>
-              </li>
-              <li className="text-white/70">{site.address}</li>
-            </ul>
-          </div>
-          <div className="flex items-start md:justify-end">
-            <Button variant="mint" to={footer.cta.to}>
-              {footer.cta.label}
-            </Button>
-          </div>
+        {/* 2. Giant "Get in Touch" heading (spec §2.2) */}
+        <h2
+          className="mt-[1.5rem] sm:mt-[2rem] lg:mt-[3.75rem] text-center font-display tracking-[-0.04em] leading-[0.95] text-white"
+          style={{
+            fontSize: 'clamp(3.5rem, 14.5vw, 15.5rem)',
+            whiteSpace: 'nowrap',
+          }}
+        >
+          {footerData.heading}
+        </h2>
+
+        {/* 3. Contact details row (spec §2.3) */}
+        <address
+          className="mt-[2.5rem] sm:mt-[3rem] lg:mt-[5rem] flex flex-col sm:flex-row items-center justify-center gap-[0.6rem] sm:gap-[2rem] text-white text-center sm:text-left"
+          style={{
+            fontSize: 'clamp(1.05rem, 1.2rem, 1.2rem)',
+            lineHeight: 1.5,
+            fontStyle: 'normal',
+          }}
+        >
+          <a
+            href={`mailto:${footerData.details.email}`}
+            className="underline underline-offset-2 decoration-white/30 hover:decoration-white hover:text-primary transition-colors whitespace-nowrap"
+          >
+            {footerData.details.email}
+          </a>
+          <span aria-hidden="true" className="sm:inline hidden">
+            &middot;
+          </span>
+          <a
+            href={`tel:${footerData.details.phone.replace(/\s+/g, '')}`}
+            className="underline underline-offset-2 decoration-white/30 hover:decoration-white hover:text-primary transition-colors whitespace-nowrap"
+          >
+            {footerData.details.phone}
+          </a>
+          <span aria-hidden="true" className="sm:inline hidden">
+            &middot;
+          </span>
+          <span className="whitespace-nowrap">{footerData.details.address}</span>
+        </address>
+
+        {/* 4. Contact button (spec §2.4) */}
+        <div className="mt-[1.5rem] sm:mt-[2rem] lg:mt-[2.75rem] flex justify-center">
+          <Button variant="mint" to={footerData.cta.href} size="footer">
+            {footerData.cta.label}
+          </Button>
         </div>
 
-        {/* Link list — column-first: mobile 2×4, tablet 3×(3,3,2), desktop 4×2 (§9). */}
-        <nav aria-label="Footer" className="mt-[var(--space-40)]">
-          <ul className="grid grid-flow-col grid-cols-2 grid-rows-4 gap-x-6 gap-y-3 sm:grid-cols-3 sm:grid-rows-3 lg:grid-cols-4 lg:grid-rows-2">
-            {footer.links.map((link) => (
-              <li key={link.label}>
-                <TransitionLink
-                  to={link.to}
-                  className="text-[14px] font-medium text-white/70 transition-colors hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
-                >
-                  {link.label}
-                </TransitionLink>
-              </li>
-            ))}
-          </ul>
-        </nav>
+        {/* 5. Link grid — arrow links, column-flow (spec §2.5) */}
+        <FooterLinks links={footerData.links} />
 
-        {/* Bottom: hairline, alt logo, legal */}
-        <div className="mt-[var(--space-40)] flex flex-col gap-3 border-t border-white/15 pt-6 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
-          <p
-            aria-hidden="true"
-            className="text-[18px] font-medium tracking-[0.2em] whitespace-nowrap text-white"
-          >
-            {site.companyName.toUpperCase()}
-          </p>
-          <p className="text-[13px] leading-[1.2] font-medium text-white/70 sm:text-right">
-            {footer.legal}
-          </p>
+        {/* 6. Bottom row — logo + legal (spec §2.6) */}
+        <div
+          className="mt-[3.5rem] sm:mt-[4rem] lg:mt-[5.5rem] pt-[3.5rem] sm:pt-[4rem] lg:pt-[5rem] border-t border-white/15"
+        >
+          <FooterBottom tradingName={tradingName} legalLine={footerData.legalLine} />
         </div>
       </Container>
     </footer>

@@ -3,6 +3,8 @@ import { TransitionLink } from '@/components/TransitionLink'
 
 type ButtonProps = Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'children' | 'href'> & {
   variant?: 'mint' | 'dark' | 'ghost-dark'
+  /** Optional size variant (footer spec §2.4). Defaults to the standard CTA size. */
+  size?: 'default' | 'footer'
   children: ReactNode
   /** Internal path — renders a router `<TransitionLink>`. */
   to?: string
@@ -25,13 +27,19 @@ const VARIANTS: Record<NonNullable<ButtonProps['variant']>, string> = {
  */
 export default function Button({
   variant = 'mint',
+  size = 'default',
   children,
   className = '',
   to,
   href,
   ...rest
 }: ButtonProps) {
-  const classes = `inline-flex min-h-[44px] items-center justify-center rounded-button px-6 text-[14px] font-medium transition focus-visible:outline-2 focus-visible:outline-offset-2 ${VARIANTS[variant]} ${className}`
+  const sizeClasses =
+    size === 'footer'
+      ? 'min-h-[2.75rem] sm:min-h-[2.4rem] lg:min-h-[2.9rem] w-[7.8rem] sm:w-[6.8rem] lg:w-[9.25rem] px-4 sm:px-5 lg:px-7 text-[0.9rem]'
+      : 'min-h-[44px] px-6 text-[14px]'
+
+  const classes = `inline-flex items-center justify-center rounded-button font-medium transition focus-visible:outline-2 focus-visible:outline-offset-2 ${VARIANTS[variant]} ${sizeClasses} ${className}`
 
   if (to !== undefined && href === undefined) {
     return (

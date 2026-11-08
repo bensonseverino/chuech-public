@@ -29,6 +29,11 @@ export type ServiceFormContent = {
   submitLabel: string
   /** Identifier sent with the lead so the two forms are distinguishable. */
   source: string
+  /**
+   * The service the lead is about, e.g. `ppc` (ppc spec §3.1). Optional so the
+   * earlier service pages keep their previous payload exactly.
+   */
+  service?: string
 }
 
 export type ServiceFaqItem = { question: string; answer: RichSegment[] }
