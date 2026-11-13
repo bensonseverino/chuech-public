@@ -199,7 +199,7 @@ export const SEO: ServicePageContent = {
     body: 'Our SEO services for Nairobi businesses encompass everything listed and come with well-defined expectations. And while you shouldn\u2019t expect organic search campaigns to transform your business overnight, you can expect them to be a predictable generator of leads when it\u2019s aligned with your website\u2019s conversion journey and other insights, which is exactly what our team does.',
     cta: { label: 'Contact', href: ROUTES.contact },
     image: 'seo-feature',
-    imageAlt: '',
+    imageAlt: 'A close-up of a Google Search Console performance report showing clicks, impressions and position trends',
   },
   projects: {
     heading: 'Some of our favourite SEO projects',
@@ -221,7 +221,7 @@ export const SEO: ServicePageContent = {
     body: 'All the SEO work we do for your business is centred on your goals and priorities. We start by looking at your current digital presence and creating a prioritisation plan based on the data. We\u2019ll then address the immediate issues before putting in the foundations for long-term success, which will be different for every business. We don\u2019t stick to a rigid 5-step process like most agencies. Instead, our team prefers to operate against a rolling roadmap that can be adjusted should your business priorities change. We can also work alongside in-house teams if that\u2019s the sort of support your Nairobi business needs.',
     cta: { label: 'Contact', href: ROUTES.contact },
     image: 'seo-why',
-    imageAlt: '',
+    imageAlt: 'Hands on a laptop showing a Google Analytics acquisition report, a striped mug on a Kenya-flag coaster beside it',
     form: {
       /* The live callback form has no visible heading. */
       fields: [

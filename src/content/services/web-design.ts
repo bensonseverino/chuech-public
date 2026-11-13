@@ -243,9 +243,7 @@ export const WEB_DESIGN: ServicePageContent = {
     body: 'The experts we have at Chuech Studio handle every aspect of your web design and development. From the initial consultation, we\u2019ll map out a scalable, technically sound online home that accurately reflects your business\u2019s story and what it sells. Over time, it\u2019ll become one of your key revenue-generating assets that proves its value in the months and years to come.',
     cta: { label: 'Contact', href: ROUTES.contact },
     image: 'web-design-feature',
-    /* TODO(asset): two of the team on an orange sofa (16:9 on mobile, ~6:5 at
-       md+). The slot currently resolves to the shared hero-team placeholder. */
-    imageAlt: 'Two members of the Chuech Studio team working together on an orange sofa',
+    imageAlt: 'A spread of Verve Creative agency portfolio slides: approach, campaigns and brand marks',
   },
   projects: {
     heading: 'Some of our favourite web design projects',
@@ -267,9 +265,7 @@ export const WEB_DESIGN: ServicePageContent = {
     body: 'Today\u2019s websites aren\u2019t just static brochures that simply exist online. Customers expect intuitive experiences where they can take action in just a few clicks without even thinking about it. A visually impressive website won\u2019t achieve the necessary commercial goals if it lacks structure or isn\u2019t set up to perform well on all devices. Chuech Studio\u2019s web design services balance aesthetics with commercial performance so that every build reflects your brand visually but also ensures your site functions as a long-term business asset.',
     cta: { label: 'Contact', href: ROUTES.contact },
     image: 'web-design-why',
-    /* TODO(asset): the team around a table with plants. Reuses the shared
-       hero-team placeholder until the real web-design-why.jpg lands. */
-    imageAlt: 'The Chuech Studio team gathered around a table with plants',
+    imageAlt: 'A developer\u2019s desk at night, monitors full of code beside a laptop and a coffee cup',
     form: {
       /* The live callback form has no visible heading. */
       fields: [

@@ -10,6 +10,14 @@ import serviceBranding from '../assets/marino/service-branding.webp'
 import serviceWebDesign from '../assets/marino/service-web-design.webp'
 import serviceSeo from '../assets/marino/service-seo.webp'
 import servicePpc from '../assets/marino/service-ppc.webp'
+import brandingFeature from '../assets/marino/branding-feature.webp'
+import brandingWhy from '../assets/marino/branding-why.jpg'
+import webDesignFeature from '../assets/marino/web-design-feature.jpg'
+import webDesignWhy from '../assets/marino/web-design-why.jpg'
+import seoFeature from '../assets/marino/seo-feature.jpg'
+import seoWhy from '../assets/marino/seo-why.jpg'
+import ppcFeature from '../assets/marino/ppc-feature.jpg'
+import ppcWhy from '../assets/marino/ppc-why.jpg'
 import blackbird from '../assets/marino/blackbird.svg'
 import blackbirdLogo from '../assets/marino/blackbird-logo.svg'
 import stats1 from '../assets/marino/stats-1.svg'
@@ -48,31 +56,27 @@ const SLOTS: Record<string, string> = {
   'hero-team': heroTeam,
   'hero-terminal': heroTerminal,
   'contact-thumb': contactThumb,
-  /* TODO(asset): web-design page photos — `web-design-feature.jpg` (two men on
-     an orange sofa) and `web-design-why.jpg` (the team around a table with
-     plants). Both reuse the hero-team placeholder until the real files land;
-     swap the file, not the slot. */
-  'web-design-feature': heroTeam,
-  'web-design-why': heroTeam,
-  /* TODO(asset): seo page photos — `seo-middle-1200x990.jpg` (6:5, feature
-     panel) and `about-us-top-right-1200x675.jpg` (16:9, campaign panel) on the
-     live page. Both are decorative there, so they reuse the hero-team
-     placeholder until the real files land. */
-  'seo-feature': heroTeam,
-  'seo-why': heroTeam,
-  /* TODO(asset): branding page photos — `branding-feature.jpg` (a smiling man
-     with arms crossed in a black t-shirt, portrait crop) and
-     `branding-why.jpg` (people around a table in front of a wall with a bee
-     logo, 16:9). Both reuse the hero-team placeholder until the real files
-     land; swap the file, not the slot. */
-  'branding-feature': heroTeam,
-  'branding-why': heroTeam,
-  /* TODO(asset): ppc page photos — `ppc-feature.jpg` (4:5 portrait, the team
-     planning a campaign) and `ppc-why.jpg` (4:3 landscape, the team at work).
-     Both reuse the hero-team placeholder until the real files land; swap the
-     file, not the slot. */
-  'ppc-feature': heroTeam,
-  'ppc-why': heroTeam,
+  /* Web-design page photos — `web-design-feature.jpg` (the Verve Creative
+     portfolio collage) and `web-design-why.jpg` (the dark desk with code
+     screens + coffee). Both swapped in file-for-file. */
+  'web-design-feature': webDesignFeature,
+  'web-design-why': webDesignWhy,
+  /* SEO page photos — `seo-feature.jpg` (the Search Console performance
+     closeup) and `seo-why.jpg` (the Analytics dashboard laptop with the
+     Kenya-flag mug coaster). Both swapped in file-for-file. */
+  'seo-feature': seoFeature,
+  'seo-why': seoWhy,
+  /* Branding page photos — `branding-feature.webp` (the Smash tennis brand
+     collage) and `branding-why.jpg` (the team around a table with color
+     swatches, 16:9). Swapped in place, per the swap-the-file-not-the-slot
+     convention. */
+  'branding-feature': brandingFeature,
+  'branding-why': brandingWhy,
+  /* PPC page photos — `ppc-feature.jpg` (the LinkedIn Ads Campaign Manager
+     closeup) and `ppc-why.jpg` (the sprint/kanban dashboard with pencil).
+     Both swapped in file-for-file. */
+  'ppc-feature': ppcFeature,
+  'ppc-why': ppcWhy,
   /* TODO(asset): services page hero photo — 16:9 team shot (4 people at a
      table with plants). Reuses the hero-team placeholder until the real
      services-hero.jpg lands; swap the file, not the slot. */

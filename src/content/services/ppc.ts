@@ -199,9 +199,7 @@ export const PPC: ServicePageContent = {
       'Too often, PPC campaigns chase surface-level metrics such as clicks and impressions. We focus on revenue. By aligning your business goals with the terms customers are really searching for, we prioritise the keywords, audiences and landing-page elements most likely to produce enquiries and sales.',
     cta: { label: 'Contact', href: ROUTES.contact },
     image: 'ppc-feature',
-    /* TODO(asset): the team planning a campaign, ~4:5 portrait crop. The slot
-       resolves to the shared hero-team placeholder until the real file lands. */
-    imageAlt: 'The Chuech Studio team planning a campaign',
+    imageAlt: 'A laptop screen showing the LinkedIn Ads Campaign Manager account page',
   },
   projects: {
     heading: 'Some of our favourite PPC projects',
@@ -223,9 +221,7 @@ export const PPC: ServicePageContent = {
       'PPC puts your business in front of motivated customers immediately, with budgets you control and results you can measure. Working with a team that understands both the platforms and your market means less wasted spend, sharper targeting and a clearer return on investment.',
     cta: { label: 'Contact', href: ROUTES.contact },
     image: 'ppc-why',
-    /* TODO(asset): the team at work, ~4:3 landscape crop. Shared hero-team
-       placeholder until the real file lands. */
-    imageAlt: 'The Chuech Studio team at work',
+    imageAlt: 'A sprint dashboard with a kanban board on a tablet in front of task and market monitors, a hand holding a pencil',
     form: {
       /* The live callback form has no visible heading. */
       fields: [

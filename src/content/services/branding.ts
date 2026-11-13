@@ -6,11 +6,9 @@
  * original reference page https://marino.co.uk/branding/, keeping the curly
  * apostrophes.
  *
- * TODO(asset): the two photos are labelled local placeholders — the live page
- * uses `branding-feature.jpg` (a smiling man with arms crossed in a black
- * t-shirt, blurred green background, portrait crop) and `branding-why.jpg`
- * (people around a table in front of a wall with a bee logo, 16:9). Both slots
- * reuse the shared hero-team placeholder until the real files land.
+ * The two photos are final: `branding-feature.webp` (the Smash tennis brand
+ * collage) and `branding-why.jpg` (the team around a table with color
+ * swatches, 16:9) — swapped into the slots file-for-file.
  */
 import { ROUTES } from '../../routes'
 import type {
@@ -168,10 +166,7 @@ export const BRANDING: ServicePageContent = {
     body: 'The full-service nature of Chuech Studio allows us to execute brand strategies with web, SEO, and paid media in mind so that your chosen aesthetic isn\u2019t just some fluffy refresh but a project that is tied to commercial objectives. We act as a commercial partner who works to understand your business and its story to create a true reflection of who you are.',
     cta: { label: 'Contact', href: ROUTES.contact },
     image: 'branding-feature',
-    /* TODO(asset): a smiling man with arms crossed in a black t-shirt on a
-       blurred green background (portrait crop, face kept in frame). Reuses the
-       shared hero-team placeholder until the real branding-feature.jpg lands. */
-    imageAlt: 'A smiling member of the Chuech Studio team standing with his arms crossed',
+    imageAlt: 'A collage of Smash tennis brand applications: posters, social posts and a color palette',
   },
   projects: {
     heading: 'Some of our favourite branding projects',
@@ -197,10 +192,7 @@ export const BRANDING: ServicePageContent = {
     body: 'A successful brand should make your business easier to trust and understand. Chuech Studio brand projects are shaped by the people who will be using the material across all manner of marketing campaigns. We build your identity with practical applications in mind rather than a simple presentation. Our work across all main marketing disciplines means we understand how branding decisions can affect your wider marketing ecosystem and aim to create an identity that feels familiar no matter where your audience encounters it.',
     cta: { label: 'Contact', href: ROUTES.contact },
     image: 'branding-why',
-    /* TODO(asset): people around a table in front of a wall with a bee logo
-       (16:9). Reuses the shared hero-team placeholder until the real
-       branding-why.jpg lands. */
-    imageAlt: 'The Chuech Studio team gathered around a table in front of a wall with a bee logo',
+    imageAlt: 'The Chuech Studio team gathered around a table reviewing color swatches and brand sketches',
     form: {
       /* The live callback form has no visible heading. */
       fields: [
