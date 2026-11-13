@@ -18,6 +18,8 @@ import seoFeature from '../assets/marino/seo-feature.jpg'
 import seoWhy from '../assets/marino/seo-why.jpg'
 import ppcFeature from '../assets/marino/ppc-feature.jpg'
 import ppcWhy from '../assets/marino/ppc-why.jpg'
+import aboutHero from '../assets/marino/about-hero.jpg'
+import aboutMission from '../assets/marino/about-mission.jpg'
 import blackbird from '../assets/marino/blackbird.svg'
 import blackbirdLogo from '../assets/marino/blackbird-logo.svg'
 import stats1 from '../assets/marino/stats-1.svg'
@@ -77,6 +79,12 @@ const SLOTS: Record<string, string> = {
      Both swapped in file-for-file. */
   'ppc-feature': ppcFeature,
   'ppc-why': ppcWhy,
+  /* About page photos — `about-hero.jpg` (the hand-drawn "Sucking → Not
+     Sucking, The Past → The Future" chart) and `about-mission.jpg` (two
+     people sketching wireframes, Kenya-flag sticker on the laptop). Both
+     swapped in file-for-file. */
+  'about-hero': aboutHero,
+  'about-mission': aboutMission,
   /* TODO(asset): services page hero photo — 16:9 team shot (4 people at a
      table with plants). Reuses the hero-team placeholder until the real
      services-hero.jpg lands; swap the file, not the slot. */

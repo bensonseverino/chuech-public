@@ -6,8 +6,8 @@ import { ROUTES } from '../routes'
 
 /** Three hero/mission/photo-strip images. All are placeholder slots — swap in assets.ts. */
 export const ABOUT_IMAGES = {
-  hero: { src: 'hero-team', alt: 'Chuech studio team' },         // small hero image (16:9)
-  mission: { src: 'hero-team', alt: 'Chuech studio mission' },   // large mission image (~16:10)
+  hero: { src: 'about-hero', alt: 'A hand-drawn chart rising from “sucking” in the past to “not sucking” in the future' },         // small hero image (16:9)
+  mission: { src: 'about-mission', alt: 'Two members of the Chuech studio team sketching wireframes with pencils between laptops' },   // large mission image (~16:10)
   photoStrip: [
     { src: 'work-ph', alt: 'Chuech studio photo 1' },            // 16:9
     { src: 'work-ph', alt: 'Chuech studio photo 2' },
