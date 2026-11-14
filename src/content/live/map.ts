@@ -678,7 +678,7 @@ export const SERVICES_FALLBACK: ServicesPageView = {
     label: SERVICES_HERO.label,
     title: SERVICES_HERO.title,
     pills: [SERVICES_HERO.pills[0], SERVICES_HERO.pills[1]],
-    image: { src: asset(SERVICES_HERO.image), alt: 'The Chuech Studio team' },
+    image: { src: asset(SERVICES_HERO.image), alt: 'Scrabble letter tiles scattered on a wooden table spelling out the word growth' },
     description: HERO_DESCRIPTION,
   },
   introStatement: {

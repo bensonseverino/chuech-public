@@ -20,6 +20,7 @@ import ppcFeature from '../assets/marino/ppc-feature.jpg'
 import ppcWhy from '../assets/marino/ppc-why.jpg'
 import aboutHero from '../assets/marino/about-hero.jpg'
 import aboutMission from '../assets/marino/about-mission.jpg'
+import servicesHero from '../assets/marino/services-hero.jpg'
 import blackbird from '../assets/marino/blackbird.svg'
 import blackbirdLogo from '../assets/marino/blackbird-logo.svg'
 import stats1 from '../assets/marino/stats-1.svg'
@@ -85,10 +86,9 @@ const SLOTS: Record<string, string> = {
      swapped in file-for-file. */
   'about-hero': aboutHero,
   'about-mission': aboutMission,
-  /* TODO(asset): services page hero photo — 16:9 team shot (4 people at a
-     table with plants). Reuses the hero-team placeholder until the real
-     services-hero.jpg lands; swap the file, not the slot. */
-  'services-hero': heroTeam,
+  /* Services page hero photo — `services-hero.jpg` (the Scrabble "GROWTH"
+     tiles photo, 16:9). Swapped in file-for-file. */
+  'services-hero': servicesHero,
   'service-branding': serviceBranding,
   'service-web-design': serviceWebDesign,
   'service-seo': serviceSeo,
