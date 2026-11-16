@@ -21,6 +21,11 @@ import ppcWhy from '../assets/marino/ppc-why.jpg'
 import aboutHero from '../assets/marino/about-hero.jpg'
 import aboutMission from '../assets/marino/about-mission.jpg'
 import servicesHero from '../assets/marino/services-hero.jpg'
+import clientAfreak from '../assets/marino/client-afreak.svg'
+import clientEverythingYarn from '../assets/marino/client-everything-yarn.svg'
+import clientMamboBeard from '../assets/marino/client-mambo-beard.svg'
+import clientTibago from '../assets/marino/client-tibago.svg'
+import clientCaritasNairobi from '../assets/marino/client-caritas-nairobi.svg'
 import blackbird from '../assets/marino/blackbird.svg'
 import blackbirdLogo from '../assets/marino/blackbird-logo.svg'
 import stats1 from '../assets/marino/stats-1.svg'
@@ -89,6 +94,14 @@ const SLOTS: Record<string, string> = {
   /* Services page hero photo — `services-hero.jpg` (the Scrabble "GROWTH"
      tiles photo, 16:9). Swapped in file-for-file. */
   'services-hero': servicesHero,
+  /* Client marquee logos — real client lockups (square, brand name inside
+     the mark): AFREAK, Everything Yarn, Mambo Beard, tibaGo and Caritas
+     Nairobi (Githunguri Catholic SHG). */
+  'client-afreak': clientAfreak,
+  'client-everything-yarn': clientEverythingYarn,
+  'client-mambo-beard': clientMamboBeard,
+  'client-tibago': clientTibago,
+  'client-caritas-nairobi': clientCaritasNairobi,
   'service-branding': serviceBranding,
   'service-web-design': serviceWebDesign,
   'service-seo': serviceSeo,

@@ -11,6 +11,7 @@ import { asset } from '../assets'
 import {
   BRIEF_CTA,
   CLIENTS,
+  CLIENT_LOGOS,
   EXPERIENCE_PILLS,
   FAQ,
   FAQ_ITEMS,
@@ -490,7 +491,7 @@ function testimonialViews(testimonials: CmsTestimonial[] | undefined): Testimoni
 }
 
 function localClients(): ClientView[] {
-  return CLIENTS.map((name) => ({ name }))
+  return CLIENTS.map((name) => ({ name, logo: asset(CLIENT_LOGOS[name]) }))
 }
 
 function clientViews(clients: CmsClient[] | undefined): ClientView[] {

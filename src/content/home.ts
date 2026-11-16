@@ -307,18 +307,23 @@ export const FOUNDER_BLOCK = {
 /* Client logo strip                                                   */
 /* ------------------------------------------------------------------ */
 
-/** Marquee order as seen in the reference (change spec §4). */
+/** Client marquee order — real client logos (change spec §4). */
 export const CLIENTS = [
-  'emap',
-  'WR Partners',
-  'Hard Rock Cafe',
-  'ISTOBAL',
-  'LEONARDO Hotels',
-  'HITACHI',
-  'Haines Watts',
-  'VISLINK',
-  'AP NUT',
+  'AFREAK',
+  'Everything Yarn',
+  'Mambo Beard',
+  'tibaGo',
+  'Caritas Nairobi',
 ] as const
+
+/** Asset slot per client name, resolved by localClients() in live/map.ts. */
+export const CLIENT_LOGOS: Record<(typeof CLIENTS)[number], string> = {
+  AFREAK: 'client-afreak',
+  'Everything Yarn': 'client-everything-yarn',
+  'Mambo Beard': 'client-mambo-beard',
+  tibaGo: 'client-tibago',
+  'Caritas Nairobi': 'client-caritas-nairobi',
+}
 
 /* ------------------------------------------------------------------ */
 /* 5.10 Footer                                                         */
