@@ -1,10 +1,14 @@
 import { useId, useRef, useState, type FormEvent } from 'react'
 import { gsap, useGSAP, DUR, EASE } from '@/lib/motion'
-import { submitContactForm, type ContactFormValues } from '@/lib/forms'
+import { useFormSubmit } from '@/hooks/useFormSubmit'
+import { useTurnstile, TurnstileField } from '@/components/forms/TurnstileField'
+import HoneypotField from '@/components/forms/HoneypotField'
 import { contact } from '@/data/contact'
 
-type FieldName = keyof ContactFormValues
+type FieldName = 'name' | 'email' | 'phone' | 'referral' | 'message'
 type Errors = Partial<Record<FieldName, string>>
+
+type ContactFormValues = Record<FieldName, string>
 
 const EMPTY: ContactFormValues = {
   name: '',
@@ -30,22 +34,21 @@ function fieldBorder(error?: string) {
  * Deliberately separate from the shared lead `ContactForm` used inside service
  * hero/callback panels: this one is the dark, two-column form from the contact
  * reference and shares no surface styling with those cards. It owns its
- * validation, honeypot and submit/success/error states, and posts through
- * `submitContactForm()` so the endpoint can be swapped.
+ * validation and submit/success/error states, and posts through `useFormSubmit`
+ * to the CMS `contact` form (forms-reviews spec §8).
  */
-export default function ContactPageForm({
-  source = 'contact-page',
-  onSubmit,
-}: {
-  source?: string
-  onSubmit?: (values: ContactFormValues) => Promise<void>
-}) {
+export default function ContactPageForm() {
   const uid = useId()
   const formRef = useRef<HTMLFormElement>(null)
   const honeypotRef = useRef<HTMLInputElement>(null)
+  const turnstile = useTurnstile()
   const [values, setValues] = useState<ContactFormValues>(EMPTY)
   const [errors, setErrors] = useState<Errors>({})
-  const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle')
+  const { submit, reset, status, fieldErrors, clearFieldError, error } = useFormSubmit('contact', {
+    getToken: () => turnstile.getToken(),
+    resetToken: () => turnstile.reset(),
+  })
+  const [honeypotSuccess, setHoneypotSuccess] = useState(false)
 
   const submitting = status === 'submitting'
 
@@ -77,13 +80,14 @@ export default function ContactPageForm({
 
   function update<K extends FieldName>(key: K, value: string) {
     setValues((current) => ({ ...current, [key]: value }))
+    // Clear both the local message and a server field error for this key.
     setErrors((current) => {
       if (!current[key]) return current
       const next = { ...current }
       delete next[key]
       return next
     })
-    if (status === 'success' || status === 'error') setStatus('idle')
+    if (fieldErrors[key]) clearFieldError(key)
   }
 
   function validate(): Errors {
@@ -98,13 +102,19 @@ export default function ContactPageForm({
     return found
   }
 
+  /** Server errors win per field; client-side messages render meanwhile. */
+  function errorFor(key: FieldName) {
+    return fieldErrors[key] ?? errors[key]
+  }
+
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     if (submitting) return
 
     // Honeypot: a real visitor never fills this. Pretend it worked, never send.
     if (honeypotRef.current?.value) {
-      setStatus('success')
+      reset() // clear any previous error state so success renders alone
+      setHoneypotSuccess(true)
       return
     }
 
@@ -116,21 +126,16 @@ export default function ContactPageForm({
       return
     }
 
-    setStatus('submitting')
-    try {
-      if (onSubmit) await onSubmit(values)
-      else await submitContactForm(values, source)
-      setValues(EMPTY)
-      setStatus('success')
-    } catch {
-      setStatus('error')
-    }
+    const sent = await submit(values, honeypotRef.current?.value ?? '')
+    // Typed values only clear on success (forms-reviews spec §8.3).
+    if (sent) setValues(EMPTY)
   }
 
   return (
     <form
       ref={formRef}
       onSubmit={handleSubmit}
+      onFocus={turnstile.arm}
       noValidate
       aria-label="Contact Chuech studio"
       className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-[0.875rem]"
@@ -144,7 +149,7 @@ export default function ContactPageForm({
           placeholder={contact.nameLabel}
           value={values.name}
           onChange={(value) => update('name', value)}
-          error={errors.name}
+          error={errorFor('name')}
           autoComplete="name"
           disabled={submitting}
         />
@@ -159,7 +164,7 @@ export default function ContactPageForm({
           placeholder={contact.emailLabel}
           value={values.email}
           onChange={(value) => update('email', value)}
-          error={errors.email}
+          error={errorFor('email')}
           autoComplete="email"
           disabled={submitting}
         />
@@ -173,7 +178,7 @@ export default function ContactPageForm({
           placeholder={contact.phoneLabel}
           value={values.phone}
           onChange={(value) => update('phone', value)}
-          error={errors.phone}
+          error={errorFor('phone')}
           autoComplete="tel"
           disabled={submitting}
         />
@@ -187,7 +192,7 @@ export default function ContactPageForm({
           placeholder={contact.referralLabel}
           value={values.referral}
           onChange={(value) => update('referral', value)}
-          error={errors.referral}
+          error={errorFor('referral')}
           disabled={submitting}
         />
       </div>
@@ -205,36 +210,27 @@ export default function ContactPageForm({
           onChange={(event) => update('message', event.target.value)}
           disabled={submitting}
           aria-required="true"
-          aria-invalid={errors.message ? true : undefined}
-          aria-describedby={errors.message ? `${uid}-message-error` : undefined}
+          aria-invalid={errorFor('message') ? true : undefined}
+          aria-describedby={errorFor('message') ? `${uid}-message-error` : undefined}
           data-lenis-prevent
-          className={`${FIELD_BASE} min-h-[150px] resize-y py-[1.25rem] ${fieldBorder(errors.message)} sm:min-h-[112px] lg:min-h-[135px]`}
+          className={`${FIELD_BASE} min-h-[150px] resize-y py-[1.25rem] ${fieldBorder(errorFor('message'))} sm:min-h-[112px] lg:min-h-[135px]`}
         />
-        {errors.message ? (
+        {errorFor('message') ? (
           <p id={`${uid}-message-error`} className="mt-2 text-[0.8rem] leading-snug text-red-300">
-            {errors.message}
+            {errorFor('message')}
           </p>
         ) : null}
       </div>
 
       {/* Honeypot: off-screen, out of the tab order, hidden from assistive tech. */}
-      <div className="sr-only" aria-hidden="true">
-        <label htmlFor={`${uid}-company`}>Company</label>
-        <input
-          ref={honeypotRef}
-          id={`${uid}-company`}
-          name="company"
-          type="text"
-          tabIndex={-1}
-          autoComplete="off"
-        />
-      </div>
+      <HoneypotField inputRef={honeypotRef} />
+      <TurnstileField handle={turnstile} />
 
       <div
         data-contact-field
         className="mt-[1.5rem] flex flex-col items-center gap-3 sm:col-span-2"
       >
-        {status === 'success' ? (
+        {status === 'success' || honeypotSuccess ? (
           <p
             role="status"
             aria-live="polite"
@@ -268,7 +264,11 @@ export default function ContactPageForm({
 
         {status === 'error' ? (
           <p role="alert" aria-live="assertive" className="text-center text-[0.9rem] text-red-300">
-            Something went wrong while sending your message. Please try again, or email{' '}
+            {error?.code === 'rate_limited'
+              ? 'Too many attempts. Please try again shortly, or email '
+              : error?.code === 'verification_failed'
+                ? 'Verification failed. Please try again, or email '
+                : 'Something went wrong while sending your message. Please try again, or email '}
             <a
               href={`mailto:${contact.email}`}
               className="underline underline-offset-2 transition-colors hover:text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"

@@ -3,7 +3,6 @@ import Container from '../primitives/Container'
 import SectionHeading, { TITLE_ROLE } from '../primitives/SectionHeading'
 import { Reveal } from '../ui/Reveal'
 import ContactForm from '../ContactForm'
-import { submitForm } from '../../cms/forms'
 
 export type CallBackContext = {
   projectSlug: string
@@ -20,8 +19,8 @@ const FIELDS = [
  * The "Request a Call Back" card on a case study (cms-projects-spec.md §2.6):
  * one white rounded card — the project's testimonial (mint left border,
  * "Name: **Company**") beside the call-back form (Name*, Phone*, Email and the
- * mint pill button). Submissions carry the reserved `_context` key so the
- * inbox shows which project they came from (§8).
+ * mint pill button). Submissions carry the project context so the inbox shows
+ * which project they came from (forms-reviews spec §8.3).
  *
  * Without a testimonial the card shows only the form, centred at a comfortable
  * width (§2 empty-section rule).
@@ -31,18 +30,6 @@ export default function CallBackCard({ testimonial, context }: {
   context: CallBackContext
 }) {
   const headingId = useId()
-
-  async function handleSubmit(values: Record<string, string>) {
-    const result = await submitForm({
-      source: 'call-back',
-      name: values.name,
-      phone: values.phone,
-      email: values.email,
-      fields: {},
-      _context: context,
-    })
-    if (!result.ok) throw new Error(result.message)
-  }
 
   return (
     <section aria-label="Request a call back" className="py-[50px] md:py-[62px] lg:py-[80px]">
@@ -85,7 +72,8 @@ export default function CallBackCard({ testimonial, context }: {
                     fields={FIELDS}
                     submitLabel="Request a Call Back"
                     source="call-back"
-                    onSubmit={handleSubmit}
+                    projectSlug={context.projectSlug}
+                    projectTitle={context.projectTitle}
                   />
                 </div>
               </div>

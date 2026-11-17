@@ -115,7 +115,6 @@ export default function ServiceHero({ hero }: { hero: ServicePageView['hero'] })
                 fields={hero.form.fields}
                 submitLabel={hero.form.submitLabel}
                 source={hero.form.source}
-                service={hero.form.service}
               />
             </div>
           </div>

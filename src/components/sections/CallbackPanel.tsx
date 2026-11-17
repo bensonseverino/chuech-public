@@ -74,7 +74,6 @@ export default function CallbackPanel({
                   fields={why.form.fields}
                   submitLabel={why.form.submitLabel}
                   source={why.form.source}
-                  service={why.form.service}
                 />
               </div>
             </div>

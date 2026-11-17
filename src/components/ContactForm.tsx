@@ -1,5 +1,7 @@
 import { useId, useRef, useState, type FormEvent } from 'react'
-import { submitLead } from '../lib/leads'
+import { useFormSubmit } from '../hooks/useFormSubmit'
+import { useTurnstile, TurnstileField } from './forms/TurnstileField'
+import HoneypotField from './forms/HoneypotField'
 
 export type ContactField = {
   name: string
@@ -11,11 +13,11 @@ export type ContactField = {
 type ContactFormProps = {
   fields: ContactField[]
   submitLabel: string
-  /** Identifies the form in the lead payload, e.g. `web-design-hero`. */
+  /** The CMS form slug, e.g. `web-design-hero` or `call-back`. */
   source: string
-  /** Optional service tag in the lead payload, e.g. `ppc` (ppc spec §3.1). */
-  service?: string
-  onSubmit?: (values: Record<string, string>) => Promise<void>
+  /** Project context for forms on case-study pages (forms-reviews spec §8.3). */
+  projectSlug?: string
+  projectTitle?: string
 }
 
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
@@ -63,22 +65,29 @@ function validate(fields: ContactField[], values: Record<string, string>) {
  * The shared lead form (web-design spec §6), used by the hero card and the
  * callback panel. Controlled fields with visually hidden real labels, client
  * side validation (the only failure styling the design system allows is the
- * obsidian border + helper line, so no error colour is invented), a honeypot
- * and the `submitLead` default target. The form never reloads the page.
+ * obsidian border + helper line, so no error colour is invented), and a submit
+ * through `useFormSubmit` to the CMS (forms-reviews spec §8). The form never
+ * reloads the page.
  */
 export default function ContactForm({
   fields,
   submitLabel,
   source,
-  service,
-  onSubmit,
+  projectSlug,
+  projectTitle,
 }: ContactFormProps) {
   const uid = useId()
   const [values, setValues] = useState<Record<string, string>>({})
   const [errors, setErrors] = useState<Record<string, string>>({})
-  const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle')
   const formRef = useRef<HTMLFormElement>(null)
   const honeypotRef = useRef<HTMLInputElement>(null)
+  const turnstile = useTurnstile()
+  const { submit, status, fieldErrors, error } = useFormSubmit(source, {
+    projectSlug,
+    projectTitle,
+    getToken: () => turnstile.getToken(),
+    resetToken: () => turnstile.reset(),
+  })
 
   const submitting = status === 'submitting'
 
@@ -90,12 +99,18 @@ export default function ContactForm({
     return `${uid}-${name}-error`
   }
 
+  /** Server errors win per field; client-side messages render meanwhile. */
+  function errorFor(name: string) {
+    return fieldErrors[name] ?? errors[name]
+  }
+
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
 
     // Filled honeypot: silently pretend it worked, never send.
     if (honeypotRef.current?.value) {
-      setStatus('success')
+      setValues({})
+      setStatusSuccess()
       return
     }
 
@@ -110,18 +125,16 @@ export default function ContactForm({
       return
     }
 
-    setStatus('submitting')
-    try {
-      const payload = { source, ...(service ? { service } : {}), fields: values }
-      if (onSubmit) await onSubmit(values)
-      else await submitLead(payload)
-      setStatus('success')
-    } catch {
-      setStatus('error')
-    }
+    await submit(values, honeypotRef.current?.value ?? '')
   }
 
-  if (status === 'success') {
+  // The hook owns the real status; the honeypot's local success reuses it.
+  const [honeypotSuccess, setHoneypotSuccess] = useState(false)
+  function setStatusSuccess() {
+    setHoneypotSuccess(true)
+  }
+
+  if (status === 'success' || honeypotSuccess) {
     return (
       <p role="status" className="text-[16px] leading-[24px] text-obsidian">
         Thanks, we&rsquo;ll be in touch.
@@ -130,10 +143,16 @@ export default function ContactForm({
   }
 
   return (
-    <form ref={formRef} onSubmit={handleSubmit} noValidate className="flex flex-col gap-[18px]">
+    <form
+      ref={formRef}
+      onSubmit={handleSubmit}
+      onFocus={turnstile.arm}
+      noValidate
+      className="flex flex-col gap-[18px]"
+    >
       {fields.map((field) => {
         const id = fieldId(field.name)
-        const error = errors[field.name]
+        const error = errorFor(field.name)
         const describedBy = error ? helperId(field.name) : undefined
         const invalid = error ? true : undefined
         const shared = {
@@ -183,18 +202,8 @@ export default function ContactForm({
         )
       })}
 
-      {/* Honeypot: off-screen, out of the tab order and hidden from a11y. */}
-      <div className="sr-only" aria-hidden="true">
-        <label htmlFor={`${uid}-company`}>Company</label>
-        <input
-          ref={honeypotRef}
-          id={`${uid}-company`}
-          name="company"
-          type="text"
-          tabIndex={-1}
-          autoComplete="off"
-        />
-      </div>
+      <HoneypotField inputRef={honeypotRef} />
+      <TurnstileField handle={turnstile} />
 
       <div>
         {/* The mint `Button` styling on a real submit control. */}
@@ -204,12 +213,16 @@ export default function ContactForm({
           disabled={submitting}
           className="inline-flex min-h-[44px] items-center justify-center rounded-button bg-primary px-6 text-[14px] font-medium text-obsidian transition hover:shadow-glow-md focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-obsidian disabled:opacity-60"
         >
-          {submitLabel}
+          {submitting ? 'Sending…' : submitLabel}
         </button>
 
         {status === 'error' ? (
           <p role="alert" className="mt-[10px] text-[13px] leading-[18px] text-obsidian">
-            Sorry, something went wrong. Please try again, or email hello@chuechstudio.co.ke.
+            {error?.code === 'rate_limited'
+              ? 'Too many attempts. Please try again shortly, or email hello@chuechstudio.co.ke.'
+              : error?.code === 'verification_failed'
+                ? 'Verification failed. Please try again.'
+                : 'Sorry, something went wrong. Please try again, or email hello@chuechstudio.co.ke.'}
           </p>
         ) : null}
       </div>

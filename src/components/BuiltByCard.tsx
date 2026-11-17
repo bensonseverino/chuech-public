@@ -4,7 +4,9 @@ import Container from './primitives/Container'
 import Button from './primitives/Button'
 import MediaFrame from './primitives/MediaFrame'
 import { imageSrc } from '../content/assets'
-import { submitContactForm } from '../lib/forms'
+import { useFormSubmit } from '../hooks/useFormSubmit'
+import { useTurnstile, TurnstileField } from './forms/TurnstileField'
+import HoneypotField from './forms/HoneypotField'
 import { about } from '../data/about'
 
 type CallbackFormValues = {
@@ -27,16 +29,22 @@ const FIELD =
 
 /**
  * Callback form for the Built-by card (about spec §4.3): Name* + Phone*
- * required, Email optional, honeypot `company`, POSTs through the shared
- * `submitContactForm()` with source "about-callback" — never reloads the page.
+ * required, Email optional, honeypot `website`, POSTs through `useFormSubmit`
+ * to the CMS `call-back` form (whose fields are exactly these — the old
+ * `about-callback` misroute is fixed here). Never reloads the page.
  */
 function BuiltByCallbackForm() {
   const uid = useId()
   const formRef = useRef<HTMLFormElement>(null)
   const honeypotRef = useRef<HTMLInputElement>(null)
+  const turnstile = useTurnstile()
   const [values, setValues] = useState<CallbackFormValues>(EMPTY)
   const [errors, setErrors] = useState<Partial<Record<keyof CallbackFormValues, string>>>({})
-  const [status, setStatus] = useState<'idle' | 'submitting' | 'success' | 'error'>('idle')
+  const { submit, reset, status, fieldErrors, error } = useFormSubmit('call-back', {
+    getToken: () => turnstile.getToken(),
+    resetToken: () => turnstile.reset(),
+  })
+  const [honeypotSuccess, setHoneypotSuccess] = useState(false)
 
   const submitting = status === 'submitting'
 
@@ -48,13 +56,19 @@ function BuiltByCallbackForm() {
     return `${uid}-${name}-error`
   }
 
+  /** Server errors win per field; client-side messages render meanwhile. */
+  function errorFor(name: keyof CallbackFormValues) {
+    return fieldErrors[name] ?? errors[name]
+  }
+
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
     if (submitting) return
 
     // Filled honeypot: silently pretend it worked, never send.
     if (honeypotRef.current?.value) {
-      setStatus('success')
+      reset() // clear any previous error state so success renders alone
+      setHoneypotSuccess(true)
       return
     }
 
@@ -73,28 +87,19 @@ function BuiltByCallbackForm() {
       return
     }
 
-    setStatus('submitting')
-    try {
-      /* The callback form only collects name/phone/email; the shared service
-         masks the optional contact-page fields. */
-      await submitContactForm(
-        {
-          name: values.name.trim(),
-          email: values.email.trim(),
-          phone: values.phone.trim(),
-          referral: '',
-          message: '',
-        },
-        'about-callback',
-      )
-      setValues(EMPTY)
-      setStatus('success')
-    } catch {
-      setStatus('error')
-    }
+    const sent = await submit(
+      {
+        name: values.name.trim(),
+        phone: values.phone.trim(),
+        email: values.email.trim(),
+      },
+      honeypotRef.current?.value ?? '',
+    )
+    // Typed values only clear on success (forms-reviews spec §8.3).
+    if (sent) setValues(EMPTY)
   }
 
-  if (status === 'success') {
+  if (status === 'success' || honeypotSuccess) {
     return (
       <p role="status" className="text-[16px] leading-[24px] text-obsidian">
         Thanks — we’ll call you back soon.
@@ -103,7 +108,13 @@ function BuiltByCallbackForm() {
   }
 
   return (
-    <form ref={formRef} onSubmit={handleSubmit} noValidate className="flex flex-col gap-[18px]">
+    <form
+      ref={formRef}
+      onSubmit={handleSubmit}
+      onFocus={turnstile.arm}
+      noValidate
+      className="flex flex-col gap-[18px]"
+    >
       {(
         [
           { name: 'name', type: 'text', label: 'Name*', required: true, ac: 'name' },
@@ -112,7 +123,7 @@ function BuiltByCallbackForm() {
         ] as const
       ).map((field) => {
         const id = fieldId(field.name)
-        const error = errors[field.name]
+        const fieldError = errorFor(field.name)
         return (
           /* `min-w-0` stops the control's intrinsic width from setting a floor
               on the card at very narrow viewports. */
@@ -132,35 +143,25 @@ function BuiltByCallbackForm() {
               required={field.required}
               autoComplete={field.ac}
               aria-required={field.required || undefined}
-              aria-invalid={error ? true : undefined}
-              aria-describedby={error ? helperId(field.name) : undefined}
+              aria-invalid={fieldError ? true : undefined}
+              aria-describedby={fieldError ? helperId(field.name) : undefined}
               disabled={submitting}
-              className={`${FIELD} ${error ? 'border-obsidian' : 'border-transparent'}`}
+              className={`${FIELD} ${fieldError ? 'border-obsidian' : 'border-transparent'}`}
             />
-            {error ? (
+            {fieldError ? (
               <p
                 id={helperId(field.name)}
                 className="mt-[6px] text-[13px] leading-[18px] text-obsidian"
               >
-                {error}
+                {fieldError}
               </p>
             ) : null}
           </div>
         )
       })}
 
-      {/* Honeypot: off-screen, out of the tab order and hidden from a11y. */}
-      <div className="sr-only" aria-hidden="true">
-        <label htmlFor={`${uid}-company`}>Company</label>
-        <input
-          ref={honeypotRef}
-          id={`${uid}-company`}
-          name="company"
-          type="text"
-          tabIndex={-1}
-          autoComplete="off"
-        />
-      </div>
+      <HoneypotField inputRef={honeypotRef} />
+      <TurnstileField handle={turnstile} />
 
       <div>
         {/* The mint `Button` styling on a real submit control. */}
@@ -175,7 +176,11 @@ function BuiltByCallbackForm() {
 
         {status === 'error' ? (
           <p role="alert" className="mt-[10px] text-[13px] leading-[18px] text-obsidian">
-            Sorry, something went wrong. Please try again, or email hello@chuechstudio.co.ke.
+            {error?.code === 'rate_limited'
+              ? 'Too many attempts. Please try again shortly, or email hello@chuechstudio.co.ke.'
+              : error?.code === 'verification_failed'
+                ? 'Verification failed. Please try again.'
+                : 'Sorry, something went wrong. Please try again, or email hello@chuechstudio.co.ke.'}
           </p>
         ) : null}
       </div>
