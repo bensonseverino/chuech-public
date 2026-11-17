@@ -15,6 +15,8 @@ export type SubmitFormInput = {
   message?: string
   /** Any extra inputs the form defines (budget, checkbox groups, …). */
   fields?: Record<string, unknown>
+  /** Reserved key (cms-projects-spec.md §8): the project page that sent this. */
+  _context?: { projectSlug?: string; projectTitle?: string }
   turnstileToken?: string
   /** Honeypot value from the hidden input; bots fill it. */
   _gotcha?: unknown
@@ -45,6 +47,7 @@ export async function submitForm(input: SubmitFormInput): Promise<SubmitFormResu
         phone: input.phone,
         message: input.message,
         fields: input.fields,
+        _context: input._context,
         turnstileToken: input.turnstileToken,
         _gotcha: input._gotcha,
         utm: input.utm,

@@ -9,6 +9,8 @@ export const ROUTES = {
   home: '/',
   services: '/services',
   work: '/work',
+  /** Case studies, `/work/:slug` (cms-projects-spec.md §9.1). */
+  workDetail: '/work/:slug',
   aboutUs: '/about',
   contact: '/contact',
   privacyPolicy: '/privacy-policy',

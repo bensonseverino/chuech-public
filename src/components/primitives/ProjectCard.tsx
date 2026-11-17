@@ -1,6 +1,7 @@
 import { TransitionLink } from '@/components/TransitionLink'
 import LongArrow from './LongArrow'
 import OutlineChip from './OutlineChip'
+import { prefetchProject } from '../../cms/projects'
 import { imageSrc } from '../../content/assets'
 
 type ProjectCardProps = {
@@ -37,8 +38,16 @@ export default function ProjectCard({
   // `fill` replaces the card's own aspect ratio with the grid row height.
   const shape = fill ? 'h-full' : 'aspect-[1.15] md:aspect-[1.16] lg:aspect-[1.3]'
 
+  // Warm the case-study cache on hover/focus so the page is ready when the
+  // transition lifts and no skeleton flashes behind it (cms-projects-spec.md §9.7).
+  const prefetch = () => {
+    void prefetchProject(slug)
+  }
+
   return (
     <article
+      onMouseEnter={prefetch}
+      onFocus={prefetch}
       className={`group relative isolate flex ${shape} flex-col justify-end overflow-hidden rounded-[30px] has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-offset-2 has-[:focus-visible]:outline-primary ${className}`}
     >
       <img

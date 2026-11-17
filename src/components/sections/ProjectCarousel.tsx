@@ -20,11 +20,14 @@ export default function ProjectCarousel({
   viewAll,
   projects,
   regionLabel,
+  tone = 'light',
 }: {
   heading: string
   viewAll: ServicePageView['projects']['viewAll']
   projects: ProjectView[]
   regionLabel: string
+  /** `dark` renders the white/lavender variant for dark sections (Similar Work, cms-projects-spec.md §2.7). */
+  tone?: 'light' | 'dark'
 }) {
   const headingId = useId()
   const scrollerRef = useRef<HTMLDivElement>(null)
@@ -72,11 +75,16 @@ export default function ProjectCarousel({
   return (
     <Reveal as="section" aria-labelledby={headingId} className="mt-[50px] lg:mt-[62px]">
       <Container>
-        <SectionHeading variant="dot" id={headingId} className={`${TITLE_ROLE} text-obsidian`}>
+        <SectionHeading
+          variant="dot"
+          id={headingId}
+          dotColor={tone === 'dark' ? 'secondary' : 'obsidian'}
+          className={`${TITLE_ROLE} ${tone === 'dark' ? 'text-white' : 'text-obsidian'}`}
+        >
           {heading}
         </SectionHeading>
         <div className="mt-[10px]">
-          <LongArrowLink href={viewAll.to} tone="light" thin>
+          <LongArrowLink href={viewAll.to} tone={tone === 'dark' ? 'dark' : 'light'} thin>
             {viewAll.label}
           </LongArrowLink>
         </div>

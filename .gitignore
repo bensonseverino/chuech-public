@@ -1,0 +1,15 @@
+# Dependencies
+node_modules
+
+# Local secrets — never commit (PREVIEW_SECRET, TURNSTILE_BYPASS, etc.)
+.dev.vars
+.dev.vars.*
+.env
+.env.*
+
+# Local Cloudflare state (D1/R2/KV persistence for `wrangler pages dev`)
+.wrangler
+
+# Logs
+*.log
+npm-debug.log*

@@ -10,6 +10,8 @@
 interface ImportMetaEnv {
   /** Same-origin by default; overridable for tests/storybook. */
   readonly VITE_CMS_API_BASE?: string
+  /** The admin origin allowed to post `cms-preview` messages (§7.3). */
+  readonly VITE_CMS_ORIGIN?: string
 }
 
 interface ImportMeta {

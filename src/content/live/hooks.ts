@@ -5,8 +5,18 @@
  * fallback in place.
  */
 import { useEffect, useState } from 'react'
-import { useOutletContext } from 'react-router'
+import { useOutletContext, useSearchParams } from 'react-router'
 import { fetchEnvelope } from '../../cms/content'
+import {
+  fetchProjectCategories,
+  fetchProjectPreview,
+  fetchProjects,
+  prefetchProject,
+  type DetailResult,
+  type ProjectCardData,
+  type ProjectCategory,
+  type ProjectDetailData,
+} from '../../cms/projects'
 import {
   HOME_FALLBACK,
   homeFromCms,
@@ -60,8 +70,34 @@ export function useHomeContent(): HomeView {
 
   useEffect(() => {
     let active = true
-    void fetchEnvelope<HomePayload>('/home').then((envelope) => {
-      if (active && envelope) setView(homeFromCms(envelope.data))
+    void Promise.all([
+      fetchEnvelope<HomePayload>('/home'),
+      fetchProjects({ featured: true, limit: 12 }),
+    ]).then(([home, cards]) => {
+      if (!active) return
+
+      let next = home?.data ? homeFromCms(home.data) : HOME_FALLBACK
+      if (cards && cards.projects.length > 0) {
+        // The featured panel resolves `latestWork.featured` against `projects`;
+        // CMS cards refresh both so the owner's featured order wins (§9.5).
+        const cmsProjects = cardsFromCms(cards.projects)
+        const bySlug = new Map(cmsProjects.map((project) => [project.slug, project]))
+        // Keep the home doc's featured order; CMS-only featured projects are
+        // appended, alternating columns.
+        const featured = [...next.latestWork.featured]
+        featured.forEach((entry) => bySlug.delete(entry.slug))
+        const columns = ['left', 'right'] as const
+        let index = 0
+        bySlug.forEach((project) => {
+          featured.push({ slug: project.slug, column: columns[index++ % 2] })
+        })
+        next = {
+          ...next,
+          latestWork: { ...next.latestWork, featured },
+          projects: mergeProjects(next.projects, cmsProjects),
+        }
+      }
+      setView(next)
     })
     return () => {
       active = false
@@ -69,6 +105,17 @@ export function useHomeContent(): HomeView {
   }, [])
 
   return view
+}
+
+/** Replace matching slugs with the CMS card, keeping any fallback-only extras. */
+function mergeProjects(existing: HomeView['projects'], cards: HomeView['projects']) {
+  const bySlug = new Map(cards.map((project) => [project.slug, project]))
+  const merged = existing.map((project) => bySlug.get(project.slug) ?? project)
+  const seen = new Set(merged.map((project) => project.slug))
+  for (const project of cards) {
+    if (!seen.has(project.slug)) merged.push(project)
+  }
+  return merged
 }
 
 export function useServicesContent(): ServicesPageView {
@@ -87,13 +134,29 @@ export function useServicesContent(): ServicesPageView {
   return view
 }
 
+/**
+ * The Work listing (cms-projects-spec.md §9.5): the `_work` index (hero, page
+ * size) still comes from `/work-page`, but the grid is driven by the published
+ * `projects` table via `/api/public/projects`. When that endpoint fails or is
+ * unreachable, the legacy payload's projects (and the bundled fallback) stay in
+ * place, so the page never blanks.
+ */
 export function useWorkContent(): WorkPageView {
   const [view, setView] = useState<WorkPageView>(WORK_FALLBACK)
 
   useEffect(() => {
     let active = true
-    void fetchEnvelope<WorkPayload>('/work-page').then((envelope) => {
-      if (active && envelope) setView(workFromCms(envelope.data))
+    void Promise.all([
+      fetchEnvelope<WorkPayload>('/work-page'),
+      fetchProjects({ limit: 50 }),
+    ]).then(([work, cards]) => {
+      if (!active) return
+
+      let next = work?.data ? workFromCms(work.data) : WORK_FALLBACK
+      if (cards && cards.projects.length > 0) {
+        next = { ...next, projects: cardsFromCms(cards.projects) }
+      }
+      setView(next)
     })
     return () => {
       active = false
@@ -101,6 +164,17 @@ export function useWorkContent(): WorkPageView {
   }, [])
 
   return view
+}
+
+/** CMS cards → the shared card view (image URL, category labels, focal point). */
+function cardsFromCms(cards: ProjectCardData[]): WorkPageView['projects'] {
+  return cards.map((card) => ({
+    slug: card.slug,
+    title: card.title,
+    tags: card.categories.map((category) => category.label),
+    image: card.image.url,
+    focus: `${card.image.focalX}% ${card.image.focalY}%`,
+  }))
 }
 
 /** Stable local data per slug, built once. */
@@ -156,4 +230,89 @@ export function useServicePage(slug: string): ServicePageData {
   }, [slug, fallback])
 
   return loaded?.slug === slug ? loaded.data : initial
+}
+
+// --- Case studies (cms-projects-spec.md §9.2) --------------------------------------
+
+/**
+ * Published project cards from the CMS. `null` while the request is in flight
+ * and on failure — the caller keeps its existing (fallback) content.
+ */
+export function useProjects(
+  options: { category?: string; featured?: boolean; limit?: number } = {},
+): ProjectCardData[] | null {
+  const [cards, setCards] = useState<ProjectCardData[] | null>(null)
+  const key = JSON.stringify(options)
+
+  useEffect(() => {
+    let active = true
+    void fetchProjects(options).then((list) => {
+      if (active && list) setCards(list.projects)
+    })
+    return () => {
+      active = false
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [key])
+
+  return cards
+}
+
+/** The CMS categories, in editorial order. `null` while loading / on failure. */
+export function useProjectCategories(): ProjectCategory[] | null {
+  const [categories, setCategories] = useState<ProjectCategory[] | null>(null)
+
+  useEffect(() => {
+    let active = true
+    void fetchProjectCategories().then((data) => {
+      if (active && data) setCategories(data)
+    })
+    return () => {
+      active = false
+    }
+  }, [])
+
+  return categories
+}
+
+export type ProjectResult =
+  | { state: 'loading'; project: null }
+  | { state: 'ok'; project: ProjectDetailData }
+  | { state: 'redirect'; to: string }
+  | { state: 'missing'; project: null }
+
+/**
+ * One case study. Reads through the shared detail cache (a card hover
+ * prefetches it, §9.7); `?preview=<token>` fetches a draft directly and is
+ * never cached. `missing` covers unknown slugs and drafts without a token;
+ * `redirect` is a renamed slug keeping its old URL alive (§5.1).
+ */
+export function useProject(slug: string): ProjectResult {
+  const [result, setResult] = useState<ProjectResult>({ state: 'loading', project: null })
+  const [params] = useSearchParams()
+  const previewToken = params.get('preview')
+
+  useEffect(() => {
+    let active = true
+    setResult({ state: 'loading', project: null })
+
+    const promise: Promise<DetailResult> = previewToken
+      ? fetchProjectPreview(slug, previewToken).then((data) =>
+          data ? { kind: 'ok', project: data } : { kind: 'missing' },
+        )
+      : prefetchProject(slug)
+
+    void promise.then((data) => {
+      if (!active) return
+      if (data.kind === 'ok') setResult({ state: 'ok', project: data.project })
+      else if (data.kind === 'redirect') setResult({ state: 'redirect', to: data.to })
+      else setResult({ state: 'missing', project: null })
+    })
+
+    return () => {
+      active = false
+    }
+  }, [slug, previewToken])
+
+  return result
 }

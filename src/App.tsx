@@ -3,6 +3,7 @@ import RootLayout from './components/RootLayout'
 import Home from './pages/Home'
 import ServicesPage from './pages/ServicesPage'
 import WorkPage from './pages/WorkPage'
+import ProjectPage from './pages/ProjectPage'
 import ServicePage from './pages/ServicePage'
 import ContactPage from './pages/ContactPage'
 import AboutPage from './pages/AboutPage'
@@ -24,6 +25,9 @@ const router = createBrowserRouter([
       { index: true, element: <Home /> },
       { path: 'services', element: <ServicesPage /> },
       { path: 'work', element: <WorkPage /> },
+      /* Case studies (cms-projects-spec.md §9.1): cards link to /work/:slug/
+         (trailing slash). */
+      { path: 'work/:slug', element: <ProjectPage /> },
       { path: 'about', element: <AboutPage /> },
       { path: 'contact', element: <ContactPage /> },
       { path: 'terms-conditions', element: <TermsPage /> },
