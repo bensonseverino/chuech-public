@@ -62,8 +62,8 @@ SITE_ORIGIN = "https://chuechstudio.co.ke"
 # domains go here, never a wildcard).
 ALLOWED_ORIGINS = ""
 # Where notifications come from and go by default (forms-reviews spec §5).
-NOTIFY_FROM = "Chuech Studio <noreply@chuechstudio.co.ke>"
-NOTIFY_DEFAULT_TO = "hello@chuechstudio.co.ke"
+NOTIFY_FROM = "Chuech Studio <hello@chuechstudio.co.ke>"
+NOTIFY_DEFAULT_TO = "benson7191@gmail.com"
 # CMS admin base URL used in the "Open in the CMS" email link.
 ADMIN_URL = "https://cms.chuechstudio.co.ke"
 
