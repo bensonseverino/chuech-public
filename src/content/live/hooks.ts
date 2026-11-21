@@ -72,7 +72,11 @@ export function useHomeContent(): HomeView {
     let active = true
     void Promise.all([
       fetchEnvelope<HomePayload>('/home'),
-      fetchProjects({ featured: true, limit: 12 }),
+      // Request EVERY published project, not just `featured=1`. A project the
+      // owner publishes is work done and must appear as work on the site even
+      // if nobody has flagged it as featured yet; the home document only
+      // decides the order/column, never which published work is allowed.
+      fetchProjects({ limit: 12 }),
     ]).then(([home, cards]) => {
       if (!active) return
 
@@ -84,13 +88,25 @@ export function useHomeContent(): HomeView {
         // longer resurrect a card from the bundled fallback.
         const cmsProjects = cardsFromCms(cards.projects)
         const bySlug = new Map(cmsProjects.map((project) => [project.slug, project]))
-        const featured = next.latestWork.featured.filter((entry) => bySlug.has(entry.slug))
+        // Keep the home document's featured order, but only for slugs that are
+        // still published. The panel holds four cards (two per column), so cap
+        // it — the complete list stays available on /work.
+        const featured = next.latestWork.featured
+          .filter((entry) => bySlug.has(entry.slug))
+          .slice(0, 4)
         const used = new Set(featured.map((entry) => entry.slug))
-        const columns = ['left', 'right'] as const
+        const columns = ['right', 'right', 'left', 'left'] as const
         let index = 0
         for (const project of cmsProjects) {
+          if (featured.length >= 4) break
           if (!used.has(project.slug)) {
-            featured.push({ slug: project.slug, column: columns[index++ % 2] })
+            while (index < 4 && featured.some((entry) => entry.column === columns[index])) {
+              index += 1
+            }
+            if (index >= 4) break
+            featured.push({ slug: project.slug, column: columns[index] })
+            used.add(project.slug)
+            index += 1
           }
         }
         next = {
