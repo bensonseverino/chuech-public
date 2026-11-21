@@ -78,23 +78,25 @@ export function useHomeContent(): HomeView {
 
       let next = home?.data ? homeFromCms(home.data) : HOME_FALLBACK
       if (cards && cards.projects.length > 0) {
-        // The featured panel resolves `latestWork.featured` against `projects`;
-        // CMS cards refresh both so the owner's featured order wins (§9.5).
+        // Published CMS cards are the only work the site may show. The home
+        // document keeps the editorial *order*, but any featured slug it names
+        // must still exist in the published list — a stale/draft slug can no
+        // longer resurrect a card from the bundled fallback.
         const cmsProjects = cardsFromCms(cards.projects)
         const bySlug = new Map(cmsProjects.map((project) => [project.slug, project]))
-        // Keep the home doc's featured order; CMS-only featured projects are
-        // appended, alternating columns.
-        const featured = [...next.latestWork.featured]
-        featured.forEach((entry) => bySlug.delete(entry.slug))
+        const featured = next.latestWork.featured.filter((entry) => bySlug.has(entry.slug))
+        const used = new Set(featured.map((entry) => entry.slug))
         const columns = ['left', 'right'] as const
         let index = 0
-        bySlug.forEach((project) => {
-          featured.push({ slug: project.slug, column: columns[index++ % 2] })
-        })
+        for (const project of cmsProjects) {
+          if (!used.has(project.slug)) {
+            featured.push({ slug: project.slug, column: columns[index++ % 2] })
+          }
+        }
         next = {
           ...next,
           latestWork: { ...next.latestWork, featured },
-          projects: mergeProjects(next.projects, cmsProjects),
+          projects: cmsProjects,
         }
       }
       setView(next)
@@ -105,17 +107,6 @@ export function useHomeContent(): HomeView {
   }, [])
 
   return view
-}
-
-/** Replace matching slugs with the CMS card, keeping any fallback-only extras. */
-function mergeProjects(existing: HomeView['projects'], cards: HomeView['projects']) {
-  const bySlug = new Map(cards.map((project) => [project.slug, project]))
-  const merged = existing.map((project) => bySlug.get(project.slug) ?? project)
-  const seen = new Set(merged.map((project) => project.slug))
-  for (const project of cards) {
-    if (!seen.has(project.slug)) merged.push(project)
-  }
-  return merged
 }
 
 export function useServicesContent(): ServicesPageView {
