@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react'
 import { useOutletContext, useSearchParams } from 'react-router'
 import { fetchEnvelope } from '../../cms/content'
 import {
+  fetchAllProjects,
   fetchProjectCategories,
   fetchProjectPreview,
   fetchProjects,
@@ -18,6 +19,7 @@ import {
   type ProjectDetailData,
 } from '../../cms/projects'
 import {
+  cardsFromCms,
   HOME_FALLBACK,
   homeFromCms,
   SERVICE_FALLBACKS,
@@ -130,8 +132,11 @@ export function useServicesContent(): ServicesPageView {
 
   useEffect(() => {
     let active = true
-    void fetchEnvelope<ServicesPayload>('/services-page').then((envelope) => {
-      if (active && envelope) setView(servicesFromCms(envelope.data))
+    void Promise.all([
+      fetchEnvelope<ServicesPayload>('/services-page'),
+      fetchAllProjects(),
+    ]).then(([envelope, published]) => {
+      if (active && envelope) setView(servicesFromCms(envelope.data, published ?? undefined))
     })
     return () => {
       active = false
@@ -155,14 +160,14 @@ export function useWorkContent(): WorkPageView {
     let active = true
     void Promise.all([
       fetchEnvelope<WorkPayload>('/work-page'),
-      fetchProjects({ limit: 50 }),
+      // Follow the API cursor so EVERY published project is on the page, not
+      // just the first page of results.
+      fetchAllProjects(),
     ]).then(([work, cards]) => {
       if (!active) return
 
       let next = work?.data ? workFromCms(work.data) : WORK_FALLBACK
-      if (cards && cards.projects.length > 0) {
-        next = { ...next, projects: cardsFromCms(cards.projects) }
-      }
+      if (cards !== null) next = { ...next, projects: cardsFromCms(cards) }
       setView(next)
     })
     return () => {
@@ -171,17 +176,6 @@ export function useWorkContent(): WorkPageView {
   }, [])
 
   return view
-}
-
-/** CMS cards → the shared card view (image URL, category labels, focal point). */
-function cardsFromCms(cards: ProjectCardData[]): WorkPageView['projects'] {
-  return cards.map((card) => ({
-    slug: card.slug,
-    title: card.title,
-    tags: card.categories.map((category) => category.label),
-    image: card.image.url,
-    focus: `${card.image.focalX}% ${card.image.focalY}%`,
-  }))
 }
 
 /** Stable local data per slug, built once. */
@@ -201,10 +195,11 @@ function fallbackData(slug: string, fallback: ServicePageView): ServicePageData 
 }
 
 /**
- * A service page needs three requests: the page document, the projects its
- * carousel filters, and the home document for the shared Experience band and
- * testimonials. All are cached by the API, and any one may fail on its own
- * without discarding the others.
+ * A service page needs four requests: the page document, the legacy projects
+ * collection (only a fallback when the CMS read fails), the home document for
+ * the shared Experience band and testimonials, and the published projects that
+ * actually drive the carousel. Any one may fail on its own without discarding
+ * the others.
  */
 export function useServicePage(slug: string): ServicePageData {
   const fallback = SERVICE_FALLBACKS[slug] ?? SERVICE_FALLBACKS['web-design']
@@ -218,13 +213,19 @@ export function useServicePage(slug: string): ServicePageData {
       fetchEnvelope<ServicePagePayload>(`/pages/${encodeURIComponent(slug)}`),
       fetchEnvelope<CmsProject[]>('/collections/projects'),
       fetchEnvelope<HomePayload>('/home'),
-    ]).then(([page, projects, home]) => {
+      fetchAllProjects(),
+    ]).then(([page, projects, home, published]) => {
       if (!active) return
       const homeView = home?.data ? homeFromCms(home.data) : HOME_FALLBACK
       setLoaded({
         slug,
         data: {
-          ...servicePageFromCms(page?.data ?? null, projects?.data, fallback),
+          ...servicePageFromCms(
+            page?.data ?? null,
+            projects?.data,
+            fallback,
+            published ?? undefined,
+          ),
           stats: homeView.stats,
           testimonials: homeView.testimonials,
         },

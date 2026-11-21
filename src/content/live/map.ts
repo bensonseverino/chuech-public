@@ -8,6 +8,7 @@
  */
 import { ROUTES } from '../../routes'
 import { asset } from '../assets'
+import type { ProjectCardData } from '../../cms/projects'
 import {
   BRIEF_CTA,
   CLIENTS,
@@ -471,6 +472,17 @@ function projectViews(projects: CmsProject[] | undefined): ProjectView[] {
   return projects.map(projectView).filter((project): project is ProjectView => project !== null)
 }
 
+/** Published CMS cards → the shared card view (image URL, category labels, focal point). */
+export function cardsFromCms(cards: ProjectCardData[]): ProjectView[] {
+  return cards.map((card) => ({
+    slug: card.slug,
+    title: card.title,
+    tags: card.categories.map((category) => category.label),
+    image: card.image.url,
+    focus: `${card.image.focalX}% ${card.image.focalY}%`,
+  }))
+}
+
 function localTestimonials(): TestimonialView[] {
   return TESTIMONIALS.map((testimonial) => ({
     quote: testimonial.quote,
@@ -694,21 +706,29 @@ export const SERVICES_FALLBACK: ServicesPageView = {
   latestWork: HOME_FALLBACK.latestWork,
 }
 
-export function servicesFromCms(payload: ServicesPayload): ServicesPageView {
+export function servicesFromCms(
+  payload: ServicesPayload,
+  publishedCards?: ProjectCardData[],
+): ServicesPageView {
   const index = payload.index
   const services = payload.services?.length
     ? (payload.services.map(serviceView).filter(Boolean) as ServiceView[])
     : SERVICES_FALLBACK.services
 
-  const allProjects = projectViews(payload.projects)
-  // The services index reuses the four Home cards. Project entries do not store
-  // the Home panel column, so the featured order gives it: the first two sit in
-  // the right column, the next two in the left (matching the seeded layout).
+  const allProjects =
+    publishedCards !== undefined ? cardsFromCms(publishedCards) : projectViews(payload.projects)
+  // The services index reuses four Home cards. The published list is in the
+  // owner's editorial order: the first four fill the panel (two right, two
+  // left) and the rest stay available on /work.
   let featuredIndex = 0
-  const projects = allProjects.map((project) => {
-    if (!(payload.projects ?? []).find((entry) => entry.slug === project.slug)?.featured) {
-      return project
-    }
+  const projects = allProjects.map((project, position) => {
+    const featured =
+      publishedCards !== undefined
+        ? position < 4
+        : Boolean(
+            (payload.projects ?? []).find((entry) => entry.slug === project.slug)?.featured,
+          )
+    if (!featured) return project
     const column: 'left' | 'right' = featuredIndex < 2 ? 'right' : 'left'
     featuredIndex += 1
     return { ...project, column }
@@ -880,16 +900,20 @@ export const SERVICE_FALLBACKS: Record<string, ServicePageView> = {
 }
 
 /**
- * `/api/public/pages/:slug` + the projects collection → the page view. When the
- * page fetch failed (`data === null`) the whole local fallback is used; when it
- * succeeded, empty collections stay empty so an editor's removal is respected.
+ * `/api/public/pages/:slug` + published projects → the page view. When the
+ * page fetch failed (`data === null`) the whole local fallback is used. The
+ * published list wins over the legacy projects collection so a service page
+ * only shows work that is actually published; the legacy payload is kept as a
+ * graceful fallback for a failed CMS request.
  */
 export function servicePageFromCms(
   data: ServicePagePayload | null,
   projectPayload: CmsProject[] | undefined,
   fallback: ServicePageView,
+  publishedCards?: ProjectCardData[],
 ): Pick<ServicePageData, 'page' | 'projects'> {
-  const projects = projectViews(projectPayload)
+  const projects =
+    publishedCards !== undefined ? cardsFromCms(publishedCards) : projectViews(projectPayload)
   if (!data) return { page: fallback, projects }
 
   const live = data

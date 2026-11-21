@@ -27,25 +27,27 @@ export default function ServicePage({ slug }: { slug: string }) {
   useScrollRefresh(page)
 
   const { tag, slugs, limit } = page.projects
-  const filtered =
-    slugs
-      ? slugs.flatMap((entry) => projects.filter((project) => project.slug === entry))
-      : projects.filter((project) => project.tags.includes(tag))
-  /* Falls back to the shared order when nothing carries the tag
-     (ppc spec §3.3); every existing slug already matches, so this is inert
-     for the earlier pages. */
-  const carousel = (filtered.length > 0 ? filtered : projects).slice(0, limit)
+  // `projects` are the published CMS works. Their tags come from the categories
+  // chosen in the CMS, so a service page only shows work in its own category.
+  const filtered = slugs
+    ? slugs.flatMap((entry) => projects.filter((project) => project.slug === entry))
+    : projects.filter((project) => project.tags.includes(tag))
+  // No fallback to the full list: on a Branding page, unrelated published work
+  // must not appear just because nothing was tagged for that service.
+  const carousel = filtered.slice(0, limit)
 
   return (
     <>
       <ServiceHero hero={page.hero} />
       <FeaturePanel feature={page.feature} />
-      <ProjectCarousel
-        heading={page.projects.heading}
-        viewAll={page.projects.viewAll}
-        projects={carousel}
-        regionLabel={page.projects.regionLabel}
-      />
+      {carousel.length > 0 ? (
+        <ProjectCarousel
+          heading={page.projects.heading}
+          viewAll={page.projects.viewAll}
+          projects={carousel}
+          regionLabel={page.projects.regionLabel}
+        />
+      ) : null}
       <PillarsPanel pillars={page.pillars} />
       <CallbackPanel why={page.why} testimonials={testimonials} />
       <ExperienceSection stats={stats} />

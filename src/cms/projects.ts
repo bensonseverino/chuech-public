@@ -70,14 +70,37 @@ async function fetchEnvelope<T>(path: string): Promise<T | null> {
 export type ProjectList = { projects: ProjectCardData[]; nextCursor?: number }
 
 export async function fetchProjects(
-  options: { category?: string; featured?: boolean; limit?: number } = {},
+  options: { category?: string; featured?: boolean; limit?: number; cursor?: number } = {},
 ): Promise<ProjectList | null> {
   const params = new URLSearchParams()
   if (options.category) params.set('category', options.category)
   if (options.featured) params.set('featured', '1')
   if (options.limit) params.set('limit', String(options.limit))
+  if (options.cursor) params.set('cursor', String(options.cursor))
   const query = params.toString()
   return fetchEnvelope<ProjectList>(`/projects${query ? `?${query}` : ''}`)
+}
+
+/**
+ * Every published project, following the API cursor to the end. The `/work`
+ * page must show ALL published work, not just the first 50 rows; a single
+ * request would silently hide anything beyond the API's page limit.
+ */
+export async function fetchAllProjects(
+  options: { category?: string } = {},
+): Promise<ProjectCardData[] | null> {
+  const all: ProjectCardData[] = []
+  let cursor: number | undefined
+  // Guard against a broken/malformed cursor loop; 1000 cards is far beyond a
+  // realistic portfolio and keeps a buggy response from spinning forever.
+  for (let page = 0; page < 20; page += 1) {
+    const list = await fetchProjects({ ...options, limit: 50, cursor })
+    if (!list) return all.length > 0 ? all : null
+    all.push(...list.projects)
+    if (list.nextCursor === undefined || list.nextCursor === null) break
+    cursor = list.nextCursor
+  }
+  return all
 }
 
 export async function fetchProjectCategories(): Promise<ProjectCategory[] | null> {
