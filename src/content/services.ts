@@ -55,9 +55,9 @@ export const PAGE_SERVICES: Service[] = SERVICES.map((service) =>
 
 export const SERVICES_INTRO = {
   text:
-    'Our team is made up of bold creatives, sharp strategists, and technical pros who care deeply about what they do. No egos, no fluff \u2013 just hard work, smart thinking, and a genuine commitment to our clients\u2019 success.',
-  /** Marked phrases; "sharp strategists" is intentionally NOT highlighted. */
-  highlights: ['bold creatives,', 'technical pros', 'genuine commitment', 'clients\u2019 success.'],
+    'We plan, design and run digital work for businesses in Nairobi, Kenya and beyond. Our services cover [web design](/web-design), [branding](/branding), [SEO](/seo-manchester) and [PPC](/ppc). Every project starts with a conversation about what you need and ends with work you can measure. Talk to us on hello@chuechstudio.co.ke or +254117954929.',
+  /** Marked phrases; kept clear of the inline link labels above. */
+  highlights: ['digital work', 'what you need', 'work you can measure'],
 } as const
 
 /* ------------------------------------------------------------------ */

@@ -34,16 +34,8 @@ export const HERO_DESCRIPTION =
  */
 export const INTRO_STATEMENT = {
   text:
-    'Our team is made up of bold creatives, sharp strategists, and technical pros who care deeply about what they do. No egos, no fluff \u2013 just hard work, smart thinking, and a genuine commitment to our clients\u2019 success. We treat every brand and budget like it\u2019s our own, always deliver on promises, and never lock clients into contracts.',
-  highlights: [
-    'bold',
-    'creatives,',
-    'sharp strategists,',
-    'technical pros',
-    'genuine commitment',
-    'clients\u2019 success.',
-    'always deliver on promises,',
-  ],
+    'Chuech studio is a web design and marketing agency based in Nairobi, Kenya. We work with businesses across Kenya and beyond. Our services cover [web design](/web-design), [branding](/branding), [SEO](/seo-manchester) and [PPC](/ppc). You can read client feedback and see recent projects on our [work page](/work), or reach us at hello@chuechstudio.co.ke and call +254117954929.',
+  highlights: ['based in Nairobi, Kenya', 'client feedback', 'hello@chuechstudio.co.ke'],
   cta: INTRO.cta,
 } as const
 

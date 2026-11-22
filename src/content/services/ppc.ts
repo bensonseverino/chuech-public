@@ -3,9 +3,10 @@
  * `ServicePage` template renders it unchanged — adding PPC needed only this
  * module plus its registry entry in `content/live/map.ts`.
  *
- * The structure follows the ppc spec; the copy is draft studio copy in
- * original wording (no Marino wording, no Manchester/UK claims — Chuech is
- * Nairobi-based). Currency-neutral phrasing replaces the spec's "every pound".
+ * All copy here is original Chuech Studio copy, written in a plain, friendly
+ * voice. Chuech Studio is based in Nairobi, Kenya, and this page makes no
+ * location claims.
+ *
  * Unknown facts stay visible as TODO placeholders; in dev a console warning
  * lists any value still carrying one (see the walk at the bottom). The trading
  * name is spelled out per the sibling modules; it matches the shared site data
@@ -45,113 +46,85 @@ const HERO_FORM: ServiceFormContent = {
 
 const PILLARS = [
   {
-    title: 'Full funnel strategy',
-    body: 'Our PPC campaigns target every stage of the buying journey to maximise return. While some customers are ready to buy, others are still comparing options, so we plan for awareness, consideration and conversion together, meeting people wherever they are.',
+    title: 'How does a full funnel campaign work?',
+    body: 'Not everyone is ready to buy the first time they see an ad. We plan for people at different stages, from those just learning about your business to those comparing options or ready to enquire. Each stage gets a message that fits, so no opportunity is wasted.',
   },
   {
-    title: 'Landing pages',
-    body: 'Even the best ad campaign struggles to convert without a landing page built for it. We design pages with the user\u2019s intent in mind, fast, clear and focused, so that your traffic turns into conversations without needing to raise your budget.',
+    title: 'Why do landing pages matter?',
+    body: 'An ad can only do so much on its own. The page people land on needs to load quickly, say clearly what you offer, and make it easy to get in touch. We build and improve those pages so the traffic you pay for has a better chance of becoming an enquiry.',
   },
   {
-    title: 'Remarketing campaigns',
-    body: 'Many visitors leave before they enquire. Remarketing brings them back with relevant messages across search, display and video, keeping your brand in front of people who have already shown interest, long after they have left your site.',
+    title: 'What is remarketing?',
+    body: 'Most people do not enquire on their first visit. Remarketing shows your ads to those who have already been to your site, reminding them of what you offer as they browse elsewhere. It is a simple way to stay in touch with people who already know you.',
   },
   {
-    title: 'Google Ads management',
-    // TODO: confirm the platforms we actually manage before promoting this copy.
-    body: 'Google is one of the most widely used advertising platforms, and it rewards well-structured accounts. We build, manage and refine your campaigns day to day, looking for opportunities to lower costs and improve performance.',
+    title: 'How much does PPC cost?',
+    // TODO(owner): publish real price ranges.
+    body: 'PPC has two costs to think about. One is the budget you spend with the ad platform on clicks. The other is the fee for managing the campaign. Both depend on your goals and how competitive your market is. We scope the work first and share a clear proposal before anything starts.',
   },
   {
-    title: 'Display ads',
-    body: 'Display advertising lets your brand appear across a wide network of websites and apps. Targeted at people who fit your audience or have visited before, it builds recognition and nudges prospects towards your products or services.',
+    title: 'How do you manage Google Ads?',
+    body: 'We set up your account, group campaigns by intent, and write ads that match what people are searching for. We then monitor performance, test new angles, and adjust bids and budgets as results come in. The goal is steady improvement, not a one-off launch.',
   },
   {
-    title: 'Continuous optimisation',
-    body: 'Successful PPC is never set and forget. We monitor every campaign, test new angles and adjust bids, audiences and creative as results come in, so a dip in performance is caught and fixed before it affects your revenue.',
+    title: 'Why does ongoing optimisation matter?',
+    body: 'Ad campaigns are never truly finished. Competitors change their bids, audiences shift, and platforms update how things work. We review results regularly, remove what is not performing, and put more behind what is. That keeps your campaign useful over time rather than slowly going stale.',
   },
 ]
 
 /* ------------------------------------------------------------------ */
-/* FAQ — 13 questions (ppc spec §4)                                    */
+/* FAQ — 7 questions                                                  */
 /* ------------------------------------------------------------------ */
 
 const FAQ_ITEMS: ServiceFaqItem[] = [
   {
-    question: 'What makes PPC so effective for generating leads or sales?',
+    question: 'Why is PPC useful for generating leads?',
     answer: [
-      'PPC places your offer in front of people who are already searching or browsing for something relevant, and you only pay when they click. That intent, combined with precise targeting and instant measurement, makes it one of the most direct ways to generate leads and sales.',
+      'PPC puts your offer in front of people who are already looking for something like it, and you only pay when they click. That intent makes it a direct way to generate enquiries. We refine the targeting and the landing page together, so the clicks you pay for have a better chance of turning into customers.',
     ],
   },
   {
-    question: 'How quickly can PPC start generating results?',
+    question: 'How soon can a campaign start?',
     answer: [
-      'Campaigns can go live within days of approval and begin driving traffic almost immediately. The first few weeks are also a learning period: we gather data, test variations and refine targeting, so performance usually improves steadily after launch.',
+      'Campaigns can be set up and made live once we have agreed on the goals, budget and audience. There is a short learning period at the start while we gather data and see which ads and terms perform best. From there we refine the campaign step by step, so results improve as we learn.',
     ],
   },
   {
-    question: 'What metrics actually matter in a PPC campaign?',
+    question: 'Which metrics do you focus on?',
     answer: [
-      'Clicks and impressions are only a starting point. We focus on conversions, cost per acquisition, conversion rate and return on ad spend, because those show whether the campaign is producing real business outcomes.',
+      'Clicks and impressions tell part of the story, but they are not the whole picture. We focus on enquiries, sales, cost per acquisition and return on ad spend, because those show whether the campaign is helping your business. If a number looks good but brings no customers, we treat it as a signal to change something.',
     ],
   },
   {
-    question: 'Do PPC campaigns only target customers ready to buy?',
+    question: 'Can PPC work with a small budget?',
     answer: [
-      'No. Search campaigns tend to capture people with high intent, while display, video and remarketing reach people earlier in their decision or bring back those who have already visited. A full funnel approach uses each for what it does best.',
-    ],
-  },
-  {
-    question: 'Why are remarketing campaigns important?',
-    answer: [
-      'Most visitors don\u2019t convert on their first visit. Remarketing keeps your brand in front of them with relevant messages, which often brings back warm prospects at a lower cost than reaching new people.',
-    ],
-  },
-  {
-    question: 'How much does PPC cost?',
-    answer: [
-      'It depends on your goals, your market and how competitive your keywords are. There are usually two parts: the advertising budget paid to the platforms, and our management fee. We agree both with you up front in a clear proposal. TODO: confirm the pricing model.',
-    ],
-  },
-  {
-    question: 'Can PPC still work with a limited budget?',
-    answer: [
-      'Yes. A smaller budget simply means tighter focus: fewer, better-chosen keywords and audiences, and strong landing pages so that every click counts. We would rather do a few things well than spread a modest budget thin.',
-    ],
-  },
-  {
-    question: 'How do you improve PPC campaign performance over time?',
-    answer: [
-      'We review results regularly, test new ad copy, audiences and landing-page changes, remove what isn\u2019t working and put more budget behind what is. Small, steady improvements compound into much better performance.',
+      'Yes. A smaller budget simply means a tighter focus. We choose fewer, better-matched keywords and audiences, and make sure the landing pages are strong. Often we look at ',
+      { label: 'our web design', href: ROUTES.webDesign },
+      ' work too, because a clear page helps every click count. We would rather do a few things well than spread the budget thin.',
     ],
   },
   {
     question: 'Is PPC better than SEO?',
     answer: [
-      'They do different jobs. PPC delivers fast, controllable results, while SEO builds lasting visibility over time. Many businesses get the best outcome by using both, with each informing the other.',
-    ],
-  },
-  {
-    question: 'Should PPC be used alongside other marketing channels?',
-    answer: [
-      'Usually, yes. PPC works best as part of a wider plan, supported by strong branding, a well-built website, SEO and video, so that people see a consistent message wherever they meet your business.',
-    ],
-  },
-  {
-    question: 'Which platforms do you run PPC campaigns on?',
-    answer: [
-      'TODO: confirm. Typically Google Ads (search, display, shopping, YouTube and maps), plus other platforms where your audience spends time. We recommend the mix based on your goals rather than defaulting to one channel.',
+      'They do different jobs. PPC brings visitors quickly and gives you control over who sees your ads. ',
+      { label: 'SEO', href: ROUTES.seo },
+      ' builds visibility that grows over time and keeps working after the campaign ends. Many businesses use both, with each supporting the other. You can see how we approach projects in ',
+      { label: 'our work', href: ROUTES.work },
+      '.',
     ],
   },
   {
     question: 'Do PPC campaigns need ongoing management?',
     answer: [
-      'Yes. Bids, competitors, audience behaviour and platform features all change constantly. Ongoing management keeps campaigns efficient and lets us act quickly on new opportunities or problems.',
+      'Yes. Bids, competitors and audience behaviour change all the time, so a campaign that is left alone slowly loses ground. We check performance regularly, test new ad copy and audiences, and adjust the budget toward what is working. That ongoing care is what keeps the cost per enquiry steady.',
     ],
   },
   {
-    question: 'How do you choose the right keywords for PPC campaigns?',
+    question: 'Can PPC fit with the rest of our marketing?',
     answer: [
-      'We start from your business goals and what customers actually search for, then research volume, intent and competition. We group keywords by intent, exclude irrelevant terms, and keep refining the list as the data comes in.',
+      'Usually, yes. Ads work best when the rest of your presence backs them up. Clear branding, a well-built website and strong content all make people more likely to enquire once they click. We can look at ',
+      { label: 'branding', href: ROUTES.branding },
+      ' and other channels alongside PPC so your message stays consistent wherever customers meet you. Contact us on hello@chuechstudio.co.ke or +254117954929 to talk it through.',
     ],
   },
 ]
@@ -169,7 +142,7 @@ export const PPC: ServicePageContent = {
   },
   hero: {
     label: 'PPC',
-    title: 'Revenue-focused PPC that businesses can rely on',
+    title: 'PPC for businesses growing in Kenya',
     /* TODO: confirm the platforms offered before launch (ppc spec §3.1). */
     tags: [
       'Search',
@@ -178,15 +151,16 @@ export const PPC: ServicePageContent = {
       'Video',
       'Maps',
       'Conversion Rate Optimisation',
+      'Last updated: Jan 2026',
     ],
     intro:
-      'PPC campaigns from Chuech Studio turn clicks into enquiries and sales. We make your ad spend work harder by putting you in front of people who are ready to buy, backed by clear ad copy, landing pages built to convert and a frictionless journey from click to customer.',
+      'PPC stands for pay per click. It lets your business appear in front of people who are searching for what you offer, and you pay when they click. We run these campaigns for businesses in Kenya that want more enquiries and sales, with clear ad copy and pages built to convert.',
     form: HERO_FORM,
   },
   feature: {
-    heading: 'Capture demand when customers are ready to buy',
+    heading: 'Why consider paid ads for your business?',
     lead:
-      'Arguably the most attractive feature of PPC is the ability to appear instantly in front of people who are actively searching for what you offer, at the exact moment they are searching.',
+      'Paid ads can put your business in front of the right people quickly. They work best when the ad matches what someone is looking for and the page they land on gives them a clear next step. We build campaigns around that simple idea.',
     checklist: [
       'Full funnel strategy',
       'Landing pages',
@@ -196,7 +170,7 @@ export const PPC: ServicePageContent = {
       'Continuous optimisation',
     ],
     body:
-      'Too often, PPC campaigns chase surface-level metrics such as clicks and impressions. We focus on revenue. By aligning your business goals with the terms customers are really searching for, we prioritise the keywords, audiences and landing-page elements most likely to produce enquiries and sales.',
+      'We start with your goals and the customers you want to reach. From there we choose the right terms and audiences, write ads that say what you offer, and send people to pages that are easy to use. We watch the results and adjust as we go, so the budget goes toward what is working.',
     cta: { label: 'Contact', href: ROUTES.contact },
     image: 'ppc-feature',
     imageAlt: 'A laptop screen showing the LinkedIn Ads Campaign Manager account page',
@@ -216,9 +190,9 @@ export const PPC: ServicePageContent = {
     cta: { label: 'Contact Chuech Studio', href: ROUTES.contact },
   },
   why: {
-    heading: 'Why PPC works so well for growing businesses',
+    heading: 'Why work with Chuech Studio for PPC?',
     body:
-      'PPC puts your business in front of motivated customers immediately, with budgets you control and results you can measure. Working with a team that understands both the platforms and your market means less wasted spend, sharper targeting and a clearer return on investment.',
+      'We keep the focus on results you can measure. We start by agreeing what a good outcome looks like for your business, then build the campaign around it. You get clear reports, plain explanations and a plan that changes when the data tells us to. We are based in Nairobi, Kenya, and we work with businesses of all sizes.',
     cta: { label: 'Contact', href: ROUTES.contact },
     image: 'ppc-why',
     imageAlt: 'A sprint dashboard with a kanban board on a tablet in front of task and market monitors, a hand holding a pencil',

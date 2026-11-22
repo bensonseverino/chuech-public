@@ -15,7 +15,8 @@ export default function HeroHeadline({
   pills: [string, string]
 }) {
   return (
-    <h1
+    <h2
+      aria-level={1}
       aria-label="Building Brands That Grow, Scale, & Lead"
       className="relative mt-3 text-[clamp(40px,14.5vw,64px)] leading-[0.95] font-semibold tracking-tight text-obsidian md:mt-6 md:text-[clamp(52px,8.5vw,104px)] md:leading-[0.98] lg:text-[clamp(80px,8vw,128px)]"
     >
@@ -63,6 +64,6 @@ export default function HeroHeadline({
           <FloatingPill>{pills[1]}</FloatingPill>
         </span>
       </span>
-    </h1>
+    </h2>
   )
 }

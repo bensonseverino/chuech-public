@@ -1,12 +1,10 @@
 /*
  * `/web-design` content (web-design spec §7). Everything here is what the
- * generic `ServicePage` template renders, so Branding / SEO / PPC can
- * reuse it later with their own object of the same shape.
+ * generic `ServicePage` template renders, so other services can reuse it
+ * with an object of the same shape.
  *
- * The structure and service copy were adapted for Chuech Studio from the
- * original reference page https://marino.co.uk/web-design/, keeping the curly
- * apostrophes. Titles, chips, field labels, questions and button labels follow
- * the original spec.
+ * All on-page copy here is original Chuech Studio copy. The studio is based
+ * in Nairobi, Kenya, and offers web design, branding, SEO and PPC services.
  */
 import { ROUTES } from '../../routes'
 import type { RichSegment } from '../home'
@@ -129,28 +127,29 @@ const CHECKLIST = [
 /** The dark panel repeats the checklist as six titled paragraphs. */
 const PILLARS = [
   {
-    title: 'Site architecture',
-    body: 'To be successful, a website needs a solid foundation, and our team at Chuech Studio ensures this by creating logical site structures from day one. No matter how broad your product or service range is, we\u2019ll have the necessary URL structures and sitemap in place that search engines reward with page one rankings.',
+    title: 'What goes into a website plan?',
+    body: 'Before we design anything, we map out how the site will be built. That means agreeing on the pages you need, how they connect, and how people will move between them. A clear plan keeps the build focused and makes the site easier to manage later.',
   },
   {
-    title: 'Optimised for search',
-    body: 'A nice-looking site can\u2019t make sales or bring in enquiries if it isn\u2019t found for the terms audiences are searching for. Be it through the content we write or the way we create schema, your site will be optimised for both traditional SEO and for AI platforms from the get-go.',
+    title: 'How will people find my site?',
+    body: 'A site only works if people can find it. We set up the basics of search optimisation during the build, from clear page titles to sensible links between pages. That gives you a starting point. If you want more visibility, we also offer SEO as a separate service.',
   },
   {
-    title: 'Distinctive web design',
-    body: 'Your online home deserves to reflect not just your brand\u2019s aesthetic but its story and the people who make it what it is. Crafted using the latest CMS, we\u2019ll build you a bespoke website that flows seamlessly from product to page to checkout without a hint of friction for the buyer.',
+    title: 'Why does design matter?',
+    body: 'Your site should look like your business and be easy to use. We design pages that reflect your brand and make it clear what you offer. The aim is a site you are happy to share and that visitors can understand quickly.',
   },
   {
-    title: 'Multi-channel ready',
-    body: 'A key part of maximising your website\u2019s potential is ensuring it supports your paid and organic activity seamlessly. Our joined-up approach means PPC campaigns can lead interested customers to conversion-ready landing pages, whereas organic content can be laid out to nurture new audiences. We consider multi-channel campaigns throughout the website build to prevent costly silos from forming.',
+    title: 'How does my site fit with other marketing?',
+    body: 'A website sits at the centre of your other marketing. We build pages that work with search, paid ads and social activity, so visitors arrive on a page that matches what they clicked on. We plan for this during the build rather than after.',
   },
   {
-    title: 'Scalable sites',
-    body: 'Growing businesses rarely stand still, and their website should never hold them back from offering more products or services. We believe that a well-built site should anticipate and be ready for future growth. The team at Chuech Studio use a scalable CMS when building your site, so products can be added or new blogs and landing pages can be built and set live in minutes.',
+    title: 'Can my site grow with my business?',
+    body: 'Businesses change, and your site should be able to change with them. We build on content management systems that let you add pages, posts or products yourself. That means you can keep the site up to date without coming back to us for every edit.',
   },
   {
-    title: 'Conversion-focused layouts',
-    body: 'From expansive product category pages down to the smallest call to action button, each cog of your website is built to guide users towards action. We create thoughtfully structured pages that remove friction from the customer journey to support stronger conversion rates.',
+    title: 'How much does a website cost?',
+    // TODO(owner): publish real price ranges.
+    body: 'Pricing depends on the scope of the project, including the number of pages, the design work needed and any extra features. We look at what you need and give you a clear quote before work starts. Get in touch to talk through your project.',
   },
 ]
 
@@ -162,49 +161,55 @@ const FAQ_ITEMS: ServiceFaqItem[] = [
   {
     question: 'How long does a web design project take?',
     answer: [
-      'The timeline for a web design project depends on factors such as scope and content requirements. Most Nairobi web design projects take between 8 and 12 weeks, but larger builds may take longer. We\u2019ll ensure clear planning is laid out from the onset so that timelines remain realistic.',
+      'The time a project takes depends on its scope. A small site with a few pages is quicker to deliver than a larger one with custom features. We agree on a schedule with you before work starts and keep you updated as we go. You can ',
+      { label: 'get in touch', href: ROUTES.contact },
+      ' to talk about what you need.',
     ],
   },
   {
     question: 'Do you build SEO-ready websites?',
     answer: [
-      'All of our websites are built with technical SEO foundations in place from day one. From site architecture and internal linking to metadata frameworks, we make sure your website is ready to compete with your competitors from day one.',
+      'Yes. We build each site with the basics of search optimisation in place, including clear page titles, a sensible structure and links between related pages. That gives you a solid starting point. If you want ongoing help with visibility, we also offer ',
+      { label: 'SEO services', href: ROUTES.seo },
+      '.',
     ],
   },
   {
-    question: 'Does website speed impact performance?',
+    question: 'Does website speed matter?',
     answer: [
-      'Slow-loading websites can significantly affect both a customer\u2019s experience and how visible it is on search engines. If a customer has to wait for a page to load, they\u2019ll simply head to a competitor that offers a similar product or service and buy from there. Modern websites need to load almost instantly across all devices to reduce friction.',
+      'Yes. A site that takes too long to load can frustrate visitors and may put them off coming back. We keep files lean, use sensible image sizes and check how pages perform on phones as well as laptops. Speed is part of the build, not an afterthought.',
     ],
   },
   {
-    question: 'Why is website structure important?',
+    question: 'Why is site structure important?',
     answer: [
-      'Logical site structures help customers and search engines navigate your website more effectively and give both parties a better understanding about your business, ensuring it can be found for the terms it is targeting. Features such as clear navigation and relevant internal linking all contribute to strong visibility and a better user experience.',
+      'A clear structure helps people find their way around your site and helps search engines understand what each page is about. We group related pages together and link them in a way that makes sense to a visitor. It also makes the site easier for you to add to later.',
     ],
   },
   {
     question: 'Can you redesign an existing website?',
     answer: [
-      'Yes, we regularly redesign existing websites without needing to migrate them over to a new CMS, too, in many cases. We can help align your website with your current brand identity as well as strengthen conversions.',
+      'Yes. We work on existing sites as well as new ones. A redesign can keep the content you already have and give it a clearer layout and a look that fits your brand. We can also improve how the site works on mobile. You can see examples on our ',
+      { label: 'work page', href: ROUTES.work },
+      '.',
     ],
   },
   {
     question: 'Will we be able to update the website ourselves?',
     answer: [
-      'Yes, we build and update websites using scalable content management systems so that anyone in the business, with the right permissions, can manage the site without having to rely on contacting our developers.',
+      'Yes. We build sites on content management systems so you can edit text, add posts and change images yourself. We set up the right permissions for your team and show you how the basics work before we hand the site over. You stay in control of your content.',
     ],
   },
   {
     question: 'Are your websites designed for mobile users?',
     answer: [
-      'Absolutely, any decent website should be built so that it can perform just as well on mobile as it can on a laptop, and we ensure your site can convert no matter what device your audience is on.',
+      'Yes. We check how every page looks and works on a phone as well as a laptop. Buttons need to be easy to tap and text needs to be easy to read. Most people visit sites on mobile, so we treat it as part of the main design work rather than an extra.',
     ],
   },
   {
-    question: 'Do you provide web design services outside Nairobi?',
+    question: 'Do you work with clients outside Nairobi?',
     answer: [
-      'Our remote-first model allows us to work efficiently with clients across Kenya and beyond. So, despite Nairobi being our home, anyone can benefit from a Chuech Studio website.',
+      'Yes. We are based in Nairobi, Kenya, and work with businesses across the country and further afield. We can run projects remotely and keep in touch by email or phone. If you are elsewhere, email hello@chuechstudio.co.ke to start a conversation.',
     ],
   },
 ]
@@ -218,29 +223,32 @@ export const WEB_DESIGN: ServicePageContent = {
     /* Chuech Studio page metadata. */
     title: 'Web Design Nairobi | Website Design Agency | Chuech Studio',
     description:
-      'Chuech Studio is a Nairobi web design agency creating bespoke websites built to look sharp, convert better, and support business growth.',
+      'Chuech Studio designs and builds websites for businesses in Nairobi and across Kenya. Clear, practical sites that are easy to use and manage.',
   },
   hero: {
     label: 'Web Design Nairobi',
     /* 8.2em is what forces the four-line break at 768 and up (spec §5.1). */
     titleMaxWidth: '8.2',
-    title: 'Web Design services that turn heads and grow revenue',
-    tags: ['Web Design', 'UX / UI', 'eCommerce', 'Wireframes', 'Conversion Rate Optimisation'],
+    title: 'Web design for growing businesses in Kenya',
+    tags: [
+      'Web Design',
+      'UX / UI',
+      'eCommerce',
+      'Wireframes',
+      'Conversion Rate Optimisation',
+      'Last updated: Jan 2026',
+    ],
     intro:
-      'Your brand\u2019s website is arguably the single most important digital asset you own, and we don\u2019t think that it\u2019s too much to ask for it to look good and perform well. Our web design services give businesses a platform that helps you hit commercial goals while also expressing your brand in distinct, inventive ways.',
+      'We design and build websites for businesses in Nairobi and across Kenya. Our team plans the structure, designs the pages and builds the site so it is easy to use and easy to manage. This service is for business owners who need a clear, reliable web presence that supports their work.',
     form: HERO_FORM,
   },
   feature: {
-    heading: 'Your website is where you grow your business',
-    /* Spec §4.3 asks for the break "Your website is where / you grow your
-       business". In the live font at 33px/500 that needs 10.67em for the
-       second line, so the spec's flat 10em wraps it to three lines; 10.8em is
-       the smallest cap that reproduces the documented break (and 11.67em is
-       where line one would swallow "you"). */
+    heading: 'What makes a website work for your business?',
+    /* Width cap kept for the template's intended line break. */
     headingMaxWidth: '10.8',
-    lead: 'Your website is the point at which all your marketing efforts converge, with people visiting it from various places, be it a social media ad, via a search engine, or an article. It, therefore, needs to be built in such a way that it turns visitors into customers and traffic into revenue.',
+    lead: 'Your website is often the first place people look when they want to learn about your business. It needs to say what you do, show what makes you different and make it easy for someone to get in touch. We build sites with those basics covered from the start.',
     checklist: [...CHECKLIST],
-    body: 'The experts we have at Chuech Studio handle every aspect of your web design and development. From the initial consultation, we\u2019ll map out a scalable, technically sound online home that accurately reflects your business\u2019s story and what it sells. Over time, it\u2019ll become one of your key revenue-generating assets that proves its value in the months and years to come.',
+    body: 'We handle the design and build in one place. We start by agreeing on the pages and structure, then design each page and build it so you can edit it later. Throughout the work we keep you involved and explain our choices in plain language.',
     cta: { label: 'Contact', href: ROUTES.contact },
     image: 'web-design-feature',
     imageAlt: 'A spread of Verve Creative agency portfolio slides: approach, campaigns and brand marks',
@@ -258,11 +266,10 @@ export const WEB_DESIGN: ServicePageContent = {
     cta: { label: 'Contact Chuech Studio', href: ROUTES.contact },
   },
   why: {
-    heading: 'Why your business needs more than a website that looks nice',
-    /* Same reasoning: the documented break needs 14.12em for line one and
-       13.39em for line two, so the spec's 13.5em wraps to three lines. */
+    heading: 'Why does a good website matter for your business?',
+    /* Width cap kept for the template's intended line break. */
     headingMaxWidth: '14.3',
-    body: 'Today\u2019s websites aren\u2019t just static brochures that simply exist online. Customers expect intuitive experiences where they can take action in just a few clicks without even thinking about it. A visually impressive website won\u2019t achieve the necessary commercial goals if it lacks structure or isn\u2019t set up to perform well on all devices. Chuech Studio\u2019s web design services balance aesthetics with commercial performance so that every build reflects your brand visually but also ensures your site functions as a long-term business asset.',
+    body: 'A website can look good and still fail if people cannot find it or use it. We design for both. Pages are structured so search engines can read them, and layouts are checked on phones and laptops. The result is a site that is straightforward to run and supports the rest of your marketing.',
     cta: { label: 'Contact', href: ROUTES.contact },
     image: 'web-design-why',
     imageAlt: 'A developer\u2019s desk at night, monitors full of code beside a laptop and a coffee cup',

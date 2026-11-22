@@ -1,10 +1,10 @@
 /*
  * `/seo-manchester` content (same shape as `web-design.ts`, so the generic
- * `ServicePage` template renders it unchanged).
+ * `ServicePage` template renders it unchanged). The slug is legacy; Chuech
+ * Studio is based in Nairobi, Kenya.
  *
- * The structure and service copy were adapted for Chuech Studio from the
- * original reference page https://marino.co.uk/seo-manchester/, keeping the
- * curly apostrophes.
+ * All copy in this file is original Chuech Studio copy, written in a plain,
+ * friendly voice. No wording from another agency is used.
  *
  * TODO(asset): the two photos are labelled local placeholders — the live page
  * uses `seo-middle-1200x990.jpg` (6:5, feature panel) and
@@ -42,126 +42,83 @@ const HERO_FORM: ServiceFormContent = {
 
 const PILLARS = [
   {
-    title: 'Technical SEO',
-    body: 'Technical SEO involves fixing and optimising a range of features that might not be visible to the customer, but can do real damage to your website and your bottom line if left to persist. Our SEO teams work in tandem with web designers to fix existing gaps and ensure a solid platform for future success.',
+    title: 'What is technical SEO?',
+    body: 'This is the work that happens behind the pages of your site. We check things like site speed, mobile layout, and how search engines read your pages. Fixing these issues gives your content a better chance to be found and used.',
   },
   {
-    title: 'Content Marketing',
-    body: 'An SEO campaign is nothing without words. And at Chuech Studio, we take your website\u2019s words seriously. The compelling content we create, as well as attracting traffic from relevant audiences, encourages them to take action, be that inquiring or buying. Whatever content we create for you will fill your site with the persuasive buying signals needed in a busy market.',
+    title: 'How does content help SEO?',
+    body: 'Words matter. We write pages that answer the questions your customers are asking, using terms people actually search for. Useful content helps the right visitors find you, understand what you offer, and feel confident enough to enquire.',
   },
   {
-    title: 'Authority Building',
-    body: 'Being seen as trusted and authoritative is vital if you want the levels of online visibility that translate into revenue. We help you earn important third-party endorsements in the form of links and mentions through careful selection of targets and the creation of high-quality campaigns that industry publications and relevant sites can\u2019t help but be impressed by.',
+    title: 'Why do links and mentions matter?',
+    body: 'When other trusted sites mention or link to you, it tells search engines that your business is credible. We focus on earning a small number of relevant links from sites your customers already know, rather than chasing large numbers of low quality ones.',
   },
   {
-    title: 'Local SEO',
-    body: 'For many businesses, a lot of their audience will be on their doorstep, and local SEO campaigns for Nairobi businesses can help people get to know your organisation, whether they live in Westlands, Kilimani, or Karen. Whether it\u2019s through dedicated location pages or optimising Google Business Profiles, Chuech Studio\u2019s local SEO campaigns are always tied back to commercial outcomes.',
+    title: 'How much does SEO cost?',
+    // TODO(owner): publish real price ranges.
+    body: 'There is no single price, because every site and goal is different. We scope the work first: what needs fixing, what content is needed, and how much ongoing support makes sense. We then share a clear proposal with the cost before any work starts.',
   },
   {
-    title: 'Keyword Research',
-    body: 'We carry out extensive research into your industry\u2019s search landscape to select terms that we can then target with engaging, relevant content. Behind each term is intent which we meet to ensure the highest chance of conversion. Targeting terms across the sales funnel, we make sure your brand is seen no matter where a customer is in the purchasing journey.',
+    title: 'Can you help with local search?',
+    body: 'Many customers look for businesses near them. We help your site and your Google Business Profile show up for those searches, whether you serve one neighbourhood or several areas. The aim is to turn local visibility into real enquiries.',
   },
   {
-    title: 'AI SEO',
-    body: 'In recent years, AI search engines have transformed how people search and have meant businesses need to ensure their content not only targets terms but that it can be understood by ChatGPT, Perplexity, and Copilot. We\u2019ll help your business navigate this new evolution of search so that you feel the benefits, not the uncertainty, of it.',
+    title: 'What about AI search?',
+    body: 'More people now get answers from tools like ChatGPT and Perplexity, not only from a list of links. We write and structure your content so these tools can understand it and cite your business. It is a new part of search, and we keep it simple.',
   },
 ]
 
 /* ------------------------------------------------------------------ */
-/* FAQ — 16 questions, live order                                     */
+/* FAQ — 7 questions                                                  */
 /* ------------------------------------------------------------------ */
 
 const FAQ_ITEMS: ServiceFaqItem[] = [
   {
-    question: 'How long does SEO take to work?',
+    question: 'How long does SEO take to show results?',
     answer: [
-      'Every business version of SEO success will be different, but in general, this marketing channel is about long-term success while trying to find those more immediate wins along the way. Brands can expect to see an uptick in their sales or enquiries a few months after an SEO campaign has started.',
+      'SEO is a long term investment rather than a quick fix. Small improvements can appear as we fix technical issues and publish useful pages, but the bigger gains come as the site builds trust over time. We set clear milestones at the start so you can see progress, and we adjust the plan as we learn what works for your market.',
     ],
   },
   {
-    question: 'What\u2019s included in your SEO services in Nairobi?',
+    question: 'What does your SEO service include?',
     answer: [
-      'Our Nairobi SEO services are the full package and include everything from initial audit to copywriting and monthly reporting. At Chuech Studio, we can take care of your entire organic performance campaign.',
+      'We cover the main parts of organic search. That includes a technical review of your site, keyword research, writing and improving pages, and earning relevant links and mentions. Where the site itself needs work, we team up with our ',
+      { label: 'web design', href: ROUTES.webDesign },
+      ' team so the changes support each other. We also report on what changed and what we plan next.',
     ],
   },
   {
-    question: 'How do you prioritise SEO work?',
+    question: 'How do you choose the right keywords?',
     answer: [
-      'All our SEO work is prioritised based on the potential impact on your business to ensure that early work delivers meaningful improvements while still building a strong foundation for long-term growth.',
+      'We start with what your customers are likely to type when they need what you offer. We look at intent as well as how often a term is searched, because someone ready to enquire is more useful than a broad term with little purpose. We group terms by theme and update the list as we see how people actually find you.',
     ],
   },
   {
-    question: 'Do you offer SEO audits as a standalone project?',
+    question: 'Do you work with businesses outside Nairobi?',
     answer: [
-      'Yes, for businesses looking to get an accurate picture of what their current SEO looks like, our teams can carry out a thorough audit for you.',
+      'Yes. We are based in Nairobi, Kenya, and we work with businesses of different sizes and in different places. Most of our work is delivered remotely, so location is rarely a barrier. You can see the kind of projects we take on in ',
+      { label: 'our work', href: ROUTES.work },
+      ', and we are happy to talk through what would suit your business.',
     ],
   },
   {
-    question: 'What makes your SEO approach different from other Nairobi agencies?',
+    question: 'Can SEO work alongside paid ads?',
     answer: [
-      'With Chuech Studio, you\u2019ll always have complete visibility about what\u2019s being done, why it matters, and how it\u2019s going to contribute to your results. We focus on clarity and accountability from day one. We\u2019ll define and agree on a clear strategy based on your industry and competitors that is always tied back to commercial goals.',
+      'Yes. SEO and ',
+      { label: 'PPC', href: ROUTES.ppc },
+      ' do different jobs and work well together. Paid ads can bring visitors straight away, while SEO builds visibility that keeps paying off over time. We can run both and use what we learn from one to improve the other, so you get a clearer picture of which messages and pages bring in enquiries.',
     ],
   },
   {
-    question: 'What actually makes SEO effective?',
+    question: 'How will I know if SEO is working?',
     answer: [
-      'Effective SEO is built on three core areas working together: technical foundations, content that matches search intent, and authority signals such as site links and mentions. Alongside three key tenets, your website needs to demonstrate experience, expertise, authority and trust (also known as E-E-A-T), which are all key factors in how search engines assess credibility.',
+      'We keep reporting simple. You will see the terms people find you on, how many visitors arrive from search, and what those visitors do once they are on your site. More importantly, we tie those numbers back to enquiries and sales, so you can tell whether the work is helping your business rather than just moving a chart.',
     ],
   },
   {
-    question: 'How do you choose which keywords to target?',
+    question: 'Can you work with our in-house team?',
     answer: [
-      'When picking keywords, we prioritise intent over search volume alone. For instance, someone searching for \u201cSEO Agency Nairobi\u201d is likely looking to hire, whereas \u201cTechnical SEO Audit\u201d suggests a more informed user with a specific need. We build strategies that target terms across the funnel to capture users at different stages of their journey.',
-    ],
-  },
-  {
-    question: 'Does SEO work better alongside other marketing channels?',
-    answer: [
-      'Yes. SEO is at its most effective when it\u2019s aligned with your wider marketing initiatives, be that web design, PPC, or optimising your conversion rate. When these channels all work together, they amplify your business\u2019s performance, improving the overall return on investment.',
-    ],
-  },
-  {
-    question: 'What are Core Web Vitals and why do they matter?',
-    answer: [
-      'Core Web Vitals are a set of performance metrics used by Google to measure user experience, be that page speed, responsiveness, or visual stability. A high score indicates your site is healthy and will therefore be more competitive in search results.',
-    ],
-  },
-  {
-    question: 'Can you work with our in-house team or developer?',
-    answer: ['Absolutely, all our SEO experts are used to working with in-house or fragmented teams.'],
-  },
-  {
-    question: 'Do you provide local SEO for Nairobi?',
-    answer: [
-      'We are rooted in Nairobi and love helping our fellow local businesses succeed online.',
-    ],
-  },
-  {
-    question: 'Do SEO strategies differ for single-location vs multi-location businesses?',
-    answer: [
-      'Yes, they do. For instance, a business operating in one location may focus its entire website and digital presence on a given area, whereas those who operate in multiple regions or territories often require dedicated pages and strategies for each region.',
-    ],
-  },
-  {
-    question: 'Do you build links/do digital PR?',
-    answer: ['Yes, link building and digital PR are two crucial elements of our SEO campaigns.'],
-  },
-  {
-    question: 'Is link building still important for SEO?',
-    answer: [
-      'It does, but today, the quality of links matters far more than quantity. A small number of high-quality, relevant links from authoritative sites have far greater impact than hundreds of low-quality ones. At Chuech Studio, we focus on earning credible endorsements rather than using outdated, risky tactics.',
-    ],
-  },
-  {
-    question: 'How do you measure SEO success?',
-    answer: [
-      'We consult with you to discuss what success looks like so that all our work is geared toward that, rather than surface-level metrics which don\u2019t impact your revenue.',
-    ],
-  },
-  {
-    question: 'What does your SEO reporting include?',
-    answer: [
-      'Our reporting is centred around the stats and metrics that matter to your business. We connect activity to outcome and explain what\u2019s changed and what comes next rather than relying on vanity metrics.',
+      'Yes. We often work alongside the team you already have. We can take the lead on SEO and bring in specialists where needed, or support your staff with audits, content and advice. We agree on who does what at the start, so there is no confusion and the work moves forward smoothly.',
     ],
   },
 ]
@@ -179,15 +136,23 @@ export const SEO: ServicePageContent = {
   },
   hero: {
     label: 'SEO Nairobi',
-    title: 'An SEO agency in Nairobi with impact',
-    tags: ['Audits', 'Content', 'Technical', 'Link Building', 'AI', 'Digital PR'],
+    title: 'SEO for businesses growing in Kenya',
+    tags: [
+      'Audits',
+      'Content',
+      'Technical',
+      'Link Building',
+      'AI',
+      'Digital PR',
+      'Last updated: Jan 2026',
+    ],
     intro:
-      'The SEO services offered here at Chuech Studio are ideal for businesses looking for sustainable growth, not short-lived spikes. Through our tried and true strategies, which are created by some of the region\u2019s best SEO specialists, we help you generate qualified demand that brings in sustained online revenue.',
+      'SEO helps your business show up when people search on Google or ask an AI assistant. We work with businesses in Kenya that want more of the right visitors to their website. That means fixing the basics, writing useful content, and making it easier for customers to find and trust you.',
     form: HERO_FORM,
   },
   feature: {
-    heading: 'SEO for Nairobi brands that move the commercial needle',
-    lead: 'The search landscape across Nairobi is competitive, no matter what you\u2019re selling, which makes it all the more important that any brand looking to make an impact in their sector opts for a strategic approach that encompasses all facets of organic search.',
+    heading: 'What does SEO actually do for your business?',
+    lead: 'Good SEO is not just about rankings. It brings the right people to your site and gives them a reason to stay. We look at how your site works, the words on it, and how easy it is to use.',
     checklist: [
       'Technical SEO',
       'Content Marketing',
@@ -196,7 +161,7 @@ export const SEO: ServicePageContent = {
       'Core Web Vitals',
       'AI SEO',
     ],
-    body: 'Our SEO services for Nairobi businesses encompass everything listed and come with well-defined expectations. And while you shouldn\u2019t expect organic search campaigns to transform your business overnight, you can expect them to be a predictable generator of leads when it\u2019s aligned with your website\u2019s conversion journey and other insights, which is exactly what our team does.',
+    body: 'We start with what your business needs. Some sites need technical fixes first. Others need better content or a stronger presence in local search. We agree on a clear plan, do the work, and explain what changed and why. You will always know what we are doing and what comes next.',
     cta: { label: 'Contact', href: ROUTES.contact },
     image: 'seo-feature',
     imageAlt: 'A close-up of a Google Search Console performance report showing clicks, impressions and position trends',
@@ -217,8 +182,8 @@ export const SEO: ServicePageContent = {
     cta: { label: 'Contact Chuech Studio', href: ROUTES.contact },
   },
   why: {
-    heading: 'How we run your SEO campaigns',
-    body: 'All the SEO work we do for your business is centred on your goals and priorities. We start by looking at your current digital presence and creating a prioritisation plan based on the data. We\u2019ll then address the immediate issues before putting in the foundations for long-term success, which will be different for every business. We don\u2019t stick to a rigid 5-step process like most agencies. Instead, our team prefers to operate against a rolling roadmap that can be adjusted should your business priorities change. We can also work alongside in-house teams if that\u2019s the sort of support your Nairobi business needs.',
+    heading: 'Why work with Chuech Studio for SEO?',
+    body: 'We keep things clear and focused on your goals. First we look at where your site stands today and agree on what matters most. From there we work through a rolling plan that can change as your priorities change. You will always know what we are doing, why we are doing it, and what it is meant to achieve. We can work on our own or alongside your team.',
     cta: { label: 'Contact', href: ROUTES.contact },
     image: 'seo-why',
     imageAlt: 'Hands on a laptop showing a Google Analytics acquisition report, a striped mug on a Kenya-flag coaster beside it',
