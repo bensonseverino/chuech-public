@@ -22,6 +22,7 @@ import { fileURLToPath } from 'node:url'
 import sirv from 'sirv'
 import { chromium } from 'playwright'
 import { SEO_ROUTES, type SeoRoute } from '../src/seo/routes.ts'
+import { SITE } from '../src/seo/site.ts'
 import { PROJECTS } from '../src/content/projects.ts'
 
 const ROOT = fileURLToPath(new URL('..', import.meta.url))
@@ -34,7 +35,13 @@ if (process.env.SKIP_PRERENDER === '1') {
   process.exit(0)
 }
 
-type ProjectForSeo = { slug?: string; updated_at?: string; seoTitle?: string; description?: string }
+type ProjectForSeo = {
+  slug?: string
+  title?: string
+  updated_at?: string
+  seoTitle?: string
+  description?: string
+}
 
 /** Fetch every published project slug from the CMS, paging through the public
  *  API. Any failure is non-fatal: the bundled published seed list is used. */
@@ -66,7 +73,7 @@ async function projectRoutes(): Promise<SeoRoute[]> {
   }
 
   if (projects.length === 0) {
-    projects = PROJECTS.map((project) => ({ slug: project.slug }))
+    projects = PROJECTS.map((project) => ({ slug: project.slug, title: project.title }))
     console.log(`[prerender] bundled seed projects: ${projects.length}`)
   }
 
@@ -75,14 +82,70 @@ async function projectRoutes(): Promise<SeoRoute[]> {
 
   return projects
     .filter((project): project is ProjectForSeo & { slug: string } => Boolean(project.slug))
-    .map((project) => ({
-      ...template,
-      path: `/work/${project.slug}`,
-      title: project.seoTitle ?? template.title,
-      description: project.description ?? template.description,
-      lastmod: project.updated_at?.slice(0, 10) ?? template.lastmod,
-      template: undefined,
-    }))
+    .map((project) => {
+      const title = project.title ?? project.seoTitle ?? template.title
+      return {
+        ...template,
+        path: `/work/${project.slug}`,
+        title,
+        description: project.description ?? `A case study by ${SITE.name}: ${title}.`,
+        lastmod: project.updated_at?.slice(0, 10) ?? template.lastmod,
+        template: undefined,
+      }
+    })
+}
+
+/** Crawl files generated from the same route list (SEO spec Step 5). */
+async function writeCrawlFiles(routes: SeoRoute[]) {
+  const escapeXml = (text: string) =>
+    text.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+
+  const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+${routes
+  .map(
+    (route) =>
+      `  <url>\n    <loc>${escapeXml(route.path === '/' ? SITE.url : SITE.url + route.path)}</loc>\n    <lastmod>${route.lastmod}</lastmod>\n    <changefreq>${route.changefreq}</changefreq>\n    <priority>${route.priority}</priority>\n  </url>`,
+  )
+  .join('\n')}
+</urlset>
+`
+  await writeFile(join(DIST, 'sitemap.xml'), sitemap, 'utf8')
+
+  const services = routes.filter((route) => route.type === 'service')
+  const projects = routes.filter((route) => route.type === 'project')
+  const llms = `# ${SITE.name}
+> Web design agency in Kenya. Websites, branding, SEO, social media marketing, PPC, brand and graphic design.
+
+## Services
+${services
+  .map((route) => `- [${route.title.split(' | ')[0]}](${SITE.url}${route.path}): ${route.description}`)
+  .join('\n')}
+
+## Work
+${projects.map((route) => `- [${route.title}](${SITE.url}${route.path}): ${route.description}`).join('\n')}
+
+## Company
+- [About](${SITE.url}/about)
+- [Contact](${SITE.url}/contact): ${SITE.email}, ${SITE.phone}
+`
+  await writeFile(join(DIST, 'llms.txt'), llms, 'utf8')
+
+  /* Trailing-slash duplicates all redirect to the slashless canonical URL.
+     No SPA catch-all: every valid route has a prerendered file. */
+  const redirectsPath = join(DIST, '_redirects')
+  const base = (await readFile(redirectsPath, 'utf8'))
+    .split('# Generated: trailing-slash duplicates')[0]
+    .trimEnd()
+  const slashRules = routes
+    .filter((route) => route.path !== '/')
+    .map((route) => `${route.path}/  ${route.path}  301`)
+  await writeFile(
+    redirectsPath,
+    `${base}\n\n# Generated: trailing-slash duplicates\n${slashRules.join('\n')}\n`,
+    'utf8',
+  )
+  console.log('[prerender] sitemap.xml, llms.txt, _redirects written')
 }
 
 async function main() {
@@ -158,6 +221,8 @@ async function main() {
     await waitForApp()
     await writeFile(join(DIST, '404.html'), await page.content(), 'utf8')
     console.log('[prerender] 404 -> 404.html')
+
+    await writeCrawlFiles(routes)
   } finally {
     await browser?.close()
     await new Promise<void>((resolve, reject) =>

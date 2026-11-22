@@ -15,12 +15,9 @@ export const SITE = {
   locale: 'en_KE',
   description:
     'Chuech studio is a web design agency in Kenya. We build websites, run SEO, social media marketing and PPC, and design brands. Talk to us about your next project.',
-  /* TODO(owner): publish a full brand logo at /logo.png (1200px+ wide, not
-     the avi icon) and switch this to it. /favicon.svg is the only logo file
-     currently served from a stable public URL. */
-  logo: 'https://chuechstudio.co.ke/favicon.svg',
-  /* TODO(asset): create a 1200x630 brand OG image at /og-default.png
-     (Step 5.6 of the spec). Until then this URL does not resolve. */
+  /* 600x287 transparent brand logo generated from chuech-logo2.svg. */
+  logo: 'https://chuechstudio.co.ke/logo.png',
+  /* 1200x630 brand card generated from the same SVG + the site's colors. */
   ogImage: 'https://chuechstudio.co.ke/og-default.png',
   /* TODO(owner): add the real social profile URLs here when supplied. No
      social links exist in the current footer or Contact page, so sameAs

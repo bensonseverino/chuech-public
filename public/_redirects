@@ -1,0 +1,2 @@
+# Canonical apex domain (no SPA catch-all — every route is prerendered).
+https://www.chuechstudio.co.ke/* https://chuechstudio.co.ke/:splat 301

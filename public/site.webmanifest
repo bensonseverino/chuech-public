@@ -1,0 +1,13 @@
+{
+  "name": "Chuech studio",
+  "short_name": "Chuech",
+  "description": "Web design, branding, SEO and PPC from Chuech studio in Kenya.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f3f3f3",
+  "theme_color": "#231f20",
+  "icons": [
+    { "src": "/favicon-32x32.png", "sizes": "32x32", "type": "image/png" },
+    { "src": "/apple-touch-icon.png", "sizes": "180x180", "type": "image/png" }
+  ]
+}
