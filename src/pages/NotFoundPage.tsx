@@ -1,11 +1,11 @@
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import Button from '../components/primitives/Button'
 import GooglyEyes from '../components/not-found/GooglyEyes'
 import { eyesConfig } from '../components/not-found/eyes.config'
 import { ROUTES } from '../routes'
 import { gsap, useGSAP, EASE } from '../lib/motion'
 import { useEyeTracking } from '../hooks/useEyeTracking'
-import { usePageTitle } from '../hooks/usePageTitle'
+import Seo from '../seo/Seo'
 
 /**
  * The not-found hero itself — two googly eyes, the "404, Page Not Found."
@@ -101,28 +101,15 @@ export function NotFoundView() {
 /**
  * `/does-not-exist`, `/culture`, `/testimonials` — the catch-all page (404
  * spec §1): nav + footer come from `RootLayout` and the route uses the
- * existing page transition as-is. Sets the 404 document title and a
- * `noindex` robots directive only while mounted (restored on unmount — the
- * SPA fallback is HTTP 200 on Cloudflare Pages, so unknown URLs must never
- * be indexable).
+ * existing page transition as-is. `<Seo noindex />` sets the 404 title and a
+ * `noindex` robots directive only while mounted (React hoists the tags, then
+ * removes them on unmount — unknown URLs must never be indexable).
  */
 export default function NotFoundPage() {
-  usePageTitle('404 | Page not found | Chuech studio')
-
-  useEffect(() => {
-    let tag = document.querySelector<HTMLMetaElement>('meta[name="robots"]')
-    const previousContent = tag?.getAttribute('content') ?? null
-    if (!tag) {
-      tag = document.createElement('meta')
-      tag.name = 'robots'
-      document.head.appendChild(tag)
-    }
-    tag.setAttribute('content', 'noindex')
-    return () => {
-      if (previousContent !== null) tag?.setAttribute('content', previousContent)
-      else tag?.remove()
-    }
-  }, [])
-
-  return <NotFoundView />
+  return (
+    <>
+      <Seo path="/__404__" title="404 | Page not found | Chuech studio" noindex />
+      <NotFoundView />
+    </>
+  )
 }

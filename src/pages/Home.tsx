@@ -6,7 +6,7 @@ import ServicesSection from '../components/sections/ServicesSection'
 import ExperienceSection from '../components/sections/ExperienceSection'
 import FaqSection from '../components/sections/FaqSection'
 import { useSiteChrome, useHomeContent } from '../content/live/hooks'
-import { useMetaDescription, usePageTitle } from '../hooks/usePageTitle'
+import Seo from '../seo/Seo'
 import { useScrollRefresh } from '../hooks/useScrollRefresh'
 
 /**
@@ -22,13 +22,12 @@ export default function Home() {
   const view = useHomeContent()
   const { site } = useSiteChrome()
 
-  usePageTitle(view.seo.title)
-  useMetaDescription(view.seo.description)
   // Re-measure ScrollTriggers when the CMS payload replaces the fallback.
   useScrollRefresh(view)
 
   return (
     <>
+      <Seo path="/" />
       <HeroSection hero={view.hero} site={site} />
       <ClientLogoStrip clients={view.clients} />
       <IntroStatement

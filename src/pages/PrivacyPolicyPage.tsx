@@ -4,7 +4,7 @@ import LegalDetailsTable, { type DetailRow, LEGAL_TEXT } from '@/components/Lega
 import LegalSection from '@/components/LegalSection'
 import { renderLegalText } from '@/components/LegalText'
 import { fill, intro, privacyCompany, sections } from '@/data/privacy'
-import { usePageTitle, useMetaDescription } from '@/hooks/usePageTitle'
+import Seo from '@/seo/Seo'
 
 /**
  * `/privacy-policy` (privacy spec §1): nav (RootLayout) → hero (breadcrumb
@@ -16,9 +16,6 @@ import { usePageTitle, useMetaDescription } from '@/hooks/usePageTitle'
  * anywhere (privacy spec §4).
  */
 export default function PrivacyPolicyPage() {
-  usePageTitle('Privacy Policy | Chuech studio')
-  useMetaDescription('How Chuech studio collects, uses and protects your personal data.')
-
   /*
    * The table (privacy spec §4): six rows in this exact order — no Company
    * number or VAT number row.
@@ -38,7 +35,7 @@ export default function PrivacyPolicyPage() {
 
   return (
     <>
-      {/*
+      <Seo path="/privacy-policy" />      {/*
         Hero (privacy spec §2), shared with the Terms page: breadcrumb pill
         "Privacy Policy", heading "Your Data", email + phone line right-
         aligned on md+ and hidden on mobile.

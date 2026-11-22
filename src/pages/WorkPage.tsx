@@ -6,7 +6,7 @@ import Pagination from '../components/Pagination'
 import ServiceLinks from '../components/sections/ServiceLinks'
 import Inline from '../content/live/inline'
 import { useSiteChrome, useWorkContent } from '../content/live/hooks'
-import { useMetaDescription, usePageTitle } from '../hooks/usePageTitle'
+import Seo from '../seo/Seo'
 import { useScrollRefresh } from '../hooks/useScrollRefresh'
 import { useLenis } from '../providers/lenis-context'
 
@@ -25,8 +25,6 @@ export default function WorkPage() {
   const view = useWorkContent()
   const { site } = useSiteChrome()
 
-  usePageTitle(view.seo.title)
-  useMetaDescription(view.seo.description)
   // Re-measure ScrollTriggers when the CMS payload replaces the fallback.
   useScrollRefresh(view)
 
@@ -61,6 +59,7 @@ export default function WorkPage() {
 
   return (
     <>
+      <Seo path="/work" />
       <PageHero
         label={view.hero.label}
         title={view.hero.title}

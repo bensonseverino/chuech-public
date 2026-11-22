@@ -6,7 +6,7 @@ import CallbackPanel from '../components/sections/CallbackPanel'
 import ExperienceSection from '../components/sections/ExperienceSection'
 import FaqSection from '../components/sections/FaqSection'
 import { useServicePage } from '../content/live/hooks'
-import { useMetaDescription, usePageTitle } from '../hooks/usePageTitle'
+import Seo from '../seo/Seo'
 import { useScrollRefresh } from '../hooks/useScrollRefresh'
 
 /**
@@ -21,8 +21,6 @@ import { useScrollRefresh } from '../hooks/useScrollRefresh'
 export default function ServicePage({ slug }: { slug: string }) {
   const { page, projects, stats, testimonials } = useServicePage(slug)
 
-  usePageTitle(page.seo.title)
-  useMetaDescription(page.seo.description)
   // Re-measure ScrollTriggers when the CMS payload replaces the fallback.
   useScrollRefresh(page)
 
@@ -38,6 +36,7 @@ export default function ServicePage({ slug }: { slug: string }) {
 
   return (
     <>
+      <Seo path={`/${slug}`} />
       <ServiceHero hero={page.hero} />
       <FeaturePanel feature={page.feature} />
       {carousel.length > 0 ? (

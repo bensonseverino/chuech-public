@@ -10,7 +10,7 @@ import IntroHtml from '../content/live/intro-html'
 import { useProject } from '../content/live/hooks'
 import { EVENTOTRON_FALLBACK } from '../content/fallback-project'
 import { useCmsPreviewData } from '../cms/preview'
-import { useMetaDescription, usePageTitle, useSeoTags } from '../hooks/usePageTitle'
+import Seo from '../seo/Seo'
 import { useScrollRefresh } from '../hooks/useScrollRefresh'
 import NotFoundPage from './NotFoundPage'
 
@@ -42,14 +42,6 @@ export default function ProjectPage() {
       ? EVENTOTRON_FALLBACK
       : fetched
 
-  usePageTitle(project ? project.seo.title : 'Work | Chuech Studio')
-  useMetaDescription(project ? project.seo.description : '')
-  useSeoTags({
-    title: project ? project.seo.title : '',
-    description: project?.seo.description,
-    image: project?.seo.ogImage?.url,
-    path: `/work/${slug}`,
-  })
   // Re-measure ScrollTriggers when the payload replaces the skeleton.
   useScrollRefresh(project)
 
@@ -66,6 +58,13 @@ export default function ProjectPage() {
 
   return (
     <article>
+      <Seo
+        path={`/work/${slug}`}
+        title={shown.seo.title}
+        description={shown.seo.description}
+        image={shown.seo.ogImage?.url}
+        type="article"
+      />
       <ProjectHero title={shown.title} categories={shown.categories} hero={shown.hero} />
 
       {hasIntro ? (

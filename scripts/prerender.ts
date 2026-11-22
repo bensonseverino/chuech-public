@@ -16,7 +16,7 @@
  *                           GitHub Action performs the real prerender
  */
 import { createServer } from 'node:http'
-import { mkdir, writeFile } from 'node:fs/promises'
+import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import sirv from 'sirv'
@@ -88,26 +88,53 @@ async function projectRoutes(): Promise<SeoRoute[]> {
 async function main() {
   const routes = [...SEO_ROUTES.filter((route) => !route.template), ...(await projectRoutes())]
 
-  const serve = sirv(DIST, { single: true, etag: true })
+  /* Serve the pristine SPA shell for every document request. Serving a
+     previously prerendered file as the fallback would carry its baked-in head
+     tags into the next capture, duplicating metadata on every route. */
+  const shell = await readFile(join(DIST, 'index.html'), 'utf8')
+  const serve = sirv(DIST, { etag: true })
   const server = createServer((request, response) => {
+    const accept = request.headers.accept ?? ''
+    if (accept.includes('text/html')) {
+      response.setHeader('Content-Type', 'text/html; charset=utf-8')
+      response.end(shell)
+      return
+    }
     serve(request, response)
   })
   await new Promise<void>((resolve) => server.listen(PORT, resolve))
   const origin = `http://127.0.0.1:${PORT}`
   console.log(`[prerender] serving ${DIST} at ${origin}`)
 
-  const browser = await chromium.launch({
-    headless: true,
-    channel: process.env.PRERENDER_BROWSER_CHANNEL || undefined,
-    args: ['--no-sandbox'],
-  })
-  const context = await browser.newContext({
-    reducedMotion: 'reduce',
-    viewport: { width: 1400, height: 900 },
-  })
-  const page = await context.newPage()
-
+  let browser: Awaited<ReturnType<typeof chromium.launch>> | undefined
   try {
+    browser = await chromium.launch({
+      headless: true,
+      channel: process.env.PRERENDER_BROWSER_CHANNEL || undefined,
+      args: ['--no-sandbox'],
+    })
+    const context = await browser.newContext({
+      reducedMotion: 'reduce',
+      viewport: { width: 1400, height: 900 },
+    })
+    /* A prerendered file has data-ready baked into <html>. When sirv serves
+       that file as the SPA fallback for the next route, a stale "ready" would
+       let us capture before React mounts. Clear it on every navigation. */
+    await context.addInitScript(() => {
+      document.documentElement?.removeAttribute('data-ready')
+    })
+    const page = await context.newPage()
+
+    const waitForApp = () =>
+      page.waitForFunction(
+        () =>
+          document.documentElement.dataset.ready === 'true' &&
+          (document.getElementById('root')?.children.length ?? 0) > 0 &&
+          Boolean(document.head.querySelector('meta[name="description"]')),
+        null,
+        { timeout: 30_000 },
+      )
+
     for (const route of routes) {
       try {
         await page.goto(`${origin}${route.path}`, { waitUntil: 'networkidle', timeout: 45_000 })
@@ -115,9 +142,7 @@ async function main() {
         // A long-lived connection (video/CDN) must not abort the build; the
         // ready signal below is the real condition we care about.
       }
-      await page.waitForFunction(() => document.documentElement.dataset.ready === 'true', null, {
-        timeout: 30_000,
-      })
+      await waitForApp()
       const html = await page.content()
       const relative = route.path.replace(/^\/+/, '').replace(/\/+$/, '')
       const outFile = join(DIST, relative, 'index.html')
@@ -127,16 +152,14 @@ async function main() {
     }
 
     // 404 with a true 404 status: no SPA catch-all in public/_redirects, and
-    // every valid route now has a real file. sirv's `single` option gives the
-    // unknown path the SPA shell so React renders NotFoundPage for capture.
+    // every valid route now has a real file. The unknown path gets the clean
+    // shell above so React renders NotFoundPage for capture.
     await page.goto(`${origin}/__prerender_404__`, { waitUntil: 'networkidle', timeout: 45_000 })
-    await page.waitForFunction(() => document.documentElement.dataset.ready === 'true', null, {
-      timeout: 30_000,
-    })
+    await waitForApp()
     await writeFile(join(DIST, '404.html'), await page.content(), 'utf8')
     console.log('[prerender] 404 -> 404.html')
   } finally {
-    await browser.close()
+    await browser?.close()
     await new Promise<void>((resolve, reject) =>
       server.close((error) => (error ? reject(error) : resolve())),
     )

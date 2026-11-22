@@ -4,7 +4,7 @@ import LegalDetailsTable from '@/components/LegalDetailsTable'
 import LegalSection from '@/components/LegalSection'
 import { renderLegalText } from '@/components/LegalText'
 import { intro, sections } from '@/data/terms'
-import { usePageTitle, useMetaDescription } from '@/hooks/usePageTitle'
+import Seo from '@/seo/Seo'
 import { LEGAL_TEXT } from '@/components/LegalDetailsTable'
 import { ROUTES } from '@/routes'
 
@@ -17,9 +17,6 @@ import { ROUTES } from '@/routes'
  * stagger and a single fade on the card itself (terms spec §9).
  */
 export default function TermsPage() {
-  usePageTitle('Terms & Conditions | Chuech studio')
-  useMetaDescription('Read the terms and conditions for using the Chuech studio website and our services.')
-
   /*
    * Plain-text "Privacy Policy" mentions (intro + section 14) are transition
    * links now that `/privacy-policy` exists (privacy spec §8 step 6).
@@ -29,7 +26,7 @@ export default function TermsPage() {
 
   return (
     <>
-      {/*
+      <Seo path="/terms-conditions" />      {/*
         Hero (terms spec §2), shared with the Privacy Policy page.
       */}
       <LegalHero badge="Terms & Conditions" heading="Our Terms" />

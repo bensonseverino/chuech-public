@@ -1,4 +1,4 @@
-import { usePageTitle, useMetaDescription } from '@/hooks/usePageTitle'
+import Seo from '@/seo/Seo'
 import AboutHero from '@/components/AboutHero'
 import MissionSection from '@/components/MissionSection'
 import BuiltByCard from '@/components/BuiltByCard'
@@ -15,13 +15,9 @@ import StatsMarquee from '@/components/StatsMarquee'
  * home-page content (CMS or fallback) as the home "Work" section.
  */
 export default function AboutPage() {
-  usePageTitle('About | Chuech studio')
-  useMetaDescription(
-    'Learn about Chuech studio — who we are, what we do, and how we help brands grow.',
-  )
-
   return (
     <>
+      <Seo path="/about" />
       <AboutHero />
       <MissionSection />
       <BuiltByCard />

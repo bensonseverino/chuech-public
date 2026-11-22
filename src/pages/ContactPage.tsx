@@ -1,4 +1,4 @@
-import { usePageTitle, useMetaDescription } from '@/hooks/usePageTitle'
+import Seo from '@/seo/Seo'
 import { useHeroLoad } from '@/hooks/useHeroLoad'
 import { contact } from '@/data/contact'
 import ContactMap from '@/components/ContactMap'
@@ -19,15 +19,13 @@ const DETAIL_LINK =
  * other route.
  */
 export default function ContactPage() {
-  usePageTitle('Contact | Chuech studio')
-  useMetaDescription('Get in touch with Chuech studio for a free consultation.')
-
   // Hero content is visible at scroll position 0, so it enters on load rather
   // than waiting for a scroll that may never happen (smooth-scroll §7).
   const heroRef = useHeroLoad<HTMLElement>()
 
   return (
     <>
+      <Seo path="/contact" />
       <section
         ref={heroRef}
         aria-labelledby="contact-heading"
