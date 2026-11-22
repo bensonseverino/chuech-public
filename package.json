@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b && vite build && npm run prerender",
+    "prerender": "node scripts/prerender.ts",
     "test:contact": "node scripts/contact-smoke.mjs",
     "lint": "eslint .",
     "preview": "vite preview"
@@ -33,6 +34,8 @@
     "eslint-plugin-react-hooks": "^7.1.1",
     "eslint-plugin-react-refresh": "^0.5.6",
     "globals": "^17.12.0",
+    "playwright": "^1.65.1",
+    "sirv": "^3.0.2",
     "typescript": "~6.0.2",
     "typescript-eslint": "^8.69.0",
     "vite": "^8.3.0"

@@ -24,6 +24,15 @@ export function useRevealer(
     const el = target.current
     if (!el) return
 
+    // Prerender (SEO Step 2): never capture the obsidian wipe. The inline
+    // scaleY(1) from JSX is overridden here, before first paint.
+    if (typeof navigator !== 'undefined' && navigator.webdriver) {
+      gsap.set(el, { scaleY: 0, transformOrigin: 'top center' })
+      transitionState.viaTransition = false
+      onComplete?.()
+      return
+    }
+
     const delay = transitionState.viaTransition
       ? TRANSITION.afterNavDelay
       : TRANSITION.initialLoadDelay

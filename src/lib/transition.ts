@@ -20,6 +20,10 @@ export const transitionState = { viaTransition: false }
 const prefersReducedMotion = () =>
   typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
+/** Build-time prerendering drives the page with Playwright; skip the wipe so
+ *  the captured HTML is the page itself, not a full-screen overlay. */
+const isPrerender = () => typeof navigator !== 'undefined' && navigator.webdriver
+
 /* -------------------------------------------------------------------------
    Route-commit signal
    -------------------------------------------------------------------------
@@ -81,7 +85,7 @@ export function triggerPageTransition(
 
   const supportsVT = typeof document.startViewTransition === 'function'
 
-  if (!supportsVT || prefersReducedMotion()) {
+  if (!supportsVT || prefersReducedMotion() || isPrerender()) {
     transitionState.viaTransition = false
     navigate(to)
     scrollToTop?.()

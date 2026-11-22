@@ -1,0 +1,41 @@
+name: Prerender and deploy
+
+# SEO spec Step 2.4: Cloudflare Pages' build image is not guaranteed to have
+# Playwright's Chromium, so the prerender runs here where we install it, and
+# the finished dist/ is deployed with Wrangler.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: pages-deploy
+  cancel-in-progress: false
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - run: npm ci
+
+      - name: Install Chromium for prerendering
+        run: npx playwright install --with-deps chromium
+
+      - name: Build and prerender every route
+        run: npm run build
+        env:
+          CMS_API_URL: ${{ vars.CMS_API_URL }}
+
+      - name: Deploy dist/ to Cloudflare Pages
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy dist --project-name=marino-site --branch=main

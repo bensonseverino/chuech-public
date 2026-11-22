@@ -1,3 +1,4 @@
+import { useEffect } from 'react'
 import { createBrowserRouter, RouterProvider } from 'react-router'
 import RootLayout from './components/RootLayout'
 import Home from './pages/Home'
@@ -42,5 +43,11 @@ const router = createBrowserRouter([
 ])
 
 export default function App() {
+  // Prerender ready signal (SEO spec Step 2): set once the first render is in
+  // the DOM. No effect on visitors; crawlers get the fully rendered HTML.
+  useEffect(() => {
+    document.documentElement.dataset.ready = 'true'
+  }, [])
+
   return <RouterProvider router={router} />
 }
