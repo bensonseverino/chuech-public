@@ -343,6 +343,7 @@ export const FOOTER = {
   links: [
     { label: 'Services', href: ROUTES.services },
     { label: 'Work', href: ROUTES.work },
+    { label: 'Insights', href: ROUTES.insights },
     { label: 'About', href: ROUTES.aboutUs },
     { label: 'Privacy Policy', href: ROUTES.privacyPolicy },
     { label: 'Terms & Conditions', href: ROUTES.termsConditions },

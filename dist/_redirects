@@ -4,6 +4,7 @@ https://www.chuechstudio.co.ke/* https://chuechstudio.co.ke/:splat 301
 # Generated: trailing-slash duplicates
 /services/  /services  301
 /work/  /work  301
+/insights/  /insights  301
 /branding/  /branding  301
 /web-design/  /web-design  301
 /seo-manchester/  /seo-manchester  301

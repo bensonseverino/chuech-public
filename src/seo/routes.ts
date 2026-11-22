@@ -7,7 +7,7 @@
  *
  * Copy here is original Chuech studio copy, short sentences, no hype.
  */
-export type SeoRouteType = 'page' | 'service' | 'project' | 'legal'
+export type SeoRouteType = 'page' | 'service' | 'project' | 'post' | 'legal'
 export type ChangeFreq = 'daily' | 'weekly' | 'monthly' | 'yearly'
 
 export interface SeoRoute {
@@ -58,6 +58,27 @@ export const SEO_ROUTES: SeoRoute[] = [
     changefreq: 'weekly',
     lastmod: LAST_MOD,
     type: 'page',
+  },
+  {
+    path: '/insights',
+    title: 'Design, SEO and Marketing Insights | Chuech studio',
+    description:
+      'Short, practical guides from Chuech studio on web design, branding, SEO and paid advertising for businesses in Kenya and beyond.',
+    priority: 0.6,
+    changefreq: 'weekly',
+    lastmod: LAST_MOD,
+    type: 'page',
+  },
+  {
+    /* Per-post metadata comes from the CMS posts collection when one exists. */
+    path: '/insights/:slug',
+    title: 'Insight | Chuech studio',
+    description: 'An article by Chuech studio.',
+    priority: 0.5,
+    changefreq: 'monthly',
+    lastmod: LAST_MOD,
+    type: 'post',
+    template: true,
   },
   {
     /* TODO(owner): project titles, descriptions and lastmod should come from

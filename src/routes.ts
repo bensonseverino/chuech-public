@@ -11,6 +11,9 @@ export const ROUTES = {
   work: '/work',
   /** Case studies, `/work/:slug` (cms-projects-spec.md §9.1). */
   workDetail: '/work/:slug',
+  /** Insights (SEO spec Step 7). */
+  insights: '/insights',
+  insightDetail: '/insights/:slug',
   aboutUs: '/about',
   contact: '/contact',
   privacyPolicy: '/privacy-policy',

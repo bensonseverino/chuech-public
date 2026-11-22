@@ -320,6 +320,7 @@ export const SITE_FALLBACK: SiteContent = {
         children: SERVICES.map((service) => ({ label: service.title, to: `/${service.slug}` })),
       },
       { label: 'Work', to: ROUTES.work },
+      { label: 'Insights', to: ROUTES.insights },
       { label: 'About', to: ROUTES.aboutUs },
     ],
     cta: { label: 'Contact', to: ROUTES.contact },

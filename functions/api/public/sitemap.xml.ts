@@ -13,7 +13,7 @@ export const onRequestGet = async (context: PagesContext<Env>): Promise<Response
     listDocumentsByType<Record<string, unknown>>(context.env, 'page'),
   ])
 
-  const paths = ['/', '/services', '/work', '/blog', ...servicePages.map((page) => `/${page.slug}`), ...pages.map((page) => `/${page.slug}`)]
+  const paths = ['/', '/services', '/work', '/insights', ...servicePages.map((page) => `/${page.slug}`), ...pages.map((page) => `/${page.slug}`)]
 
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">

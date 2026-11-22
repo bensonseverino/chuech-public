@@ -96,6 +96,35 @@ export function breadcrumbs(path: string, leafName?: string): JsonNode | null {
   }
 }
 
+export function article({
+  title,
+  description,
+  image,
+  publishedAt,
+  author,
+}: {
+  title: string
+  description: string
+  image?: string
+  publishedAt?: string
+  author?: string
+}): JsonNode {
+  const published = publishedAt && new Date(publishedAt).getUTCFullYear() > 1971 ? publishedAt : null
+  return {
+    '@type': 'Article',
+    headline: title,
+    description,
+    ...(image ? { image } : {}),
+    ...(published ? { datePublished: published } : {}),
+    // TODO(owner): link to a real Person + bio page once posts have named authors.
+    author: author
+      ? { '@type': 'Organization', '@id': ORG_ID, name: author }
+      : { '@id': ORG_ID },
+    publisher: { '@id': ORG_ID },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': `${SITE.url}/insights` },
+  }
+}
+
 type CaseStudyInput = {
   path: string
   title: string

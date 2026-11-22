@@ -95,6 +95,37 @@ async function projectRoutes(): Promise<SeoRoute[]> {
     })
 }
 
+async function postRoutes(): Promise<SeoRoute[]> {
+  const template = SEO_ROUTES.find((route) => route.template && route.type === 'post')
+  if (!template || !CMS_API_URL) return []
+  try {
+    const response = await fetch(`${CMS_API_URL}/api/public/posts?limit=50`, {
+      headers: { Accept: 'application/json' },
+      signal: AbortSignal.timeout(10_000),
+    })
+    if (!response.ok) return []
+    const body = (await response.json()) as {
+      data?: { posts?: Array<Record<string, unknown>> }
+    }
+    const posts = body.data?.posts ?? []
+    return posts
+      .filter((post) => post.status === 'published' && post.slug)
+      .map((post) => {
+        const seo = (post.seo ?? {}) as Record<string, unknown>
+        return {
+          ...template,
+          path: `/insights/${post.slug}`,
+          title: String(seo.title ?? post.title ?? template.title),
+          description: String(seo.description ?? post.excerpt ?? template.description),
+          lastmod: String(post.updated_at ?? post.published_at ?? template.lastmod).slice(0, 10),
+          template: undefined,
+        }
+      })
+  } catch {
+    return []
+  }
+}
+
 /** Crawl files generated from the same route list (SEO spec Step 5). */
 async function writeCrawlFiles(routes: SeoRoute[]) {
   const escapeXml = (text: string) =>
@@ -127,6 +158,7 @@ ${projects.map((route) => `- [${route.title}](${SITE.url}${route.path}): ${route
 
 ## Company
 - [About](${SITE.url}/about)
+- [Insights](${SITE.url}/insights)
 - [Contact](${SITE.url}/contact): ${SITE.email}, ${SITE.phone}
 `
   await writeFile(join(DIST, 'llms.txt'), llms, 'utf8')
@@ -149,7 +181,11 @@ ${projects.map((route) => `- [${route.title}](${SITE.url}${route.path}): ${route
 }
 
 async function main() {
-  const routes = [...SEO_ROUTES.filter((route) => !route.template), ...(await projectRoutes())]
+  const routes = [
+    ...SEO_ROUTES.filter((route) => !route.template),
+    ...(await projectRoutes()),
+    ...(await postRoutes()),
+  ]
 
   /* Serve the pristine SPA shell for every document request. Serving a
      previously prerendered file as the fallback would carry its baked-in head
