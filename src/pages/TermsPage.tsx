@@ -5,6 +5,8 @@ import LegalSection from '@/components/LegalSection'
 import { renderLegalText } from '@/components/LegalText'
 import { intro, sections } from '@/data/terms'
 import Seo from '@/seo/Seo'
+import JsonLd from '@/seo/JsonLd'
+import { breadcrumbs } from '@/seo/structured-data'
 import { LEGAL_TEXT } from '@/components/LegalDetailsTable'
 import { ROUTES } from '@/routes'
 
@@ -26,7 +28,8 @@ export default function TermsPage() {
 
   return (
     <>
-      <Seo path="/terms-conditions" />      {/*
+      <Seo path="/terms-conditions" />
+      <JsonLd data={breadcrumbs('/terms-conditions')!} />      {/*
         Hero (terms spec §2), shared with the Privacy Policy page.
       */}
       <LegalHero badge="Terms & Conditions" heading="Our Terms" />

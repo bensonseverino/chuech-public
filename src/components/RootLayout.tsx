@@ -7,6 +7,8 @@ import { SmoothScrollProvider } from '../providers/SmoothScrollProvider'
 import { ScrollManager } from './transition/ScrollManager'
 import Revealer from './Revealer'
 import { ROUTES } from '../routes'
+import JsonLd from '../seo/JsonLd'
+import { organization } from '../seo/structured-data'
 
 /**
  * Router shell (services spec §3.1): sticky header, `<main id="main">` with the
@@ -47,6 +49,7 @@ export default function RootLayout() {
 
   return (
     <SmoothScrollProvider>
+      <JsonLd data={organization()} />
       <ScrollManager />
       {/* Keyed by pathname so it remounts and replays on every route change. */}
       <Revealer key={pathname} />

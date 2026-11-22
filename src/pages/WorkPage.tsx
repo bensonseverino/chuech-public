@@ -7,6 +7,8 @@ import ServiceLinks from '../components/sections/ServiceLinks'
 import Inline from '../content/live/inline'
 import { useSiteChrome, useWorkContent } from '../content/live/hooks'
 import Seo from '../seo/Seo'
+import JsonLd from '../seo/JsonLd'
+import { breadcrumbs } from '../seo/structured-data'
 import { useScrollRefresh } from '../hooks/useScrollRefresh'
 import { useLenis } from '../providers/lenis-context'
 
@@ -60,6 +62,7 @@ export default function WorkPage() {
   return (
     <>
       <Seo path="/work" />
+      <JsonLd data={breadcrumbs('/work')!} />
       <PageHero
         label={view.hero.label}
         title={view.hero.title}

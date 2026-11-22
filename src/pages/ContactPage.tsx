@@ -1,4 +1,6 @@
 import Seo from '@/seo/Seo'
+import JsonLd from '@/seo/JsonLd'
+import { breadcrumbs } from '@/seo/structured-data'
 import { useHeroLoad } from '@/hooks/useHeroLoad'
 import { contact } from '@/data/contact'
 import ContactMap from '@/components/ContactMap'
@@ -26,6 +28,7 @@ export default function ContactPage() {
   return (
     <>
       <Seo path="/contact" />
+      <JsonLd data={breadcrumbs('/contact')!} />
       <section
         ref={heroRef}
         aria-labelledby="contact-heading"

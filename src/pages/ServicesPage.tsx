@@ -7,6 +7,8 @@ import ExperienceSection from '../components/sections/ExperienceSection'
 import Inline from '../content/live/inline'
 import { useServicesContent, useSiteChrome } from '../content/live/hooks'
 import Seo from '../seo/Seo'
+import JsonLd from '../seo/JsonLd'
+import { breadcrumbs } from '../seo/structured-data'
 import { useScrollRefresh } from '../hooks/useScrollRefresh'
 
 /**
@@ -28,6 +30,7 @@ export default function ServicesPage() {
   return (
     <>
       <Seo path="/services" />
+      <JsonLd data={breadcrumbs('/services')!} />
       <PageHero
         label={view.hero.label}
         title={view.hero.title}

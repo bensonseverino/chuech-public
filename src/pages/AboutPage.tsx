@@ -1,4 +1,6 @@
 import Seo from '@/seo/Seo'
+import JsonLd from '@/seo/JsonLd'
+import { breadcrumbs } from '@/seo/structured-data'
 import AboutHero from '@/components/AboutHero'
 import MissionSection from '@/components/MissionSection'
 import BuiltByCard from '@/components/BuiltByCard'
@@ -18,6 +20,7 @@ export default function AboutPage() {
   return (
     <>
       <Seo path="/about" />
+      <JsonLd data={breadcrumbs('/about')!} />
       <AboutHero />
       <MissionSection />
       <BuiltByCard />

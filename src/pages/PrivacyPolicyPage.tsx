@@ -5,6 +5,8 @@ import LegalSection from '@/components/LegalSection'
 import { renderLegalText } from '@/components/LegalText'
 import { fill, intro, privacyCompany, sections } from '@/data/privacy'
 import Seo from '@/seo/Seo'
+import JsonLd from '@/seo/JsonLd'
+import { breadcrumbs } from '@/seo/structured-data'
 
 /**
  * `/privacy-policy` (privacy spec §1): nav (RootLayout) → hero (breadcrumb
@@ -35,7 +37,8 @@ export default function PrivacyPolicyPage() {
 
   return (
     <>
-      <Seo path="/privacy-policy" />      {/*
+      <Seo path="/privacy-policy" />
+      <JsonLd data={breadcrumbs('/privacy-policy')!} />      {/*
         Hero (privacy spec §2), shared with the Terms page: breadcrumb pill
         "Privacy Policy", heading "Your Data", email + phone line right-
         aligned on md+ and hidden on mobile.

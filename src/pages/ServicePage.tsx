@@ -7,6 +7,8 @@ import ExperienceSection from '../components/sections/ExperienceSection'
 import FaqSection from '../components/sections/FaqSection'
 import { useServicePage } from '../content/live/hooks'
 import Seo from '../seo/Seo'
+import JsonLd from '../seo/JsonLd'
+import { service, breadcrumbs } from '../seo/structured-data'
 import { useScrollRefresh } from '../hooks/useScrollRefresh'
 
 /**
@@ -37,6 +39,11 @@ export default function ServicePage({ slug }: { slug: string }) {
   return (
     <>
       <Seo path={`/${slug}`} />
+      <JsonLd
+        data={[service(`/${slug}`), breadcrumbs(`/${slug}`)].filter(
+          (node): node is NonNullable<typeof node> => node !== null,
+        )}
+      />
       <ServiceHero hero={page.hero} />
       <FeaturePanel feature={page.feature} />
       {carousel.length > 0 ? (
@@ -60,7 +67,7 @@ export default function ServicePage({ slug }: { slug: string }) {
         showFounder={false}
         bottomSpace="80px"
         multiple={slug === 'ppc'}
-        jsonLd={slug === 'ppc'}
+        jsonLd
       />
     </>
   )

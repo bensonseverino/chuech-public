@@ -11,6 +11,8 @@ import { useProject } from '../content/live/hooks'
 import { EVENTOTRON_FALLBACK } from '../content/fallback-project'
 import { useCmsPreviewData } from '../cms/preview'
 import Seo from '../seo/Seo'
+import JsonLd from '../seo/JsonLd'
+import { caseStudy } from '../seo/structured-data'
 import { useScrollRefresh } from '../hooks/useScrollRefresh'
 import NotFoundPage from './NotFoundPage'
 
@@ -64,6 +66,16 @@ export default function ProjectPage() {
         description={shown.seo.description}
         image={shown.seo.ogImage?.url}
         type="article"
+      />
+      <JsonLd
+        data={caseStudy({
+          path: `/work/${slug}`,
+          title: shown.title,
+          description: shown.seo.description,
+          image: shown.seo.ogImage?.url,
+          publishedAt: shown.publishedAt,
+          categories: (shown.categories ?? []).map((category) => category.label),
+        })}
       />
       <ProjectHero title={shown.title} categories={shown.categories} hero={shown.hero} />
 

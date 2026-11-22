@@ -7,6 +7,8 @@ import ExperienceSection from '../components/sections/ExperienceSection'
 import FaqSection from '../components/sections/FaqSection'
 import { useSiteChrome, useHomeContent } from '../content/live/hooks'
 import Seo from '../seo/Seo'
+import JsonLd from '../seo/JsonLd'
+import { webSite } from '../seo/structured-data'
 import { useScrollRefresh } from '../hooks/useScrollRefresh'
 
 /**
@@ -28,6 +30,7 @@ export default function Home() {
   return (
     <>
       <Seo path="/" />
+      <JsonLd data={webSite()} />
       <HeroSection hero={view.hero} site={site} />
       <ClientLogoStrip clients={view.clients} />
       <IntroStatement
@@ -42,7 +45,7 @@ export default function Home() {
       />
       <ServicesSection heading={view.services.heading} services={view.servicesList} />
       <ExperienceSection stats={view.stats} />
-      <FaqSection faq={view.faq} founder={view.founder} />
+      <FaqSection faq={view.faq} founder={view.founder} jsonLd />
     </>
   )
 }
