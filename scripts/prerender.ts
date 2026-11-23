@@ -229,9 +229,9 @@ async function main() {
         () =>
           document.documentElement.dataset.ready === 'true' &&
           (document.getElementById('root')?.children.length ?? 0) > 0 &&
-          Boolean(document.head.querySelector('meta[name="description"]')),
+          document.querySelector('h1') !== null,
         null,
-        { timeout: 30_000 },
+        { timeout: 45_000 },
       )
 
     for (const route of routes) {

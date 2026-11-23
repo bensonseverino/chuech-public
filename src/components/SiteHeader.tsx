@@ -406,7 +406,7 @@ export default function SiteHeader({
         <div className="px-2.5 pt-2.5 sm:px-3">
           <div className="glass rounded-nav mx-auto flex max-w-[1440px] items-center justify-between gap-2 py-1.5 pr-1.5 pl-4">
             <TransitionLink to={ROUTES.home} className="min-w-0 py-0.5 pl-2">
-              <img src={chuechLogo} alt={site.companyName} className="h-8 w-auto" />
+              <img src={chuechLogo} alt={site.companyName} className="h-8 w-auto" width={432} height={207} />
             </TransitionLink>
 
             <div className="flex items-center gap-1.5">

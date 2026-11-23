@@ -136,6 +136,8 @@ export default function PageHero({
               radius="media lg:card-lg"
               priority
               className="w-full"
+              width={1920}
+              height={1280}
             />
             {/* Wrapper owns the responsive display (see Pill B above). */}
             <span

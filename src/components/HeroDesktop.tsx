@@ -67,6 +67,7 @@ export default function HeroDesktop({
               src={HERO_PILL_SRCS[1]}
               asSlot={false}
               alt=""
+              priority
             />
             <FloatingPill
               className="absolute z-20 inline-flex"

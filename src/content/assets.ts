@@ -31,13 +31,13 @@ import blackbirdLogo from '../assets/marino/blackbird-logo.svg'
 import stats1 from '../assets/marino/stats-1.svg'
 import stats2 from '../assets/marino/stats-2.svg'
 import stats3 from '../assets/marino/stats-3.svg'
-import pillGif1 from '../assets/med/pill-1.gif'
-import pillGif2 from '../assets/med/pill-1b.gif'
-import pillStill1 from '../assets/med/pill-3.gif'
-import pillStill2 from '../assets/med/pill-4.gif'
-import pillStill3 from '../assets/med/pill-5.gif'
-import pillStill4 from '../assets/med/pill-6.gif'
-import pillContact from '../assets/med/pill-contact.gif'
+import pillGif1 from '../assets/med/pill-1.webp'
+import pillGif2 from '../assets/med/pill-1b.webp'
+import pillStill1 from '../assets/med/pill-3.webp'
+import pillStill2 from '../assets/med/pill-4.webp'
+import pillStill3 from '../assets/med/pill-5.webp'
+import pillStill4 from '../assets/med/pill-6.webp'
+import pillContact from '../assets/med/pill-contact.webp'
 
 const SLOTS: Record<string, string> = {
   'work-ph': workPh,
@@ -111,8 +111,9 @@ const SLOTS: Record<string, string> = {
   'stats-1': stats1,
   'stats-2': stats2,
   'stats-3': stats3,
-  /* Media pill GIFs — the two hero originals, the four sticker-sheet GIFs and
-     the contact thumb. All seven live in one daily-rotating pool (§assets). */
+  /* Media pill WebP animation files — the two hero originals, the four
+     sticker-sheet WebPs and the contact thumb. All seven live in one daily-
+     rotating pool (§assets). */
   'pill-1': pillGif1,
   'pill-2': pillGif2,
   'pill-3': pillStill1,

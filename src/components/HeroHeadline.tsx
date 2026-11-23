@@ -50,6 +50,7 @@ export default function HeroHeadline({
             asSlot={false}
             alt=""
             className={`shadow-glow-md ${MEDIA_PILL_SIZE}`}
+            priority
           />
         </span>
       </span>

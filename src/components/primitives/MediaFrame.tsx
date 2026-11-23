@@ -21,6 +21,9 @@ type MediaFrameProps = {
   halo?: boolean
   /** Above-the-fold media: eager load + high fetch priority (services spec §7). */
   priority?: boolean
+  /** Intrinsic width/height so the browser can reserve space before CSS loads. */
+  width?: number
+  height?: number
   /**
    * Render an ImageKit clip inside the frame instead of `src` (imagekit-videos
    * spec §4). The frame keeps owning the size, aspect ratio, radius and glow,
@@ -69,6 +72,8 @@ export default function MediaFrame({
   video,
   className = '',
   style,
+  width,
+  height,
 }: MediaFrameProps) {
   const videoRef = useRef<HTMLVideoElement>(null)
   const isVideo = /\.(mp4|webm|mov)(\?|#|$)/i.test(src)
@@ -131,6 +136,8 @@ export default function MediaFrame({
         <img
           src={src}
           alt={alt}
+          width={width}
+          height={height}
           draggable={false}
           loading={priority ? 'eager' : 'lazy'}
           decoding={priority ? 'sync' : 'async'}
