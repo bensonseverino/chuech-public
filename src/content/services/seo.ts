@@ -84,7 +84,9 @@ const FAQ_ITEMS: ServiceFaqItem[] = [
     answer: [
       'We cover the main parts of organic search. That includes a technical review of your site, keyword research, writing and improving pages, and earning relevant links and mentions. Where the site itself needs work, we team up with our ',
       { label: 'web design', href: ROUTES.webDesign },
-      ' team so the changes support each other. We also report on what changed and what we plan next.',
+      ' and ',
+      { label: 'branding', href: ROUTES.branding },
+      ' teams so the changes support each other. We also report on what changed and what we plan next.',
     ],
   },
   {

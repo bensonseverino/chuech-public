@@ -171,6 +171,8 @@ const FAQ_ITEMS: ServiceFaqItem[] = [
     answer: [
       'Yes. We build each site with the basics of search optimisation in place, including clear page titles, a sensible structure and links between related pages. That gives you a solid starting point. If you want ongoing help with visibility, we also offer ',
       { label: 'SEO services', href: ROUTES.seo },
+      ' and ',
+      { label: 'PPC management', href: ROUTES.ppc },
       '.',
     ],
   },
@@ -189,7 +191,9 @@ const FAQ_ITEMS: ServiceFaqItem[] = [
   {
     question: 'Can you redesign an existing website?',
     answer: [
-      'Yes. We work on existing sites as well as new ones. A redesign can keep the content you already have and give it a clearer layout and a look that fits your brand. We can also improve how the site works on mobile. You can see examples on our ',
+      'Yes. We work on existing sites as well as new ones. A redesign can keep the content you already have and give it a clearer layout and a look that fits your brand. If you also need a refreshed identity, we can help with that on our ',
+      { label: 'branding service', href: ROUTES.branding },
+      ' page. You can see examples on our ',
       { label: 'work page', href: ROUTES.work },
       '.',
     ],
